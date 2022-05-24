@@ -1,0 +1,65 @@
+---
+title: "find LINCS klaeger PRISM compound matches"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#read in data
+
+LINCS_klaeger_cids = read_csv(here('results/LINCS_klaeger_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+
+PRISM = read_csv(here('data/PRISM/secondary/secondary-screen-replicate-treatment-info.csv'))
+
+```
+
+```{r}
+#compound matching
+
+PRISM_smiles = PRISM %>% 
+	select(name, smiles, broad_id) %>% 
+	filter(!is.na(smiles)) %>% 
+	unique()
+
+write_csv(PRISM_smiles, here('results/PRISM_smiles.csv'))
+
+PRISM_cids = read_tsv(here('results/PRISM_smiles_to_cids.txt'), col_names = F) %>% 
+	rename('smiles' = X1, 'cid' = X2) %>% 
+	left_join(PRISM_smiles, by = c('smiles')) %>% 
+	filter(!is.na(name))
+
+PRISM_missing_cids = PRISM_cids %>% 
+	filter(is.na(cid))
+
+second_try_PRISM_cids = get_cid(unique(PRISM_missing_cids$name), from = "name", domain = "compound", match = "all", verbose = T) %>% 
+	rename("PRISM_name" = query, "cid_2" = cid)
+
+PRISM_cids_all = PRISM_cids %>% 
+	left_join(second_try_PRISM_cids, by = c('name' = 'PRISM_name')) %>% 
+	mutate(cid = if_else(
+		is.na(cid),
+		as.character(cid_2),
+		as.character(cid)
+	)) %>% 
+	select(-cid_2) 
+	
+drug_matches = LINCS_klaeger_cids %>% 
+	left_join(PRISM_cids_all, by = 'cid') %>% 
+	filter(!is.na(name))
+
+LINCS_klaeger_no_drug_matches = LINCS_klaeger_cids %>% 
+	filter(!cid %in% drug_matches$cid)
+
+PRISM_no_drug_matches = PRISM_cids_all %>%
+	filter(!cid %in% drug_matches$cid)
+
+write_csv(drug_matches, here('results/PRISM_LINCS_klaeger_drug_matches.csv'))
+
+write_csv(PRISM_cids_all, here('results/all_PRISM_cids.csv'))
+```

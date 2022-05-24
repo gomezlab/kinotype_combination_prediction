@@ -1,0 +1,584 @@
+smiles,cid,Regno,Compound,Chemotype
+Clc1cccc(Cn2c(nn3c2nc(cc3=O)N2CCOCC2)C2CC2)c1Cl,70683337,GSK2358994,UNC10225469A,morpholino-triazolo-pyrimidinones
+Cn1cc(cn1)-c1cnc(N)c2c(csc12)-c1ccc2N(CCc2c1)C(=O)Cc1ccccc1,53466951,GSK2593074,UNC10225012A,4-amino-3-aryl-thienopyridine and analogues
+CS(=O)(=O)Cc1ccc(Nc2nccc(n2)-c2c(nn3ncccc23)-c2cccc(NC(=O)C3CCCCC3)c2)cc1,44529239,GSK350559,UNC10225159A,4-pyrimidinyl_ortho-aryl_azoles
+COc1cccc(OC)c1C(=O)Nc1cccc(c1)-c1nn2ccccc2c1-c1ccnc(Nc2cccc(F)c2)n1,44529279,GSK361065,UNC10225310A,4-pyrimidinyl_ortho-aryl_azoles
+Cc1ccc(NC(=O)Nc2cccc(c2)C(F)(F)F)cc1,2787267,GSK955403,UNC10225187A,diarylurea
+CCn1cnc2c(N)ncnc12,7,GW345098,UNC10225062A,6-aminopurines and related
+Cc1ccc(O)cc1Nc1ccnc2cc(ccc12)-c1ccc(CN2CCCCC2)o1,44532438,GW557777,UNC10225296A,4-anilinoquinoline
+Cc1ccc(O)cc1Nc1cc(nc2ccc(cc12)-c1ccncc1)C(F)(F)F,25023825,GW630823,UNC10225430A,4-anilinoquinoline
+Cc1cccc(n1)-c1nc(Nc2ccc3[nH]ncc3c2)c2ccccc2n1,9998128,GW857175,UNC10225266A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+COc1cc2ncn(-c3cc(OCc4ccc(cc4)S(C)(=O)=O)c(s3)C(N)=O)c2cc1OC,25190912,GW869979,UNC10225324A,benzimidazole_N-thiophenes
+C[C@@H](OC1=C(N)N=CC(C2=C(C#N)N(C)N=C2C3)=C1)C4=CC(F)=CC=C4C(N3C)=O,71731823,0,PFE-PKIS 10,2-amino-3-alkoxypyridine
+N#CC1=CC(N2)=C(C=C1)C3=C2C4=CC(OC)=C(OCCOCCOC)C=C4N=C3,50992245,0,PFE-PKIS 11,indoloquinoline
+O=C(NCCCN1CCOC1=O)C2=CN=C(NCC3=C(Cl)C=CC(Cl)=C3)N=C2NC4CCCC4,71552942,0,PFE-PKIS 12,"2,4-diamino-5-carboxamide pyrimidines"
+O=C(CC1)NC(C1=C2)=CC=C2NC3=NC(NCC4=CC(S(C)(=O)=O)=CC=C4)=C(C(F)(F)F)C=N3,11612883,0,PFE-PKIS 13,2-anilino-4-amino-pyrimidine
+NC(C(C=C1)=CC=C1C2=CC3=NC=NC(SCC(O)=O)=C3S2)=O,56675921,0,PFE-PKIS 14,thienopyrimidine
+FC1=C(F)C(Br)=CC(C(NOCC2CC2)=O)=C1NC3=CC=C(I)C=C3Cl,9937619,0,PFE-PKIS 15,Type 3 Mek
+N#CC1=CC(N2)=C(C=C1)C3=C2C4=CC(OC)=C(OCCN5CCN(C)CC5)C=C4N=C3,138726948,0,PFE-PKIS 16,indoloquinoline
+CS(C1=CC(CNC2=NC(NC3=CC=C(N(C(C)C)C(C4)=O)C4=C3)=NC=C2C(F)(F)F)=CC=C1)(=O)=O,139036271,0,PFE-PKIS 18,2-anilino-4-amino-pyrimidine
+O=C1C2=C(NC(C3=CC=NC=C3)=C2)CCN1,11715767,0,PFE-PKIS 19,pyrolopyridinone
+ClC(C=C1)=CC=C1C2=C(C3=CC=NN3)SC(N4CCOCC4)=C2C#N,70693799,0,PFE-PKIS 2,morpholino thiophene
+FC1=C(F)C=CC(C(NOC[C@H](O)CO)=O)=C1NC2=CC=C(I)C=C2F,9826528,0,PFE-PKIS 21,Type 3 Mek
+CN(S(C)(=O)=O)C1=CC(CNC2=C(C(F)(F)F)C=NC(NC3=CC=C4C(CC(N4)=O)=C3)=N2)=CC=C1,21952489,0,PFE-PKIS 23,2-anilino-4-amino-pyrimidine
+N#CC1=CC(N2)=C(C=C1)C3=C2C4=CC(OC)=C(OCCN5CCNCC5)C=C4N=C3,138726947,0,PFE-PKIS 24,indoloquinoline
+CN([C@H]1CN(C(CC#N)=O)CC[C@H]1C)C2=C3C(NC=C3)=NC=N2,9926791,0,PFE-PKIS 25,4-amino-pyrolopyrimidine
+O=C1CC2=CC(NC3=NC(NCC4=CC=CC=C4N(C)S(=O)(C)=O)=C(C(F)(F)F)C=N3)=CC=C2N1,11598628,0,PFE-PKIS 26,2-anilino-4-amino-pyrimidine
+FC1=C(F)C=CC(C(NOCC2CC2)=O)=C1NC3=CC=C(I)C=C3Cl,6918454,0,PFE-PKIS 27,Type 3 Mek
+COC1=CC(C2=CC3=CN=C(N)N=C3N=C2NC(NC(C)(C)C)=O)=CC(OC)=C1,5328127,0,PFE-PKIS 3,pyridopyrimidine
+O=C1NN=CC2=C(C3=CN(C)N=C3)NC4=CC(NC([C@@H](C5CCCCC5)N)=O)=CC1=C42,135565545,0,PFE-PKIS 30,indolodiazapinone
+O=C(O)CSC1=C2C(C=C(C3=CC=C(NC(C)=O)C=C3)S2)=NC=N1,53484072,0,PFE-PKIS 31,thienopyrimidine
+CC(C1=CN=C(NC2=NC=C(N3CCNCC3)C=C2)N=C1N4C5CCCC5)=C(C(C)=O)C4=O,5330286,0,PFE-PKIS 32,pyrimidopyridinone
+O=C(N[C@H](C)CN1)C2=C1C3=C(C=CC(C4=CC=NC=C4)=N5)C5=CC=C3S2,45271846,0,PFE-PKIS 33,benzothiophene diazapinone
+CN([C@H]1CN(C(CO)=O)CC[C@H]1C)C2=C3C(NC=C3)=NC=N2,49856321,0,PFE-PKIS 34,4-amino-pyrolopyrimidine
+ClC1=C([C@H](OC2=C(N)N=CC(C3=CN(C4CCNCC4)N=C3)=C2)C)C(Cl)=C(F)C=C1,11626560,0,PFE-PKIS 37,2-amino-3-alkoxy pyridines
+O=C1NC(C2=C(C3=CC=CC=C3)C=C4C(C(C=C(O)C=C5)=C5N4)=C21)=O,4369491,0,PFE-PKIS 38,maleimide
+CN(N=C1)C=C1C(C=C2)=NN3C2=NN=C3[C@@H](C)C4=CC=C(N=CC=C5)C5=C4,24871823,0,PFE-PKIS 39,6-sub-quinoline
+OCCN(N=C1)C=C1C2=CN=C(N=NN3CC4=CC=C(N=CC=C5)C5=C4)C3=N2,17754438,0,PFE-PKIS 4,6-sub-quinoline
+CC1=CC(OCC2=C(F)C=C(F)C=C2)=C(Br)C(N1C3=C(C)C=CC(C(NC)=O)=C3)=O,22049997,0,PFE-PKIS 41,biaryl pyridinones
+O=C(CSC1=C2C(C=C(S2)C3=CC=C(C=C3)SC)=NC=N1)O,56675920,0,PFE-PKIS 43,thienopyrimidine
+O=C(NC)C1=CC=CC=C1SC2=CC(NN=C3/C=C/C4=CC=CC=N4)=C3C=C2,6450551,0,PFE-PKIS 6,3-vinyl indazole
+CCN(CC)CCCCNC(N=C1)=NC2=C1C=C(C(NC(NC(C)(C)C)=O)=N2)C3=C(Cl)C=CC=C3Cl,5328135,0,PFE-PKIS 7,pyridopyrimidine
+CN([C@@H]1[C@H](C)CCN(C(N2CCCC2)=O)C1)C3=C4C(NC=C4)=NC=N3,53344620,0,PFE-PKIS 8,4-amino-pyrolopyrimidine
+O=C(O)COC1=C2C(C=C(C3=CC=C(NN=C4)C4=C3)S2)=NC=N1,53484073,0,PFE-PKIS 9,thienopyrimidine
+Fc1ccc(cc1)-c1ncn(CCCNCc2ccccc2)c1-c1ccncc1,10452739,0,SB-210486,4-pyridinyl_ortho-aryl_azoles
+CCNc1nccc(n1)-c1c(ncn1C1CCN(C)CC1)-c1ccc(F)cc1,23133388,0,SB-226605,4-pyrimidinyl_ortho-aryl_azoles
+Cc1ccccc1-n1cnc2c(N)ncnc12,14308053,SKF-97510,UNC10225272A,6-aminopurines and related
+Nc1ncnc2n(cnc12)-c1cccc(F)c1,44305910,SKF-97560,UNC10225284A,6-aminopurines and related
+COC(=O)C1=C(C2=CC=CC=C2)C2=CC(Br)=CC=C2C(=O)N1CC1=CC=C(C=C1)S(C)(=O)=O,9958506,0,TPKI-100,isoquinolone
+CCC(=O)C1=C(C2=CC=CC=C2)C2=CC(Cl)=CC=C2C(=O)N1CC1=CC=C(C=C1)C(O)=O,10195059,0,TPKI-101,isoquinolone
+CCC(=O)C1=C(C2=CC=CC=C2)C2=CC(Cl)=CC=C2C(=O)N1CC1=NN(C)C(=C1)C(=O)NC1CC1,11213972,0,TPKI-102,isoquinolone
+CCC(=O)C1=C(C2=CC=CC=C2)C2=CC(Cl)=CC=C2C(=O)N1CC1=NN(CC(F)F)C(=C1)S(C)(=O)=O,44451560,0,TPKI-103,isoquinolone
+CCC(=O)C1=C(C2=CC=CC=C2)C2=CC(Cl)=CC=C2C(=O)N1CC1=NN(CCC(C)(C)O)C(=C1)S(C)(=O)=O,44451561,0,TPKI-104,isoquinolone
+CCC(=O)C1=C(C2=CC=CC=C2)C2=CC(Cl)=CC=C2C(=O)N1CC1=NN(CC(N)=O)C(=C1)S(C)(=O)=O,11678117,0,TPKI-105,isoquinolone
+CCC1=NC(=C(S1)C1=CC=NC=C1)C1=CC(C)=CC=C1,11277481,0,TPKI-106,4-pyridinyl_ortho-aryl_azoles
+CCC1=NC(=C(S1)C1=CC(NC(=O)C2=CC=CC=C2)=NC=C1)C1=CC(C)=CC=C1,9952773,0,TPKI-107,4-pyridinyl_ortho-aryl_azoles
+CCC1=NC(=C(S1)C1=CC(NCC2=CC=CC=C2)=NC=C1)C1=CC(C)=CC=C1,10134696,0,TPKI-108,4-pyridinyl_ortho-aryl_azoles
+CC1=CC=CC(=C1)C1=C(SC(=N1)C1=CC=C(C=C1)S(C)(=O)=O)C1=CC=NC=C1,11418329,0,TPKI-109,4-pyridinyl_ortho-aryl_azoles
+CC1=CC=CC(=C1)C1=C(SC(=N1)C1=CC=C(C=C1)S(C)(=O)=O)C1=CC(NCCC2=CC=CC=C2)=NC=C1,10165183,0,TPKI-110,4-pyridinyl_ortho-aryl_azoles
+CC(=O)NC1=NC2=CN=C(NC3=C(C)C=CC(NC(=O)C4=CC=CC(CCC#N)=C4)=C3)N=C2S1,59507062,0,TPKI-111,2-amino-5-anilino-thiazolopyrimidine
+CC(=O)NC1=NC2=CN=C(NC3=C(C)C=CC(NC(=O)C4=CC=CC(CC(C)(C)C#N)=C4)=C3)N=C2S1,59507002,0,TPKI-112,2-amino-5-anilino-thiazolopyrimidine
+CC(=O)NC1=NC2=CN=C(NC3=C(C)C=CC(NC(=O)C4=CC=CC(=C4Cl)C4(CC4)C#N)=C3)N=C2S1,59506918,0,TPKI-113,2-amino-5-anilino-thiazolopyrimidine
+CN(C1=CC(NC(=O)C2=CC=CC(OC(C)(C)C#N)=C2Cl)=C(F)C=C1)C1=CC=C2N=C(NC(=O)C3CC3)SC2=N1,25206346,0,TPKI-114,2-amino-5-anilino-thiazolopyrimidine
+Cn1c2ncn(OC[C@H](O)CO)c(=O)c2c(Nc3ccc(I)cc3F)c(F)c1=O,24968572,0,TPKI-16,Type 3 Mek
+COc1cc(ccc1Nc2ncc3N(C)C(=O)C(F)(F)CN(C4CCCC4)c3n2)C(=O)NC5CCN(C)CC5,25015677,0,TPKI-24,2-anilino-pyrimidyl-diazepanone
+CC[C@@]1(F)CN(C2CCCC2)c3nc(Nc4ccc(cc4OC)C(=O)NC5CCN(C)CC5)ncc3N(C)C1=O,25252909,0,TPKI-25,2-anilino-pyrimidyl-diazepanone
+CC[C@]1(F)CN(C2CCCC2)c3nc(Nc4ccc(cc4OC)C(=O)NC5CCN(C)CC5)ncc3N(C)C1=O,25252911,0,TPKI-26,2-anilino-pyrimidyl-diazepanone
+COc1cc(ccc1Nc2ncc3N(C)C(=O)[C@@H](CC=C)CN(C4CCCC4)c3n2)C(=O)NC5CCN(C)CC5,57970023,0,TPKI-27,2-anilino-pyrimidyl-diazepanone
+COc1cc(cc(F)c1Nc2ncc3N(C)C(=O)C(F)(F)CN(C4CCCC4)c3n2)C(=O)NC5CCN(C)CC5,57955668,0,TPKI-28,2-anilino-pyrimidyl-diazepanone
+CN1CCC(CC1)NC(=O)c2ccc(Nc3ncc4N(C)C(=O)C(F)(F)CN(C5CCCC5)c4n3)cc2,25253525,0,TPKI-29,2-anilino-pyrimidyl-diazepanone
+COc1cc(Nc2ncc3N(C)C(=O)C(F)(F)CN(C4CCCC4)c3n2)ccc1C(=O)NC5CCN(C)CC5,57955660,0,TPKI-30,2-anilino-pyrimidyl-diazepanone
+CN1CCC(CC1)NC(=O)c2ccc(Nc3ncc4N(C)C(=O)C(F)(F)CN(C5CCCC5)c4n3)cc2C,57955606,0,TPKI-31,2-anilino-pyrimidyl-diazepanone
+NC(=O)c1nnc2ccccc2c1N,2814562,0,TPKI-32,4-amino-3-carboxamide cinnoline
+Cn1cc(cn1)-c1cccc2c(N)c(nnc12)C(N)=O,122180346,0,TPKI-33,4-amino-3-carboxamide cinnoline
+Cc1cc2cn[nH]c2cc1-c1cccc2c(N)c(nnc12)C(N)=O,71765510,0,TPKI-34,4-amino-3-carboxamide cinnoline
+CC1=CC(=NN1C1=CC=CC=C1)C(=O)NC1=CC=C(OC2=NN3C=C(NC(=O)C4CC4)N=C3C=C2)C=C1,57505462,0,TPKI-35,6-phenoxy-imidazopyridazine
+FC1=CC(NC(=O)C2=CC=CN(C3=CC=CC=C3)C2=O)=CC=C1OC1=NN2C=C(NC(=O)C3CC3)N=C2C=C1,70988670,0,TPKI-36,6-phenoxy-imidazopyridazine
+CC1=CC=C(C(=O)NC2=CC=C(OC3=CN4C=C(NC(=O)C5CC5)N=C4C=C3)C(F)=C2)C(=O)N1C1=CC=CC=C1,44595039,0,TPKI-37,6-phenoxy-imidazopyridazine
+O=C(NC1=CC=CC=C1)NC1=CC=C(OC2=NN3C=CN=C3C=C2)C=C1,57505524,0,TPKI-38,6-phenoxy-imidazopyridazine
+O=C(NC1=CC=CC=C1)NC1=CC=CC(OC2=NN3C=CN=C3C=C2)=C1,57505525,0,TPKI-39,6-phenoxy-imidazopyridazine
+FC(F)(F)C1=CC=CC(NC(=O)NC2=CC=CC(OC3=NN4C=CN=C4C=C3)=C2)=C1,57505526,0,TPKI-40,6-phenoxy-imidazopyridazine
+O=C(NC1=CC=CC=C1)C1=CC=CC(OC2=NN3C=CN=C3C=C2)=C1,57441068,0,TPKI-41,6-phenoxy-imidazopyridazine
+FC(F)(F)C1=CC(NC(=O)C2=CC=CC(OC3=NN4C=CN=C4C=C3)=C2)=CC=C1,57505784,0,TPKI-42,6-phenoxy-imidazopyridazine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC=CC(=C3)C(F)(F)F)C(F)=C1)=NC=N2,15949613,0,TPKI-43,4-anilino or phenoxy pyrrolopyrimidine
+CC(=O)NC1=CN2N=C(OC3=CC=CC(NC(=O)C4=CC=CC(=C4)C(F)(F)F)=C3)C=CC2=N1,57386062,0,TPKI-44,6-phenoxy-imidazopyridazine
+FC(F)(F)C1=CC=CC=C1C(=O)NC1=CC(OC2=NN3C=C(NC(=O)C4CC4)N=C3C=C2)=CC=C1,57386319,0,TPKI-45,6-phenoxy-imidazopyridazine
+COC1=CC(=CC=C1)C(=O)NC1=CC=CC(OC2=NN3C=C(NC(=O)C4CC4)N=C3C=C2)=C1,57386570,0,TPKI-46,6-phenoxy-imidazopyridazine
+O=C(NC1=NC2=C(S1)N=C(OC1=CC(NC(=O)C3=CC=CC(=C3)C3(CC3)C#N)=CC=C1)C=C2)C1CC1,57387590,0,TPKI-47,phenoxy-thiazolo-pyridines
+CCC1=CC=C(C=C1)C1=CC2=C(C=C1)N(C)S(=O)(=O)C1=CNN=C21,71568837,0,TPKI-48,pyrazolobenzothiazines
+CN1C2=C(C=C(C=C2)C2=CC=C(C=C2)C(N)=O)C2=C(C=NN2)S1(=O)=O,71567007,0,TPKI-49,pyrazolobenzothiazines
+CN1C2=C(C=C(C=C2)C2=CC=C(C=C2)C(=O)NCCO)C2=C(C=NN2)S1(=O)=O,71567008,0,TPKI-50,pyrazolobenzothiazines
+CCC1=CC=C(C=C1)C1=CC2=C(C=C1)N(C)S(=O)(=O)C1=C2N(C)N=C1,71567006,0,TPKI-51,pyrazolobenzothiazines
+CCC1=CC=C(C=C1)C1=CC=C2N(C)S(=O)(=O)C3=CN(C)N=C3C2=C1,71567148,0,TPKI-52,pyrazolobenzothiazines
+CN1N=CC2=C1C1=C(C=CC(CNC3=CC=C(F)C=C3)=C1)N(C)S2(=O)=O,71567144,0,TPKI-53,pyrazolobenzothiazines
+CN1N=CC2=C1C1=C(C=CC(NCC3=CC=C(F)C=C3)=C1)N(C)S2(=O)=O,71567146,0,TPKI-54,pyrazolobenzothiazines
+CC(C)(C)C1=CC=C(C=C1)C(=O)NC1=CN2C=C(Cl)C=CC2=N1,59175651,0,TPKI-55,2-amino-imidazopyridine
+CNCC1=CN2C=C(NC(=O)C3=CC=C(C=C3)C(C)(C)C)N=C2C=C1,59175418,0,TPKI-56,2-amino-imidazopyridine
+CC(C)(C)C1=CC=C(C=C1)C(=O)NC1=CN2C=C(C=CC2=N1)C1=CC=CC=C1,59175319,0,TPKI-57,2-amino-imidazopyridine
+CC(C)(C)C1=CC=C(C=C1)C(=O)NC1=CN2C=C(C=CC2=N1)C1=CC=CN=C1,59175292,0,TPKI-58,2-amino-imidazopyridine
+CC(C)(C)C1=CC=C(C=C1)C(=O)NC1=CN2C=C(C=CC2=N1)N1C=CN=C1,24944925,0,TPKI-59,2-amino-imidazopyridine
+ClC1=C(OC2=CC=C(C=C2)C#N)C=CC(NC2=NC=NC3=C2NC=C3)=C1,56851433,0,TPKI-60,4-anilino or phenoxy pyrrolopyrimidine
+FC1=CC(COC2=CC=C(NC3=NC=NC4=C3NC=C4)C=C2Cl)=CC=C1,56851594,0,TPKI-61,4-anilino or phenoxy pyrrolopyrimidine
+ClC1=C(OCC2=NC=CC=C2)C=CC(NC2=NC=NC3=C2NC=C3)=C1,56849555,0,TPKI-62,4-anilino or phenoxy pyrrolopyrimidine
+CC1=CC=C(OC2=C(C)C=C(NC3=NC=NC4=C3NC=C4)C=C2)C=N1,56849556,0,TPKI-63,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(NC1=CC(Cl)=C(OC3=CC=CC(Cl)=C3)C=C1)=NC=N2,56849558,0,TPKI-64,4-anilino or phenoxy pyrrolopyrimidine
+OCCOCCN1C=CC2=C1C(NC1=CC(Cl)=C(OC3=CC=CC(Cl)=C3)C=C1)=NC=N2,56849703,0,TPKI-65,4-anilino or phenoxy pyrrolopyrimidine
+OCCC(=O)NCCN1C=CC2=C1C(NC1=CC(Cl)=C(OC3=CC=CC(=C3)C(F)(F)F)C=C1)=NC=N2,56849850,0,TPKI-66,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC=CC(C)=C3)C=C1)=NC=N2,52941625,0,TPKI-67,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC=CC(=C3)C(F)(F)F)C(Cl)=C1)=NC=N2,15949611,0,TPKI-68,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC=CC=C3)C=C1)=NC=N2,52950146,0,TPKI-69,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC(=CC=C1)C(=O)NC1=CC=CC=C1)=NC=N2,52942278,0,TPKI-70,4-anilino or phenoxy pyrrolopyrimidine
+CCCNC(=O)NC1=CC=C(OC2=NC=NC3=C2N(C)C=C3)C=C1,52947605,0,TPKI-71,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC3=NC4=C(N3)C=CC=C4)C=C1)=NC=N2,52946084,0,TPKI-72,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC=CN=C3)C(Cl)=C1)=NC=N2,52944922,0,TPKI-73,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC=NC=C3)C(Cl)=C1)=NC=N2,52943750,0,TPKI-74,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CN(N=C3)C(C)(C)C)C(Cl)=C1)=NC=N2,52943829,0,TPKI-75,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=NOC(=C3)C(C)(C)C)C(Cl)=C1)=NC=N2,52942791,0,TPKI-76,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC(=CN=C3)C(F)(F)F)C(Cl)=C1)=NC=N2,52946218,0,TPKI-77,4-anilino or phenoxy pyrrolopyrimidine
+CN1C=CC2=C1C(OC1=CC=C(NC(=O)NC3=CC(=NC=C3)C(F)(F)F)C(Cl)=C1)=NC=N2,52948666,0,TPKI-78,4-anilino or phenoxy pyrrolopyrimidine
+COC1=CC=C(C=C1)C1=COC2=CC=C(C=C12)C1=NN=C(C)O1,68663586,0,TPKI-79,benzofuran oxadiazole and analogues
+CC(O)C1=CC=C(C=C1)C1=COC2=C1C=C(C=C2)C1=NN=C(C)O1,44481212,0,TPKI-80,benzofuran oxadiazole and analogues
+CCS(=O)C1=CC=C(C=C1)C1=COC2=C1C=C(C=C2)C1=NN=C(C)O1,24855983,0,TPKI-81,benzofuran oxadiazole and analogues
+CC1=NN=C(O1)C1=CC2=C(C=C1)N=CN2C1=CC=C(C=C1)S(C)=O,44480949,0,TPKI-82,benzofuran oxadiazole and analogues
+CC1=NN=C(O1)C1=CN2C(C=C1)=NC=C2C1=CC=C(C=C1)S(C)=O,44481752,0,TPKI-83,benzofuran oxadiazole and analogues
+CC1=NN=C(O1)C1=CC=C2OC=C(C2=N1)C1=CC=C(C=C1)S(C)=O,44478382,0,TPKI-84,benzofuran oxadiazole and analogues
+CC1=NN=C(N1)C1=CC=C2OC=C(C2=C1)C1=CC=C(C=C1)S(C)=O,44478652,0,TPKI-85,benzofuran oxadiazole and analogues
+CC1=CC=C(N=N1)C1=CC=C2OC=C(C2=C1)C1=CC=C(C=C1)S(C)=O,44481207,0,TPKI-86,benzofuran oxadiazole and analogues
+CS(=O)C1=CC=C(C=C1)C1=COC2=CC=C(C=C12)C1=NNC(=O)O1,44482290,0,TPKI-87,benzofuran oxadiazole and analogues
+FC1=CC(CSC2=NN=C(O2)C2=CC3=C(OCC3)C=C2)=CC=C1,44590237,0,TPKI-88,benzofuran oxadiazole and analogues
+COC1=CC=C(CSC2=NN=C(O2)C2=CC3=C(OCC3)C=C2)C=C1,44590238,0,TPKI-89,benzofuran oxadiazole and analogues
+FC1=CC(COC2=NN=C(O2)C2=CC3=C(OCC3)C=C2)=CC=C1,44590414,0,TPKI-90,benzofuran oxadiazole and analogues
+COC1=CC=C(CSC2=NN=C(O2)C2=CC3=C(C=C2)N=CS3)C=C1C(F)(F)F,23729136,0,TPKI-91,benzofuran oxadiazole and analogues
+COC1=C(C=C(CSC2=NN=C(O2)C2=CN3C=CN=C3C=C2)C=C1)C(F)(F)F,68664487,0,TPKI-92,benzofuran oxadiazole and analogues
+COC1=CC=C(C=C1)C1=COC2=C1C=C(C=C2)C1=NN=C(O1)SCC1=CC=C(OC)C(=C1)C(F)(F)F,44590466,0,TPKI-93,benzofuran oxadiazole and analogues
+COC1=CC=C(C=C1)C1=COC2=C1C=C(C=C2)C1=NN=C(O1)SCC1=CC=CC(=C1)C#N,44590535,0,TPKI-94,benzofuran oxadiazole and analogues
+COC(=O)C1=C(C2=CC=CC=C2)C2=CC(Br)=CC=C2C(=O)N1CC1=CC=C(NC(=O)CCC(O)=O)C=C1,10153026,0,TPKI-95,isoquinolone
+COC(=O)C1=C(C2=CC=CC=C2)C2=CC(C)=CC=C2C(=O)N1CC1=CC=CC=C1,44451882,0,TPKI-96,isoquinolone
+COC(=O)C1=C(C2=CC=CC=C2)C2=CC(OC)=CC=C2C(=O)N1CC1=CC=CC=C1,44451820,0,TPKI-97,isoquinolone
+COC(=O)C1=C(C2=CC=CC=C2)C2=CC(=CC=C2C(=O)N1CC1=CC=CC=C1)C(O)=O,44451795,0,TPKI-98,isoquinolone
+COC(=O)C1=C(C2=CC=CC=C2)C2=CC(Cl)=CC=C2C(=O)N1CC1=CC=C(C=C1)S(C)(=O)=O,44451791,0,TPKI-99,isoquinolone
+Cl.CS(=O)(=O)CCNCc1ccc(o1)-c1ccc2ncnc(Nc3ccc(OCc4ccccc4)c(Cl)c3)c2c1,44532523,GW574783,UNC10112604A,4-anilino-quinazoline and analogues
+CN1CCN(CC1)c1ccc(Nc2nccc(n2)-c2cnn3ncccc23)cc1C(F)(F)F,10173796,GW779439,UNC10112721A,4-pyrimidinyl-azoles
+Cl.NS(=O)(=O)c1cccc(Nc2cc(n[nH]2)-c2ccc(F)cc2)c1,57393604,GW824645,UNC10112764A,3-aryl-5-anilino pyrazole
+Cl.Fc1ccc(cc1NC(=O)Nc1ccc(Oc2ccc3[nH]c(NC(=O)c4ccco4)nc3c2)cc1)C(F)(F)F,57396350,GW683134,UNC10112774A,2-aminobenzimidazole
+Cl.Nc1ncnc2occ(-c3ccc(NC(=O)Nc4cc(ccc4F)C(F)(F)F)cc3)c12,44536036,SB-707548,UNC10112792A,4-amino-3-aryl-thienopyridine and analogues
+CCn1c(nc2ccccc12)-c1nonc1N,599038,SB-693162/GW549034,UNC10112830A,aminofurazan
+Fc1ccc(Nc2ncnc3cc(OCCCN4CCOCC4)c(NC(=O)C=C)cc23)cc1Cl,156414,GW781483,UNC10126563B,4-anilino-quinazoline and analogues
+Cc1ccc(NC(=O)c2ccc(Cl)cc2)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526070,GSK1398467,UNC10224985A,Biphenylamide
+Fc1ccc(cc1-c1ccc(cc1)C(=O)NCC1CC1)C(=O)NC1CC1,44578566,GW810445,UNC10224986A,Biphenylamide
+COc1cccc(CC(=O)N2CCc3cc(ccc23)-c2cn(C)c3ncnc(N)c23)c1,53468037,GSK2608899,UNC10224987A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+NS(=O)(=O)CCc1cccc(Nc2nccc(n2)-c2c(nn3ccccc23)-c2cccc(NC(=O)c3c(F)cccc3F)c2)c1,44529220,GSK336735,UNC10224988A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.Fc1cccc(c1)S(=O)(=O)c1ccc(Nc2ncnc3cc(Br)sc23)cc1Cl,44529053,GSK306886,UNC10224990A,4-anilino-quinazoline and analogues
+CC(C)c1nc(c(s1)-c1ccnc(Nc2ccc(nc2)N2CCOCC2)n1)-c1cccc(NS(=O)(=O)c2c(F)cccc2F)c1F,56673516,GSK2008607,UNC10224991A,4-pyrimidinyl_ortho-aryl_azoles
+Cc1ccc(NC(=O)Nc2ccccc2)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526073,GSK1398471,UNC10224992A,Biphenylamide
+Cl.Cc1cc(nc(Nc2ccc(cc2)S(=O)(=O)N2CCOCC2)n1)N1Cc2ccccc2C1,44526920,GSK1669917,UNC10224993A,2-anilino-4-aminopyrimidine
+CNc1nc(cc(n1)-c1ccc2c(N)n[nH]c2c1)N1C[C@H](OC[C@H]1C)C(=O)NC1CCCCC1,51354036,GSK2375584,UNC10224994A,3-Amino-6-aryl-indazole
+CS(=O)(=O)c1ccc(cc1)-c1nc2CCCn2c1-c1ccncc1,19879232,SKF-105942,UNC10224995A,4-pyridinyl_ortho-aryl_azoles
+Cc1cccc(n1)-c1nc(Nc2ccnc(C)c2)c2ccccc2n1,45269578,GW872411,UNC10224997A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+CCCc1ccc(cc1)S(=O)(=O)NC1CCN(C1)c1ccnc(Nc2ccc(F)cc2)n1,44525926,GSK1379715,UNC10224998A,2-anilino-4-pyrrolidinopyrimidine
+Cl.Cc1ccc(Nc2ccnc(Nc3ccc4CS(=O)(=O)Cc4c3)n2)cc1O,44532538,GW579362,UNC10224999A,"2,4-dianilinopyrimidine"
+Nc1ncnc2occ(-c3ccc4N(CCc4c3)C(=O)Cc3cc(F)ccc3F)c12,66561010,GSK2645446,UNC10225000A,4-amino-3-aryl-thienopyridine and analogues
+CS(=O)(=O)c1ccccc1-c1nc(c([nH]1)-c1ccncc1)-c1ccc(F)cc1,10287409,SB-213663,UNC10225001A,4-pyridinyl_ortho-aryl_azoles
+Fc1cccc(c1)-c1ccc2c(NC(=O)C3CC3)n[nH]c2c1,6539606,SB-735464,UNC10225002A,3-acylamino-6-aryl-indazole
+COc1ccccc1-c1ccc2c(NC(=O)C3CC3)n[nH]c2n1,6539572,SB-711239,UNC10225004A,3-amino-6-aryl-pyrazolopyridine
+CC1CN(CCO1)c1cc(=O)n2nc(C)n(Cc3cccc(c3C)C(F)(F)F)c2n1,60150509,GSK2344444,UNC10225005A,morpholino-triazolo-pyrimidinones
+Cl.N(c1ccc2[nH]ncc2c1)c1ccnc2cc(ccc12)-c1ccccn1,44532200,GW440137,UNC10225007A,4-anilinoquinoline
+Cc1cccc(n1)-c1cc(Nc2ccncc2)c2ccccc2n1,10086873,GSK223675,UNC10225008A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+CN1CCN(CC1)c1cc(ccn1)C(=O)Nc1ccc(C)c(c1)-c1ccc(cc1)C(=O)NCC1CC1,44578630,GW775604,UNC10225009A,Biphenylamide
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)C(C)c2ccc(Cl)cc2)cc1,44525940,GSK1379735,UNC10225010A,2-anilino-4-pyrrolidinopyrimidine
+Nc1ncc(cc1S(=O)(=O)N1CCOCC1)-c1ccc2nccc(-c3ccncc3)c2c1,25121268,GSK1627798,UNC10225011A,4-6-di-Ar-quinoline
+Cl.COc1cc2nccc(Nc3ccc(NC(=O)c4ccc(C)cc4)c(O)c3)c2cc1OC,44532196,GW440132,UNC10225013A,4-anilinoquinoline
+Clc1ccc(cc1)C1=C(Nc2ccccc2)C(=O)NC1=O,6539455,SB-317661,UNC10225014A,3-anilino-4-aryl maleimide
+NC(=O)c1cc(cc2c(c[nH]c12)C1CCNCC1)-c1ccccc1,11427162,GSK301362,UNC10225015A,indole carboxamides
+CNc1nc(cc(n1)-c1ccc2c(N)n[nH]c2c1)N1C[C@H](CC[C@H]1C)C(=O)Nc1ccccc1,46215816,GSK2298859,UNC10225018A,3-Amino-6-aryl-indazole
+Cc1ccc(NC(=O)Nc2cccc(Cl)c2)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526071,GSK1398468,UNC10225019A,Biphenylamide
+c1nc2nccnn2c1-c1ccccc1,20825615,AH20685,UNC10225020A,imidazotriazine fragment
+Cc1ccc(NC(=O)c2cccc(c2)N2CCCCC2)cc1-c1ccc(cc1)C(=O)NCC1CC1,57394915,GSK1917008,UNC10225021A,Biphenylamide
+CC(C(=O)NC1CCN(C1)c1ccnc(Nc2ccc(F)cc2)n1)c1ccc(Cl)cc1,44525924,GSK1379713,UNC10225022A,2-anilino-4-pyrrolidinopyrimidine
+NCCNS(=O)(=O)c1ccc(cc1)-c1ccnc2[nH]ccc12,23648890,GSK977617,UNC10225023A,4-aryl-7-azaindole
+NCCNS(=O)(=O)c1ccc(cc1)-c1ccnc2[nH]ccc12,23648890,GSK977617,UNC10225023B,4-aryl-7-azaindole
+NCCNS(=O)(=O)c1ccc(cc1)-c1ccnc2[nH]ccc12,23648890,GSK977617,UNC10225023A,4-aryl-7-azaindole
+NCCNS(=O)(=O)c1ccc(cc1)-c1ccnc2[nH]ccc12,23648890,GSK977617,UNC10225023B,4-aryl-7-azaindole
+FC(F)(F)c1cccc(Cn2ccn3c2nc(cc3=O)N2CCOCC2)c1,57396626,GSK2297543,UNC10225024A,morpholino-imidazo-pyrimidinones
+COc1cccc(c1)-c1nc([nH]c1-c1ccncc1)-c1ccccc1,10639924,SB-610250,UNC10225025A,4-pyridinyl_ortho-aryl_azoles
+Oc1ccccc1-c1ccc2c(NC(=O)C3CC3)n[nH]c2n1,135435010,SB-711880,UNC10225026A,3-amino-6-aryl-pyrazolopyridine
+Cc1ccc(s1)-c1nc(Nc2ccncc2)c2ccccc2n1,44527361,GSK189015,UNC10225028A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+Cc1cccc(Nc2nc(NCCN)ncc2C(N)=O)c1,9817349,GSK1292139,UNC10225029A,carboxamide pyrimidine
+CC(C)c1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1,51356852,GSK2250882,UNC10225030A,3-Amino-6-aryl-indazole
+CNc1nccc(n1)-c1c(ncn1CCCN1CCOCC1)-c1ccc(F)cc1,9865518,SB-222516,UNC10225031A,4-pyrimidinyl_ortho-aryl_azoles
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2ccc3OCOc3c2)cc(OC)c1OC,44525957,GSK1379766,UNC10225032A,2-anilino-4-pyrrolidinopyrimidine
+COC(=O)c1cccc(NC(=O)NC2CCN(C2)c2ccnc(Nc3cc(OC)c(OC)c(OC)c3)n2)c1,44525958,GSK1379767,UNC10225033A,2-anilino-4-pyrrolidinopyrimidine
+Fc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cccc(c2)C#N)cc1,44525921,GSK1379708,UNC10225034A,2-anilino-4-pyrrolidinopyrimidine
+Cn1cncc1-c1cc2c(Nc3ccc(OCc4ccccc4)cc3)ncnc2cn1,22112846,GW281179,UNC10225035A,4-anilino-quinazoline and analogues
+Cc1ccc(NC(=O)c2ccnc(c2)N2CCCCC2)cc1-c1ccc(cc1)C(=O)NCC1CC1,44578709,GW775610,UNC10225036A,Biphenylamide
+C1COc2cc(Nc3nccc(n3)-c3cnn4nc(ccc34)-c3ccccc3)ccc2O1,6539398,GW818941,UNC10225037A,4-pyrimidinyl-azoles
+COc1cccc(c1)C1=C(Nc2ccc(Cl)c(c2)C(O)=O)C(=O)NC1=O,6539501,SB-390769,UNC10225038A,3-anilino-4-aryl maleimide
+Cn1cc(-c2ccc3N(CCc3c2)C(=O)Cc2cccc(Cl)c2)c2c(N)ncnc12,53469449,GSK2606590,UNC10225039A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+Cl.NC(=O)c1cccc(Nc2nccc(Nc3ccc(Oc4c(Cl)cccc4Cl)c(Cl)c3)n2)c1,44532671,GW659009,UNC10225040A,"2,4-dianilinopyrimidine"
+COc1ccc2nc(nc(Nc3ccncc3)c2c1)-c1cccc(C)n1,44527657,GSK204919,UNC10225042A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+COc1ccccc1C1=C(Nc2cccc(O)c2)C(=O)NC1=O,6539467,SB-381891,UNC10225043A,3-anilino-4-aryl maleimide
+Cc1cccc(n1)-c1nc(Nc2cccc(c2)C(N)=O)c2ccccc2n1,45272980,GW876019,UNC10225044A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+Cc1cc(cc(C)c1O)-c1ccnc(Nc2cccc(c2)C#N)n1,135925087,GSK1440913,UNC10225045A,2-anilino-4-aryl-pyrimidine
+COc1ccc(NC(=O)c2ccoc2)cc1-c1ccc(cc1)C(=O)NCC1CC1,44578613,GW810437,UNC10225046A,Biphenylamide
+OC(=O)C(F)(F)F.OC(=O)C(F)(F)F.CCn1c(nc2c(ncc(OCCCN)c12)-c1ccccc1)-c1nonc1N,25107963,GSK260205,UNC10225047A,aminofurazan
+N(c1c[nH]nc1-c1ccccn1)c1ccnc2ccccc12,44532720,GW694077,UNC10225048A,4-anilinoquinoline
+Cl.COc1cc(Nc2ccnc3cc(ccc23)-c2ccncc2)cc(OC)c1OC,44532316,GW494610,UNC10225049A,4-anilinoquinoline
+Brc1cc2c(NC(=O)C3CCCC3)n[nH]c2nc1-c1nccs1,6539613,SB-742609,UNC10225050A,3-amino-6-aryl-pyrazolopyridine
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)C2COc3ccccc3O2)cc(OC)c1OC,44525953,GSK1379761,UNC10225052A,2-anilino-4-pyrrolidinopyrimidine
+C(CN1CCOCC1)NCc1ccc(o1)-c1ccc2c(Nc3ccc(Oc4ccccn4)cc3)ccnc2c1,44532478,GW567145,UNC10225054A,4-anilinoquinoline
+COc1ccc(Nc2nccc(n2)-c2cccc(NC(=O)c3cc4cc(F)ccc4[nH]3)c2)cc1,44525486,GSK1229782,UNC10225056A,2-anilino-4-aryl-pyrimidine
+Clc1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,9945516,GW681251,UNC10225057A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Nc1nccc(n1)-c1c(ncn1C1CCN(Cc2ccccc2)CC1)-c1ccc(F)cc1,11133737,SB-219980,UNC10225058A,4-pyrimidinyl_ortho-aryl_azoles
+CC(=O)Nc1n[nH]c2ncc(cc12)-c1ccccc1,6539533,SB-548492,UNC10225060A,3-amino-5-aryl-pyrazolopyridine
+COc1cccc(c1)C1=C(Nc2cccc(c2)C(O)=O)C(=O)NC1=O,6539494,SB-390770,UNC10225061A,3-anilino-4-aryl maleimide
+OC(=O)c1cc(NC2=C(C(=O)NC2=O)c2ccccc2)ccc1Cl,6539498,SB-390532,UNC10225063A,3-anilino-4-aryl maleimide
+Oc1cccc(NC2=C(C(=O)NC2=O)c2ccccc2)c1,6539465,SB-390534,UNC10225065A,3-anilino-4-aryl maleimide
+Fc1ccc(CNc2nccc(NCCNC(=O)c3cc4ccccc4s3)n2)cc1,44525974,GSK1379944,UNC10225066A,2-anilino-4-aminopyrimidine
+CC(C)c1nc(c(s1)-c1ccnc(Nc2ccc3CCN(C)Cc3c2)n1)-c1cccc(NS(=O)(=O)c2ccccc2)c1,56670156,GSK1649598,UNC10225068A,4-pyrimidinyl_ortho-aryl_azoles
+COc1cc2ncn(-c3cc(OCc4ccncc4)c(s3)C(N)=O)c2cc1OC,25263108,GSK336313,UNC10225069A,benzimidazole_N-thiophenes
+Nc1n[nH]c2cc(ccc12)-c1cccc(N)n1,53317178,GSK2192730,UNC10225070A,3-Amino-6-aryl-indazole
+Cn1cc(-c2ccc3N(CCc3c2)C(=O)Cc2cc(F)cc(F)c2F)c2c(N)ncnc12,66561090,GSK2634140,UNC10225071A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+N#Cc1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11529890,GW693028,UNC10225072A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Fc1ccc(Nc2nccc(n2)-c2c(nn3ncccc23)-c2ccc(Cl)cc2)cc1F,6539426,GW829058,UNC10225073A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.Cc1ccc(Nc2ccnc(Nc3ccc(C)c(F)c3)n2)cc1O,44532552,GW582868,UNC10225074A,"2,4-dianilinopyrimidine"
+CN(C)c1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1,51356855,GSK2219329,UNC10225075A,3-Amino-6-aryl-indazole
+Cc1ccc(F)c(C(=O)Nc2cccc(c2)-c2nn3ccccc3c2-c2ccnc(Nc3cccc(F)c3)n2)c1F,44529278,GSK361061,UNC10225076A,4-pyrimidinyl_ortho-aryl_azoles
+N#Cc1cnc2cc(ccc2c1Nc1ccc(Oc2ccccc2)cc1)-c1cnc(CNCCN2CCOCC2)s1,44532690,GW664114,UNC10225079A,4-anilinoquinoline
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)C(C)c2ccc(Cl)cc2)cc(OC)c1OC,44525951,GSK1379757,UNC10225080A,2-anilino-4-pyrrolidinopyrimidine
+Fc1cccc(Nc2nccc(n2)-c2c(nn3ccccc23)-c2cccc(NC(=O)c3c(F)ccc(F)c3Cl)c2)c1,44529262,GSK357952,UNC10225081A,4-pyrimidinyl_ortho-aryl_azoles
+CN(c1ccc(NC(=O)Nc2cc(ccc2F)C(F)(F)F)cc1)c1ccnc(Nc2ccc(cc2)S(N)(=O)=O)n1,5329826,GW809893,UNC10225082A,"2,4-Dianilinopyrimidine"
+C[C@@H]1CCCCN1c1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1,51357138,GSK2258759,UNC10225083A,3-Amino-6-aryl-indazole
+COc1cc(Nc2ncc3c(C)nc(-c4cc5ccccc5[nH]4)n3n2)cc(OC)c1OC,135545443,GW869516,UNC10225084A,imidazotriazine
+Fc1ccc(Nc2nccc(NCCNC(=O)c3cc4ccccc4s3)n2)cc1,44525965,GSK1379874,UNC10225086A,2-anilino-4-aminopyrimidine
+CN(C1=C(C(=O)NC1=O)c1ccccc1)c1ccccc1,6539512,SB-334860,UNC10225087A,3-anilino-4-aryl maleimide
+CC(=O)c1cccc(NC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(F)cc3)n2)c1,44525922,GSK1379710,UNC10225088A,2-anilino-4-pyrrolidinopyrimidine
+CC(C)c1nc(c(s1)-c1ccnc(Nc2ccc(nc2)N2CCOCC2)n1)-c1ccc(F)c(NS(=O)(=O)c2c(F)cccc2F)c1,46927672,GSK1804250,UNC10225089A,4-pyrimidinyl_ortho-aryl_azoles
+Oc1ccc(NC2=C(C(=O)NC2=O)c2ccc(Cl)cc2)cc1,6539475,SB-340867,UNC10225090A,3-anilino-4-aryl maleimide
+Cl.CS(=O)(=O)CCNCc1nc(cs1)-c1ccc2ncnc(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2c1,44532554,GW583340,UNC10225091A,4-anilino-quinazoline and analogues
+Clc1cccc(NC2=C(C(=O)NC2=O)c2ccccc2Cl)c1,6539458,SB-342409,UNC10225092A,3-anilino-4-aryl maleimide
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cc3ccccc3s2)cc1,44525942,GSK1379738,UNC10225093A,2-anilino-4-pyrrolidinopyrimidine
+C(N1CCCCC1)c1ccc(o1)-c1ccc2c(Nc3ccc(Oc4ccccn4)cc3)ccnc2c1,44532477,GW567143,UNC10225094A,4-anilinoquinoline
+CCn1c(nc2cnccc12)-c1c(C)onc1N,44397393,SB-737856,UNC10225095A,aminofurazan
+FC(F)(F)c1ccc(\C=C\c2cncnc2Nc2ccc3[nH]c(Cc4ccccc4)nc3c2)cc1,44532737,GW709199,UNC10225096A,4-anilino-quinazoline and analogues
+Cc1cccc2c(c(nn12)-c1ccc(F)cc1)-c1ccncn1,9901062,GW515532,UNC10225097A,4-pyrimidinyl_ortho-aryl_azoles
+COc1cccc(NC(=O)NCCNc2ccnc(Nc3ccc(F)cc3)n2)c1,44525967,GSK1379879,UNC10225098A,2-anilino-4-aminopyrimidine
+Cl.Cc1c(O)cccc1Nc1ccnc2ccc(cc12)C(F)(F)F,44532261,GW466413,UNC10225099A,4-anilinoquinoline
+COC(=O)c1cccc(NC(=O)NC2CCN(CC2)c2ccnc(NCc3ccc(F)cc3)n2)c1,44525964,GSK1379860,UNC10225100A,2-amino-4-piperidinopyrimidine
+Fc1cccc(COc2ccc(Nc3ncnc4sc(cc34)-c3ccc[nH]3)cc2Cl)c1,44571415,GW707818,UNC10225101A,4-anilino-quinazoline and analogues
+Nc1n[nH]c2cc(ccc12)-c1cc(nc(N)n1)N1CCCC1,51356856,GSK2227430,UNC10225103A,3-Amino-6-aryl-indazole
+COc1ccc(CNC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(OC)cc3)n2)cc1,44525935,GSK1379727,UNC10225104A,2-anilino-4-pyrrolidinopyrimidine
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2cc(C)ccc2C)cc(OC)c1OC,44525954,GSK1379762,UNC10225105A,2-anilino-4-pyrrolidinopyrimidine
+Fc1cc(Cl)ccc1Nc1ccnc2cc(ccc12)-c1ccc(CN2CCOCC2)o1,44532446,GW560109,UNC10225106A,4-anilinoquinoline
+OC(=O)C(F)(F)F.Nc1ncnc2scc(-c3ccc(NC(=O)Cc4cc(F)ccc4F)cc3)c12,134158116,SB-731254-M,UNC10225107A,4-amino-3-aryl-thienopyridine and analogues
+COc1cc(Nc2ccnc3ccc(cc23)C(F)(F)F)cc(OC)c1OC,44532526,GW577382,UNC10225109A,4-anilinoquinoline
+COc1cccc(NC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(F)cc3)n2)c1,44525930,GSK1379721,UNC10225110A,2-anilino-4-pyrrolidinopyrimidine
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2cccc(c2)C(C)=O)cc(OC)c1OC,44525949,GSK1379753,UNC10225111A,2-anilino-4-pyrrolidinopyrimidine
+COc1ccc(CNC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(F)cc3)n2)cc1,44525920,GSK1379706,UNC10225112A,2-anilino-4-pyrrolidinopyrimidine
+CCCc1ccc(cc1)S(=O)(=O)NC1CCN(C1)c1ccnc(Nc2ccc(OC)cc2)n1,44525941,GSK1379737,UNC10225113A,2-anilino-4-pyrrolidinopyrimidine
+CCn1c(nc2cnccc12)-c1cccnc1O,136109070,SB-736715,UNC10225114A,Imidazolopyridine
+Fc1ccc(cc1)-c1nn2cccc(F)c2c1-c1ccncc1,9879605,GW475620,UNC10225116A,4-pyridinyl_ortho-aryl_azoles
+Nc1ncc(cc1S(=O)(=O)N1CCCCC1)-c1ccc2nccc(-c3ccncc3)c2c1,44526983,GSK1693850,UNC10225117A,4-6-di-Ar-quinoline
+NC(=O)Nc1sc(cc1C(N)=O)-c1ccc(F)cc1,9903786,GW789449,UNC10225118A,carboxamide thiophene
+Nc1nccc2scc(-c3ccc4N(CCc4c3)C(=O)Cc3ccccc3)c12,53466728,GSK2576924,UNC10225119A,4-amino-3-aryl-thienopyridine and analogues
+COc1ccccc1C1=C(Nc2ccc(O)c(Cl)c2)C(=O)NC1=O,6539477,SB-381904,UNC10225121A,3-anilino-4-aryl maleimide
+Clc1cccc(c1)-c1nc(Nc2ccncc2)c2ccccc2n1,9880709,GW873004,UNC10225122A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+Cn1cnc2c(N)ncnc12,69689,SKF-97623,UNC10225123A,6-aminopurines and related
+COc1cc(Nc2nccc(n2)N2CCC(CC2)NS(=O)(=O)c2ccc(NC(C)=O)cc2)cc(OC)c1OC,44525962,GSK1379825,UNC10225124A,2-anilino-4-piperidinopyrimidine
+Cc1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,9836405,GW684088,UNC10225125A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Cc1csc(n1)-c1nc(Nc2ccncc2)c2ccccc2n1,10358578,GW869640,UNC10225126A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+COc1ccc(COc2cc(sc2C(N)=O)-n2cnc3ccccc23)cc1,25263079,GSK1024304,UNC10225127A,benzimidazole_N-thiophenes
+Cl.Oc1cc(ccc1Cl)-c1nc([nH]c1-c1ccncc1)-c1ccccc1,44533820,SB-386023,UNC10225128B,4-pyridinyl_ortho-aryl_azoles
+Fc1ccc(CNc2nccc(n2)N2CCC(CC2)NC(=O)Nc2ccc3OCOc3c2)cc1,44525963,GSK1379859,UNC10225129A,2-amino-4-piperidinopyrimidine
+Cl.C(N1CCNCC1)c1ccc(o1)-c1ccc2c(Nc3ccc(Oc4ccccn4)cc3)ccnc2c1,44532475,GW567142,UNC10225130B,4-anilinoquinoline
+Clc1cccc(Cn2ccn3c2nc(cc3=O)N2CCOCC2)c1,57403577,GSK2296823,UNC10225131A,morpholino-imidazo-pyrimidinones
+CCOC(=O)N1CCC(CC1)n1cnc(c1-c1ccnc(N)n1)-c1ccc(F)cc1,15407403,SB-219952,UNC10225132A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.CCS(=O)(=O)c1ccc(OC)c(Nc2ncc(o2)-c2ccc(F)cc2)c1,11429863,GW591947,UNC10225133A,2-anilino-5-aryl-oxazole
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NS(=O)(=O)c2ccc(NC(C)=O)cc2)cc1,44525936,GSK1379729,UNC10225134A,2-anilino-4-pyrrolidinopyrimidine
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cc3ccccc3s2)cc(OC)c1OC,44525952,GSK1379760,UNC10225135A,2-anilino-4-pyrrolidinopyrimidine
+Clc1cccc(Cn2c3ccccc3n3c2nc(cc3=O)N2CCOCC2)c1Cl,57403578,GSK2299009,UNC10225136A,morpholino-imidazo-pyrimidinones
+Clc1cccc(c1)C1=C(N2CCc3ccccc23)C(=O)NC1=O,6539519,SB-408010,UNC10225137A,3-anilino-4-aryl maleimide
+FC(F)(F)c1ccc(cc1)-c1nn2ncccc2c1-c1ccnc(Nc2cccc(c2)C(F)(F)F)n1,6539416,GW828205,UNC10225138A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.CN(c1ccc(NC(=O)Nc2cccc(Cl)c2)cc1)c1ccnc(N)n1,44532869,GW830707,UNC10225139A,2-amino-4-anilinopyrimidine
+Brc1cc2c(NC(=O)C3CCCC3)n[nH]c2nc1-c1cccs1,6539591,SB-743341,UNC10225140A,3-amino-6-aryl-pyrazolopyridine
+Cl.Cn1ccc(n1)-c1cccc(Nc2ccnc3cc(ccc23)-c2nccs2)c1,44532377,GW525701,UNC10225141A,4-anilinoquinoline
+C[C@H]1CC[C@H](CN1c1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1)C(=O)Nc1ccccc1,51354901,GSK2283293,UNC10225143A,3-Amino-6-aryl-indazole
+Oc1ccc(cc1)-c1ccc2c(NC(=O)C3CC3)n[nH]c2n1,135435008,SB-710363,UNC10225144A,3-amino-6-aryl-pyrazolopyridine
+Cl.Cl.Cl.N#Cc1ccc(CCNc2nccc(n2)-c2cccc(CN3CCNCC3)c2)cc1,44527950,GSK2137462,UNC10225145A,2-amino-4-aryl-pyrimidine
+Nc1n[nH]c2cc(ccc12)-c1cccc(N)c1,11514099,GSK2193613,UNC10225146A,3-Amino-6-aryl-indazole
+COc1cccc(CNC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(F)cc3)n2)c1,44525932,GSK1379723,UNC10225147A,2-anilino-4-pyrrolidinopyrimidine
+CC(C)(C)OC(=O)NC1CCCN(C1)c1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1,51354328,GSK2286096,UNC10225148A,3-Amino-6-aryl-indazole
+Nc1nc(N)c2nc([nH]c2n1)-c1ccccc1,99545,SKF-12778,UNC10225149A,6-aminopurines and related
+COc1cccc(c1)C1=C(Nc2ccc(SC)cc2)C(=O)NC1=O,6539507,SB-331032,UNC10225150A,3-anilino-4-aryl maleimide
+Cc1ccc(NC(=O)c2ccc(Cl)c(Cl)c2)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526068,GSK1398460,UNC10225151A,Biphenylamide
+Fc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2ccccc2F)cc1,44525931,GSK1379722,UNC10225152A,2-anilino-4-pyrrolidinopyrimidine
+COc1cc2ncn(-c3cc(OCc4sccc4Cl)c(s3)C(N)=O)c2cc1OC,25263105,GSK448459,UNC10225153A,benzimidazole_N-thiophenes
+OC=O.CNC(=O)c1ccccc1Nc1nc(Nc2cccc(CS(C)(=O)=O)c2)ncc1C,44526248,GSK1520489,UNC10225154A,"2,4-dianilinopyrimidine"
+O=C(NCCCN1CCOCC1)c1cccc(Nc2nccc(Nc3ccc(Oc4ccccc4)cc3)n2)c1,44532683,GW663929,UNC10225155A,"2,4-dianilinopyrimidine"
+CCn1c(nc2cnccc12)-c1ccccn1,86064662,SB-736398,UNC10225156A,Imidazolopyridine
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cccc(c2)C#N)cc(OC)c1OC,44525948,GSK1379751,UNC10225157A,2-anilino-4-pyrrolidinopyrimidine
+O=c1[nH]cc(-c2ccc(cc2)N2CCOCC2)c2sc(cc12)-c1cn[nH]c1,56673950,GSK2276055,UNC10225158A,thienopyridinone
+COc1cccc(CNC(=O)NC2CCN(C2)c2ccnc(Nc3cc(OC)c(OC)c(OC)c3)n2)c1,44525956,GSK1379765,UNC10225160A,2-anilino-4-pyrrolidinopyrimidine
+COC(=O)C(NC(=O)NC1CCN(C1)c1ccnc(Nc2ccc(F)cc2)n1)c1ccccc1,44525923,GSK1379712,UNC10225161A,2-anilino-4-pyrrolidinopyrimidine
+COc1ccc(Nc2nccc(n2)N2CCC(CC2)NC(=O)C(C)c2ccc(Cl)cc2)cc1,44525961,GSK1379812,UNC10225162A,2-anilino-4-piperidinopyrimidine
+Fc1ccc(cc1)-c1nc2SCCn2c1-c1ccncc1,5228,GI98581,UNC10225163A,4-pyridinyl_ortho-aryl_azoles
+COC(=O)c1cccc(NC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(F)cc3)n2)c1,44525934,GSK1379725,UNC10225164A,2-anilino-4-pyrrolidinopyrimidine
+Cn1cc(-c2ccc3N(CCc3c2)C(=O)Cc2cccc(c2)C(F)(F)F)c2c(N)ncnc12,53469448,GSK2606414,UNC10225165A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+Oc1ccc(cc1)-c1c[nH]c(=O)c2cc(sc12)-c1ccncc1,53245731,GSK1033723,UNC10225166A,thienopyridinone
+Clc1cccc(Cn2ccn3c2nc(cc3=O)N2CCOCC2)c1Cl,57401865,GSK2286295,UNC10225167A,morpholino-imidazo-pyrimidinones
+Clc1ccccc1C1=C(Nc2ccccc2)C(=O)NC1=O,6539452,SB-376715,UNC10225168A,3-anilino-4-aryl maleimide
+c1[nH]nc(c1-c1ccnc(c1)-c1ccccc1)-c1ccccn1,9861063,GW576604,UNC10225169A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Cl.COc1cc2nccc(Nc3cccc(Oc4ccccc4)c3)c2cc1OC,44531021,GW284543,UNC10225170A,4-anilinoquinoline
+Cn1cc(-c2ccc3N(CCc3c2)C(=O)Cc2ccccc2Cl)c2c(N)ncnc12,53467392,GSK2608885,UNC10225172A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+Nc1nccc(n1)-c1c(ncn1C1CCN(CC(F)(F)F)CC1)-c1ccc(F)cc1,44328970,SB-236560,UNC10225173A,4-pyrimidinyl_ortho-aryl_azoles
+Fc1cccc(F)c1C(=O)Nc1cccc(c1)-c1nn2ncccc2c1-c1ccnc(Nc2cccc(c2)C(F)(F)F)n1,44528968,GSK299495,UNC10225174A,4-pyrimidinyl_ortho-aryl_azoles
+Cc1cccc(n1)-c1nc(C)cc(Nc2ccncc2)n1,45270417,GSK257997,UNC10225175A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2ccc3OCOc3c2)cc1,44525945,GSK1379745,UNC10225177A,2-anilino-4-pyrrolidinopyrimidine
+Cc1nn2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(Cl)c1Cl,70685440,GSK2342769,UNC10225178A,morpholino-triazolo-pyrimidinones
+Brc1cc2c(NC(=O)C3CC3)n[nH]c2nc1-c1nccs1,6539612,SB-742251,UNC10225180A,3-amino-6-aryl-pyrazolopyridine
+Cc1cccc(n1)-c1nc(Nc2ccncc2)c2sccc2n1,45272982,GW869641,UNC10225181A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+Cl.Cc1ccc(cc1)C(=O)Nc1ccc(Nc2ccnc3cc(ccc23)-c2ccccn2)cc1O,135925142,GW440146,UNC10225182A,4-anilinoquinoline
+COc1cccc(NC(=O)NC2CCN(C2)c2ccnc(Nc3cc(OC)c(OC)c(OC)c3)n2)c1,44525955,GSK1379763,UNC10225183A,2-anilino-4-pyrrolidinopyrimidine
+FC(F)(F)c1ccccc1-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11595752,GW679396,UNC10225184A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Nc1n[nH]c2nnc(-c3ccccc3)c(-c3ccccc3)c12,6263849,GW554060,UNC10225185A,6-aminopurines and related
+CCCC(=O)Nc1n[nH]c2ncc(cc12)-c1cccc2ccccc12,6539550,SB-642057,UNC10225186A,3-amino-5-aryl-pyrazolopyridine
+CN1CCN(CCCNc2nccc(n2)-c2c(nn3cc(ccc23)C(N)=O)-c2ccc(F)cc2)CC1,11627271,GW622475,UNC10225188A,4-pyrimidinyl_ortho-aryl_azoles
+Fc1cc(Cl)ccc1Nc1ccnc2cc(I)ccc12,44532432,GW551191,UNC10225189A,4-anilinoquinoline
+C[C@@H]1CN(CCO1)c1cc(=O)n2nc(C)n(Cc3cccc(Cl)c3Cl)c2n1,134158164,GSK2373693,UNC10225190A,morpholino-triazolo-pyrimidinones
+FC(F)(F)c1cc(Br)cc(Nc2nccc(n2)-c2cnn3ncccc23)c1,6539376,GW810578,UNC10225191A,4-pyrimidinyl-azoles
+FC(F)(F)c1cc(Nc2nccc(n2)-c2c(nn3ncccc23)-c2ccc(Cl)cc2)ccc1Cl,6539427,GW829351,UNC10225192A,4-pyrimidinyl_ortho-aryl_azoles
+COc1ccc(Nc2nccc(NCCNC(=O)Nc3cc(C)ccc3C)n2)cc1,44525972,GSK1379899,UNC10225193A,2-anilino-4-aminopyrimidine
+CCOc1nccc(n1)-c1c(ncn1C1CCNCC1)-c1ccc(F)cc1,17917696,SB-249175,UNC10225194A,4-pyrimidinyl_ortho-aryl_azoles
+Cc1c(Cn2c3ccccc3n3c2nc(cc3=O)N2CCOCC2)cccc1C(F)(F)F,57403579,GSK2306394,UNC10225195A,morpholino-imidazo-pyrimidinones
+CN(C)CC(O)COc1ccc(Nc2nccc(n2)-c2cnn3nc(ccc23)N2CCOCC2)cc1,10239038,GW767488,UNC10225197A,4-pyrimidinyl-azoles
+CCN1CCN(CCCC(=O)Nc2n[nH]c3nc(c(Br)cc23)-c2ccc(O)cc2)CC1,135416046,SB-731579,UNC10225198A,3-amino-6-aryl-pyrazolopyridine
+Cc1ccc(C)c(NC(=O)NCCNc2ccnc(Nc3ccc(F)cc3)n2)c1,44525966,GSK1379878,UNC10225199A,2-anilino-4-aminopyrimidine
+COc1cccc(NC(=O)Nc2ccc(C)c(c2)-c2ccc(cc2)C(=O)Nc2ccncc2)c1,44526076,GSK1398474,UNC10225200A,Biphenylamide
+Nc1nc(c(s1)-c1ccnc2ccccc12)-c1ccccn1,9796486,GW548057,UNC10225201A,4-pyridinyl_ortho-aryl_azoles
+Cc1cccc(Cn2ccn3c2nc(cc3=O)N2CCOCC2)c1,57398392,GSK2297542,UNC10225202A,morpholino-imidazo-pyrimidinones
+Nc1ncnc2n(cnc12)-c1ccc(Cl)cc1,227502,AH2635,UNC10225203A,6-aminopurines and related
+CCn1c(nc2cnccc12)-c1ccncc1,86064664,SB-735216,UNC10225204A,Imidazolopyridine
+CCc1nc(c(s1)-c1ccnc(Nc2ccc(nc2)N2CCN(CC2)C(C)=O)n1)-c1cccc(c1)N(C)S(=O)(=O)c1ccccc1,56680318,GSK1645895,UNC10225205A,4-pyrimidinyl_ortho-aryl_azoles
+OC(=O)c1ccc(cc1)-c1nc(c([nH]1)-c1ccncc1)-c1ccc(F)cc1,11057468,SB-202620,UNC10225208A,4-pyridinyl_ortho-aryl_azoles
+Nc1n[nH]c2nnc(cc12)-c1ccccc1,6538884,SB-517389,UNC10225209A,3-amino-5-aryl-pyrazolopyridine
+Fc1ccc(Nc2nccc(NCCNC(=O)Nc3ccccc3F)n2)cc1,44525968,GSK1379880,UNC10225210A,2-anilino-4-aminopyrimidine
+Cl.CCn1c(nc2cncc(CNC3CCNCC3)c12)-c1nonc1N,86346663,SB-747651,UNC10225211A,aminofurazan
+CN1C(=O)C(Nc2cc(Cl)c(O)c(Cl)c2)=C(C1=O)c1ccc(Cl)cc1,6539525,SB-404321,UNC10225212A,3-anilino-4-aryl maleimide
+COc1nccc(n1)-c1c(ncn1CCCN1CCOCC1)-c1ccc(F)cc1,44269265,SB-282852,UNC10225213A,4-pyrimidinyl_ortho-aryl_azoles
+Nc1n[nH]c2cc(ccc12)-c1cc(Nc2ccccc2)nc(N)n1,46215644,GSK2225749,UNC10225214A,3-Amino-6-aryl-indazole
+N(c1ccc(Oc2ccccc2)cc1)c1ccnc2ccc(cc12)-c1ccccn1,44532102,GW407034,UNC10225215A,4-anilinoquinoline
+CSc1ccc(NC2=C(C(=O)NC2=O)c2ccc(Cl)cc2)cc1,6539509,SB-317658,UNC10225216A,3-anilino-4-aryl maleimide
+Cc1n[nH]c2cnc(cc12)-c1cc(OC[C@@H](N)Cc2c[nH]c3ccccc23)c(N)nc1-c1ccoc1C,25222706,GSK1660450,UNC10225217A,5-Ar-indazole
+Cc1ccc(C)c(NC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(F)cc3)n2)c1,44525929,GSK1379720,UNC10225218A,2-anilino-4-pyrrolidinopyrimidine
+Fc1cc(Cl)ccc1Nc1ccnc2cc(ccc12)-c1ccc(CN2CCCCC2)o1,44532450,GW560116,UNC10225220A,4-anilinoquinoline
+OC(=O)C(F)(F)F.Cc1cc(nc(Nc2cccc(c2)C#N)n1)N1CCC(CC1)NS(=O)(=O)c1ccc(F)cc1,44526892,GSK1653537,UNC10225222A,2-anilino-4-piperidinopyrimidine
+COC(=O)Nc1nc2ccc(Oc3ccc(CC(=O)Nc4cc(ccc4F)C(F)(F)F)cc3)cc2[nH]1,17755746,GW680903,UNC10225223A,2-aminobenzimidazole
+Cc1ccc2c(cnn2n1)-c1ccnc(Nc2ccc(cc2)C(F)(F)F)n1,6539394,GW819776,UNC10225224A,4-pyrimidinyl-azoles
+Cc1c(C)n2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(c1C)C(F)(F)F,57400062,GSK2328680,UNC10225225A,morpholino-imidazo-pyrimidinones
+CN(C)CCOc1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11682470,GW835314,UNC10225226A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Cc1ccc(C)c(NC(=O)Nc2ccc(C)c(c2)-c2ccc(cc2)C(=O)Nc2ccncc2)c1,44526075,GSK1398473,UNC10225228A,Biphenylamide
+COCCNC(=O)c1ccc(cc1)-c1cc(cc(F)c1C)C(=O)NC1CC1,44479934,GW868318,UNC10225229A,Biphenylamide
+O=C(N1CCCC1)c1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11682680,GW792479,UNC10225230A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Fc1ccccc1Cn1ccn2c1nc(cc2=O)N1CCOCC1,57403576,GSK2297428,UNC10225231A,morpholino-imidazo-pyrimidinones
+Fc1cccc(F)c1C(=O)Nc1cccc(c1)-c1nn2ncccc2c1-c1ccnc(Nc2ccccc2)n1,44527603,GSK198271,UNC10225232A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.COc1cc2nccc(Nc3ccc(OCc4ccc(NC(C)=O)cc4)cc3)c2cc1OC,44532198,GW440135,UNC10225233A,4-anilinoquinoline
+C[C@@H](Oc1cc(sc1C(N)=O)-n1cnc2cc(ccc12)-c1ccnc(NCCS(C)(=O)=O)c1)c1ccccc1Cl,49862093,GSK907232,UNC10225234A,benzimidazole_N-thiophenes
+Fc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2ccc3OCOc3c2)cc1,44525933,GSK1379724,UNC10225235A,2-anilino-4-pyrrolidinopyrimidine
+Cl.CN(c1ccc2n(C)c(NCc3ccc(F)cc3)nc2c1)c1ccnc(Nc2ccc(CS(C)(=O)=O)cc2)n1,10289896,GW813244,UNC10225236A,"2,4-dianilinopyrimidine"
+Cl.Cc1cnc(N)c(\C=C\c2cncc(c2)C(=O)NCCc2ccc(Cl)cc2Cl)c1,44527400,GSK190937,UNC10225238A,3-vinyl pyridines
+Cc1cccc(n1)-c1nc(Nc2ccc3[nH]nnc3c2)c2ccccc2n1,45271247,GW867587,UNC10225239A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+COC(=O)C(Cc1ccccc1)NC(=O)NC1CCN(C1)c1ccnc(Nc2ccc(F)cc2)n1,44525925,GSK1379714,UNC10225240A,2-anilino-4-pyrrolidinopyrimidine
+FC(F)(F)c1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,9925372,GW599550,UNC10225241A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+CN1C(=O)C(Nc2ccccc2)=C(C1=O)c1ccccc1,6539523,SB-300079,UNC10225242A,3-anilino-4-aryl maleimide
+Cc1ccccc1-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11594774,GW680061,UNC10225243A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+COc1ccc(cc1)C1=C(Nc2cccc(c2)C(O)=O)C(=O)NC1=O,6539497,SB-390765,UNC10225244A,3-anilino-4-aryl maleimide
+OC(=O)C(F)(F)F.COc1ccc(cc1)S(=O)(=O)NC1CCN(CC1)c1cc(C)nc(Nc2cccc(c2)C#N)n1,44526894,GSK1653539,UNC10225245A,2-anilino-4-piperidinopyrimidine
+CCCCc1nn2ncccc2c1-c1ccnc(NC2CC2)n1,10286382,GW684374,UNC10225247A,4-pyrimidinyl-azoles
+CC(=O)c1c(C)c([nH]c1-c1ccncc1)-c1ccncc1,9925594,GW493036,UNC10225248A,4-pyridinyl-azole
+Fc1ccc(cc1)-c1nn2c(OCC(F)(F)F)cccc2c1-c1ccncc1,21027446,GW514784,UNC10225249A,4-pyridinyl_ortho-aryl_azoles
+COc1cc2c(Nc3ccc(NC(=O)c4ccccc4)cc3)ncnc2cc1OCCCN1CCOCC1,9914412,GSK301329,UNC10225250A,4-anilino-quinazoline and analogues
+Cl.C(N1CCOCC1)c1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,10274521,GW776245,UNC10225251A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Oc1ccc(NC2=C(C(=O)NC2=O)c2ccc(Cl)cc2)cc1Cl,6539480,SB-405367,UNC10225252A,3-anilino-4-aryl maleimide
+Fc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cc3ccccc3s2)cc1,44525927,GSK1379716,UNC10225253A,2-anilino-4-pyrrolidinopyrimidine
+Cc1ccccc1CC(=O)N1CCc2cc(ccc12)-c1cn(C)c2ncnc(N)c12,53469453,GSK2603346,UNC10225254A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+Clc1ccccc1C1=C(N2CCc3ccccc23)C(=O)NC1=O,6539516,SB-373598,UNC10225255A,3-anilino-4-aryl maleimide
+OC(=O)C(F)(F)F.Clc1cc(Cl)cc(Nc2nc(N[C@@H]3CCNC3)nc3cc[nH]c(=O)c23)c1,44528328,GSK2188764,UNC10225257A,fused carboxamide pyrimidine
+CC(C)N1CCC(CC1)n1cnc(c1-c1ccnc(N)n1)-c1ccc(F)cc1,44328896,SB-223132,UNC10225258A,4-pyrimidinyl_ortho-aryl_azoles
+Brc1cc2c(NC(=O)C3CC3)n[nH]c2nc1-c1ccccc1,6539578,SB-708998,UNC10225259A,3-amino-6-aryl-pyrazolopyridine
+NC(=O)c1sc(cc1OCc1ccccc1F)-n1cnc2ccccc12,25263084,GSK1024306,UNC10225260A,benzimidazole_N-thiophenes
+Cl.COc1cc2ncnc(Nc3ccc(OCc4ccccc4Br)c(Cl)c3)c2cc1OC,44523335,GI261590,UNC10225261A,4-anilino-quinazoline and analogues
+C[C@@H](Oc1cc(sc1C(N)=O)-n1cnc2cc(ccc12)-c1ccncc1)c1ccccc1Cl,49862643,GSK479719,UNC10225262A,benzimidazole_N-thiophenes
+Cc1ccc(NC(=O)c2cccc(c2)C#N)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526069,GSK1398463,UNC10225263A,Biphenylamide
+O=C(Nc1n[nH]c2nc(ccc12)-c1ccccc1)C1CC1,6539565,SB-708999,UNC10225264A,3-amino-6-aryl-pyrazolopyridine
+COc1cccc(c1)C1=C(Nc2cc(Cl)c(O)c(Cl)c2)C(=O)NC1=O,6539486,SB-390767,UNC10225267A,3-anilino-4-aryl maleimide
+Cl.NC(=O)c1cccc(Nc2nccc(Nc3ccc(Oc4cccc(Cl)c4)c(Cl)c3)n2)c1,44532669,GW659008,UNC10225268A,"2,4-dianilinopyrimidine"
+OC(=O)C(F)(F)F.OC(=O)C(F)(F)F.O=c1[nH]ccc2nc(N[C@@H]3CCCNC3)nc(Nc3ccc(cc3)S(=O)(=O)N3CCOCC3)c12,44528306,GSK2177277,UNC10225269A,fused carboxamide pyrimidine
+Cc1ccc(cc1-c1ccc(cc1)C(=O)NCC1CC1)C(=O)NC1CCCC1,44578252,GW800172,UNC10225270A,Biphenylamide
+COc1cc2c(Nc3cccc(NC(=O)c4ccccc4)c3)ncnc2cc1OCCCN1CCOCC1,44528496,GSK223810,UNC10225271A,4-anilino-quinazoline and analogues
+CC(C)S(=O)(=O)N1CCN(Cc2ccc3n(C[C@H](O)c4ccccc4)c(NC(=O)c4ccsc4)nc3c2)CC1,44532639,GW635815,UNC10225273A,1-substituted-2-aminobenzimidazole
+CNc1nccc(n1)-c1c(ncn1C1CCN(C)CC1)-c1ccc(F)cc1,9929101,SB-222903,UNC10225274A,4-pyrimidinyl_ortho-aryl_azoles
+Oc1cccc(NC2=C(C(=O)NC2=O)c2ccc(Cl)cc2)c1,6539472,SB-333613,UNC10225275A,3-anilino-4-aryl maleimide
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cccc(NC(C)=O)c2)cc1,44525939,GSK1379732,UNC10225278A,2-anilino-4-pyrrolidinopyrimidine
+Cl.CS(=O)(=O)CCNCc1nc(cs1)-c1ccc2ncnc(Nc3ccc(OCc4ccccc4)c(Cl)c3)c2c1,44532551,GW582764,UNC10225279B,4-anilino-quinazoline and analogues
+COc1ccc(CNC(=O)NC2CCN(CC2)c2ccnc(Nc3ccc(F)cc3)n2)cc1,44525959,GSK1379788,UNC10225282A,2-anilino-4-piperidinopyrimidine
+Cc1nnc(o1)-c1ccc(C)c(c1)-c1ccc(cc1)C(=O)Nc1ccc(NS(C)(=O)=O)cc1,25093464,GW702865,UNC10225285A,Biphenylamide
+CSc1ccc(NC2=C(C(=O)NC2=O)c2cccc(Cl)c2)cc1,6539506,SB-341528,UNC10225286A,3-anilino-4-aryl maleimide
+C[C@@H](Oc1cc(sc1C(N)=O)-n1cnc2ccc(NC(=O)NC(C)(C)C)cc12)c1ccccc1Cl,44529229,GSK346294,UNC10225287A,benzimidazole_N-thiophenes
+COc1cccc(c1)C1=C(Nc2cccc(Cl)c2)C(=O)NC1=O,6539461,SB-341556,UNC10225288A,3-anilino-4-aryl maleimide
+c1[nH]nc(c1-c1ccnc2ccccc12)-c1ccccn1,447966,GW271431,UNC10225289A,4-pyridinyl_ortho-aryl_azoles
+Fc1cc(Cl)ccc1Nc1ccnc2cc(ccc12)-c1ccc(CN2CCSCC2)o1,44532445,GW560106,UNC10225290A,4-anilinoquinoline
+COc1ccc2cc(ccc2c1)-c1nc([nH]c1-c1ccncc1)-c1ccccc1C(C)C,44433573,SB-660566,UNC10225291A,4-pyridinyl_ortho-aryl_azoles
+Fc1ccccc1-c1ccc2c(NC(=O)C3CC3)n[nH]c2c1,6539602,SB-733371,UNC10225292A,3-acylamino-6-aryl-indazole
+COc1cccc(c1)C1=C(N(C)c2ccccc2)C(=O)NC1=O,6539513,SB-334865,UNC10225293A,3-anilino-4-aryl maleimide
+COc1ccccc1CNC(=O)c1cc(c[nH]1)C(=O)c1ccccc1C,1489204,GSK364507,UNC10225294A,pyrrole-2-carboxamide
+Cn1cc(-c2ccc3N(CCc3c2)C(=O)Cc2cccc(F)c2)c2c(N)ncnc12,53467178,GSK2603358,UNC10225297A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+COc1ccc(cc1)C1=C(Nc2cccc(O)c2)C(=O)NC1=O,6539473,SB-390766,UNC10225299A,3-anilino-4-aryl maleimide
+Fc1cccc(-c2ccc3c(NC(=O)C4CC4)n[nH]c3c2)c1F,6539605,SB-733894,UNC10225300A,3-acylamino-6-aryl-indazole
+Nc1nc(c(s1)-c1ccnc2ccccc12)-c1ccccc1F,11370662,GW560459,UNC10225301A,4-pyridinyl_ortho-aryl_azoles
+CCC(CC)(CC)n1cnc2c(N)ncnc12,44305812,SKF-97620,UNC10225302A,6-aminopurines and related
+COc1ccc(cc1)C1=C(Nc2cccc(Cl)c2)C(=O)NC1=O,6539464,SB-326892,UNC10225303A,3-anilino-4-aryl maleimide
+CCCC(=O)Nc1n[nH]c2ncccc12,6539541,SB-601436,UNC10225304A,3-amino-5-aryl-pyrazolopyridine
+COc1cccc2c(c(nn12)-c1ccc(F)cc1)-c1ccncc1,9923028,GW468513,UNC10225305A,4-pyridinyl_ortho-aryl_azoles
+Fc1ccc(Nc2nccc(n2)N2CCC(CC2)NC(=O)Nc2ccccc2F)cc1,44525960,GSK1379800,UNC10225306A,2-anilino-4-piperidinopyrimidine
+COc1ccc(Nc2nccc(n2)-c2ccc(NC(=O)c3cc4cc(F)ccc4[nH]3)cc2)cc1,44525485,GSK1229496,UNC10225308A,2-anilino-4-aryl-pyrimidine
+Nc1nc(c(s1)-c1ccnc2ccccc12)-c1cccnc1,11231979,GW684083,UNC10225309A,4-pyridinyl_ortho-aryl_azoles
+COC(=O)c1cccc(NC(=O)NCCNc2ccnc(Nc3ccc(F)cc3)n2)c1,44525970,GSK1379883,UNC10225311A,2-anilino-4-aminopyrimidine
+COc1cccc(c1)-c1ccc2c(NC(=O)C3CC3)n[nH]c2n1,6539570,SB-710903,UNC10225312A,3-amino-6-aryl-pyrazolopyridine
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cccc(c2)C#N)cc1,44525937,GSK1379730,UNC10225313A,2-anilino-4-pyrrolidinopyrimidine
+Cc1ccc(cc1)S(=O)(=O)Nc1ccc(Nc2nccc(Nc3cccc4[nH]ncc34)n2)cc1,44529831,GSK581271,UNC10225314A,"2,4-dianilinopyrimidine"
+O=C(Nc1n[nH]c2cc(ccc12)-c1ccoc1)C1CC1,6539610,SB-738481,UNC10225317A,3-acylamino-6-aryl-indazole
+COc1cc(Nc2nccc(n2)-c2c(nn3ccccc23)-c2cccc(NC(=O)c3c(F)cccc3F)c2)cc(OC)c1OC,44529101,GSK323521,UNC10225318A,4-pyrimidinyl_ortho-aryl_azoles
+Fc1cccc(COc2ccc(Nc3ncnc4nn5ccccc5c34)cc2Cl)c1,11524582,GW689066,UNC10225319A,4-anilino-quinazoline and analogues
+Fc1ccc(cc1)-c1ncn(CCCN2CCOCC2)c1-c1cccnc1,10595057,SB-211743,UNC10225320A,4-pyridinyl_ortho-aryl_azoles
+CC(C)c1ccc(O)cc1Nc1ccnc2ccc(cc12)C(F)(F)F,44532297,GW482059,UNC10225322A,4-anilinoquinoline
+CC(C)Nc1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1,51356854,GSK2221681,UNC10225323A,3-Amino-6-aryl-indazole
+Fc1cccc(F)c1C(=O)Nc1cccc(c1)-c1nn2ccccc2c1-c1ccnc(Nc2cccc(c2)C(F)(F)F)n1,44528946,GSK292658,UNC10225325A,4-pyrimidinyl_ortho-aryl_azoles
+O=C(Nc1n[nH]c2cc(ccc12)-c1ccsc1)C1CC1,6539587,SB-732932,UNC10225326A,3-acylamino-6-aryl-indazole
+Cc1cccc(n1)-c1nc(Nc2ccncc2)c2ccccc2n1,10267580,GW855857,UNC10225327A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+Cn1cncc1C(=O)NC1CCN(C1)c1ccnc(Nc2ccc(F)cc2)n1,44525928,GSK1379717,UNC10225329A,2-anilino-4-pyrrolidinopyrimidine
+COC(=O)c1cccc(NC(=O)NC2CCN(C2)c2ccnc(Nc3ccc(OC)cc3)n2)c1,44525946,GSK1379746,UNC10225330A,2-anilino-4-pyrrolidinopyrimidine
+CC[C@@H]1CO[C@@H](CN1c1cc(nc(NC)n1)-c1ccc2c(N)n[nH]c2c1)C(=O)Nc1ccccc1,51354035,GSK2376236,UNC10225331A,3-Amino-6-aryl-indazole
+Fc1cccc(Cn2ccn3c2nc(cc3=O)N2CCOCC2)c1,57401867,GSK2297430,UNC10225332A,morpholino-imidazo-pyrimidinones
+COc1ccc(cc1)-c1nc2CCCn2c1-c1ccncc1,469038,SKF-104493,UNC10225334A,4-pyridinyl_ortho-aryl_azoles
+COc1ccc(cc1)-c1nc2CCCn2c1-c1ccncc1,469038,SKF-104493,UNC10225334B,4-pyridinyl_ortho-aryl_azoles
+COc1ccc(cc1)-c1nc2CCCn2c1-c1ccncc1,469038,SKF-104493,UNC10225334A,4-pyridinyl_ortho-aryl_azoles
+COc1ccc(cc1)-c1nc2CCCn2c1-c1ccncc1,469038,SKF-104493,UNC10225334B,4-pyridinyl_ortho-aryl_azoles
+COc1ccc(Nc2nccc(NCCNC(=O)Nc3ccccc3F)n2)cc1,44525973,GSK1379901,UNC10225335A,2-anilino-4-aminopyrimidine
+Clc1cc(Cl)cc(Nc2ccnc(Nc3cc(Cl)cc(Cl)c3)n2)c1,44527001,GSK175726,UNC10225336A,"2,4-dianilinopyrimidine"
+c1cc2c(ccnc2[nH]1)-c1ccccc1,22477600,SB-693578,UNC10225337A,4-aryl-7-azaindole
+OC(=O)c1cccc(NC2=C(C(=O)NC2=O)c2ccc(Cl)cc2)c1,6539496,SB-360737,UNC10225338A,3-anilino-4-aryl maleimide
+CC1=C(C(CC(=O)N1)c1ccc(cc1)C(F)(F)F)C(=O)Nc1cc2cn[nH]c2cc1F,11373846,GSK429286,UNC10225339A,5-acylamino-indazoles
+Nc1ncnc2n(c(nc12)-c1ccccc1)-c1ccccc1,44306199,SKF-97293,UNC10225340A,6-aminopurines and related
+CCS(=O)(=O)c1ccc(OC)c(Nc2nccc(n2)-c2c(nn3ncccc23)-c2cccc(NC(=O)c3c(F)cccc3F)c2)c1,44529112,GSK326180,UNC10225342A,4-pyrimidinyl_ortho-aryl_azoles
+Fc1ccc(Cn2ccn3c2nc(cc3=O)N2CCOCC2)cc1Cl,57396627,GSK2297099,UNC10225343A,morpholino-imidazo-pyrimidinones
+Nc1n[nH]c2cc(ccc12)-c1cc(nc(N)n1)N1CCCCC1,46214650,GSK2228768,UNC10225344A,3-Amino-6-aryl-indazole
+Cl.N(c1ccc2[nH]ccc2c1)c1ccnc2cc(ccc12)-c1ccccn1,44532202,GW440138,UNC10225345A,4-anilinoquinoline
+CSc1ccc(NC2=C(C(=O)NC2=O)c2ccccc2Cl)cc1,6539504,SB-342411,UNC10225346A,3-anilino-4-aryl maleimide
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2cccc(OC)c2)cc1,44525944,GSK1379742,UNC10225347A,2-anilino-4-pyrrolidinopyrimidine
+C[C@@H](Oc1cc(sc1C(N)=O)-n1cnc2ccc(cc12)-c1ccncc1)c1ccccc1Cl,49862644,GSK483724,UNC10225348A,benzimidazole_N-thiophenes
+Cl.CNC(=O)c1ccccc1Nc1nc(Nc2ccc(cc2)N2CCOCC2)ncc1Cl,44526800,GSK1576028,UNC10225349A,"2,4-dianilinopyrimidine"
+O=C(Nc1n[nH]c2cc(ccc12)-c1cccs1)C1CC1,6539586,SB-731284,UNC10225350A,3-amino-6-aryl-pyrazolopyridine
+Fc1cccc(F)c1NC(=O)c1cc(c[nH]1)C(=O)c1ccccc1F,49798353,GSK1326180,UNC10225351A,pyrrole-2-carboxamide
+OCCCNc1nccc(n1)-c1c(nn2cc(ccc12)C(F)(F)F)-c1cccc(c1)C(F)(F)F,11712734,GW630813,UNC10225352A,4-pyrimidinyl_ortho-aryl_azoles
+Cc1ccc(NC(=O)Nc2cc(nn2-c2ccccc2)C(C)(C)C)cc1,2409198,GSK1014915,UNC10225353A,diarylurea
+Cc1ccc(cc1)-n1nc(cc1NC(=O)Nc1ccc(OCCN2CCOCC2)c2ccccc12)C(C)(C)C,156422,GW839464,UNC10225354A,diarylurea
+Cc1ccccc1Cn1ccn2c1nc(cc2=O)N1CCOCC1,57398391,GSK2269905,UNC10225355A,morpholino-imidazo-pyrimidinones
+Cc1cc(nc(N)n1)-c1c(ncn1CCCN1CCOCC1)-c1ccc(F)cc1,44336137,SB-222517,UNC10225357A,4-pyrimidinyl_ortho-aryl_azoles
+Clc1ccc(cc1)-c1nn2ncccc2c1-c1ccnc(Nc2ccc3OCCOc3c2)n1,6539428,GW829116,UNC10225358A,4-pyrimidinyl_ortho-aryl_azoles
+Cc1ccc(NC(=O)Nc2ccc(Cl)c(c2)C(F)(F)F)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526072,GSK1398470,UNC10225359A,Biphenylamide
+Oc1ccc2ncnc(Nc3ccc(OCc4ccccc4)cc3)c2c1,5329481,GI262866,UNC10225360A,4-anilino-quinazoline and analogues
+CC(C)(C)c1ccc2nccc(Nc3cccc(O)c3)c2c1,44532978,GW856795,UNC10225361A,4-anilinoquinoline
+CC(C)(C)n1cnc2c(N)ncnc12,253268,SKF-97359,UNC10225362A,6-aminopurines and related
+COc1ccc(Nc2nccc(NCCNC(=O)c3cc4ccccc4s3)n2)cc1,44525971,GSK1379896,UNC10225363A,2-anilino-4-aminopyrimidine
+Cc1cc(NCC(c2ccccc2)c2ccccc2)nc(NCc2ccc(cc2)C(F)(F)F)n1,44532331,GW497681,UNC10225364A,"2,4-diaminopyrimidine"
+CC(C)(C)c1ccc(cc1)-n1cnc2c(N)ncnc12,44305551,SKF-97263,UNC10225367A,6-aminopurines and related
+Nc1ncc(-c2cccnc2)c2scc(-c3ccc4N(CCc4c3)C(=O)Cc3ccccc3)c12,53469824,GSK683281,UNC10225369A,4-amino-3-aryl-thienopyridine and analogues
+CCn1cnc2c(NCc3ccccc3)ncnc12,44305879,SKF-96418,UNC10225370A,6-aminopurines and related
+COc1cc2ncn(-c3cc(OCC4CCCO4)c(s3)C(N)=O)c2cc1OC,25190914,GSK204607,UNC10225372A,benzimidazole_N-thiophenes
+Oc1c(Cl)cc(NC2=C(C(=O)NC2=O)c2ccccc2)cc1Cl,6539481,SB-390530,UNC10225373A,3-anilino-4-aryl maleimide
+CNc1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1,51356853,GSK2224810,UNC10225374A,3-Amino-6-aryl-indazole
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2cccc(c2)C(C)=O)cc1,44525938,GSK1379731,UNC10225375A,2-anilino-4-pyrrolidinopyrimidine
+CN1CCN(CCCNc2nccc(n2)-c2c(nn3cc(ccc23)C(F)(F)F)-c2ccc(F)cc2)CC1,10186009,GW621581,UNC10225376A,4-pyrimidinyl_ortho-aryl_azoles
+Fc1ccc(cc1)-c1ncn(C2CCNCC2)c1-c1ccnc(Oc2ccc(cc2)-c2ccccc2)n1,15872399,SB-245391,UNC10225377A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.C(c1ccccc1)n1cnc2cc(Nc3ncnc4ccccc34)ccc12,67718922,GW272142,UNC10225378A,4-anilino-quinazoline and analogues
+NS(=O)(=O)c1cccc(c1)-c1ccc2nccc(-c3cccc(c3)S(N)(=O)=O)c2c1,44532997,GW867253,UNC10225379A,4-6-di-Ar-quinoline
+CNc1nccc(n1)-c1ccc2c(N)n[nH]c2c1,51356289,GSK2206003,UNC10225381A,3-Amino-6-aryl-indazole
+Fc1ccc(cc1)-c1ncn(CCCN2CCOCC2)c1-c1ccccn1,11793277,SB-211742,UNC10225382A,4-pyridinyl_ortho-aryl_azoles
+Clc1cc2c(NC(=O)C3CC3)n[nH]c2nc1-c1ccccc1,6539579,SB-734909,UNC10225384A,3-amino-6-aryl-pyrazolopyridine
+COc1cc2ncn(-c3cc(OCc4ccncc4Br)c(s3)C(N)=O)c2cc1OC,10028480,GW854278,UNC10225386A,benzimidazole_N-thiophenes
+Cl.C[C@H](N[C@@H]1CCc2cc(ccc2C1)-c1cnc(N)c(C)c1)c1ccccc1,44532118,GW412617,UNC10225387B,2-amino-5-arylpyridine
+Cc1ccc(NC(=O)Nc2ccc(Cl)cc2)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526074,GSK1398472,UNC10225388A,Biphenylamide
+CCCCCc1nc2c(N)ncnc2n1CCCCC,44305647,SKF-97255,UNC10225389A,6-aminopurines and related
+Cl.CC(=O)Nc1ccc(COc2ccc(Nc3ccnc4cc(ccc34)-c3ccccn3)cc2)cc1,44532212,GW440148,UNC10225390A,4-anilinoquinoline
+COc1ccc(CNC(=O)NC2CCN(C2)c2ccnc(Nc3cc(OC)c(OC)c(OC)c3)n2)cc1,44525947,GSK1379748,UNC10225391A,2-anilino-4-pyrrolidinopyrimidine
+Oc1cccc(c1)-c1ccc2c(NC(=O)C3CC3)n[nH]c2n1,6539569,SB-711805,UNC10225392A,3-amino-6-aryl-pyrazolopyridine
+OC(=O)C(F)(F)F.OC(=O)C(F)(F)F.CCn1c(nc2c(ncc(OCCCCN)c12)C#CC(C)(C)O)-c1nonc1N,25108028,GSK507274,UNC10225393A,aminofurazan
+CCn1c(nc2cncc(Br)c12)-c1nonc1N,44397192,SB-738004,UNC10225396A,aminofurazan
+COc1cc(Nc2nccc(n2)N2CCC(C2)NC(=O)c2cccc(NC(C)=O)c2)cc(OC)c1OC,44525950,GSK1379754,UNC10225397A,2-anilino-4-pyrrolidinopyrimidine
+Cc1ccc(NC(=O)Nc2ccccc2F)cc1-c1ccc(cc1)C(=O)Nc1ccncc1,44526078,GSK1398477,UNC10225398A,Biphenylamide
+Cl.N#CCc1ccc(Nc2nccc(Nc3ccc(Oc4ccccc4)cc3)n2)cc1,44532649,GW639905,UNC10225399A,"2,4-dianilinopyrimidine"
+NS(=O)(=O)c1cccc(c1)-c1ccc2ncc(nc2c1)N1CCOCC1,44526685,GSK1535721,UNC10225400A,3-amino-6-aryl-quinoxaline
+OC(=O)c1cccc(NC2=C(C(=O)NC2=O)c2ccccc2Cl)c1,6539492,SB-390526,UNC10225401A,3-anilino-4-aryl maleimide
+Cl.COc1ccc(C)c(Nc2ccnc(Nc3ccc(cc3)-c3cnc[nH]3)n2)c1,44532773,GW784041,UNC10225402A,"2,4-dianilinopyrimidine"
+C[C@@H]1CN(CCO1)c1cc(=O)n2nc(C)n(Cc3cccc(c3C)C(F)(F)F)c2n1,134158101,GSK2373690,UNC10225403A,morpholino-triazolo-pyrimidinones
+Cc1nnc(o1)-c1ccc(C)c(c1)-c1ccc(cc1)C(=O)NCC1CC1,21078798,GW679662,UNC10225404A,Biphenylamide
+Nc1n[nH]c2cc(ccc12)-c1ccnc(N)n1,46215814,GSK1034945,UNC10225405A,3-Amino-6-aryl-indazole
+CN1C(=O)C(Nc2ccc(Cl)c(c2)C(O)=O)=C(C1=O)c1ccc(Cl)cc1,6539524,SB-404290,UNC10225406A,3-anilino-4-aryl maleimide
+CCn1c(nc2cnccc12)-c1ccccc1,44397011,SB-733416,UNC10225407A,Imidazolopyridine
+Nc1ncnc2n(cnc12)-c1cccc2ccccc12,44305594,SKF-97184,UNC10225410A,6-aminopurines and related
+Nc1n[nH]c2cnc(cc12)-c1ccccc1,6539529,SB-642124,UNC10225411A,3-amino-5-aryl-pyrazolopyridine
+COc1ccc(cc1)-n1cnc2c(N)ncnc12,12081456,SKF-97236,UNC10225413A,6-aminopurines and related
+CC(C)Oc1ccc2c(cnn2n1)-c1ccnc(Nc2ccc(cc2)N2CCN(C)CC2)n1,10310395,GW696155,UNC10225414A,4-pyrimidinyl-azoles
+Cc1cn2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(Cl)c1Cl,57345685,GSK2334006,UNC10225415A,morpholino-imidazo-pyrimidinones
+C[C@@H](Oc1cc(sc1C(N)=O)-n1cnc2cc(ccc12)-c1cnn(C)c1)c1ccccc1Cl,49862783,GSK580432,UNC10225416A,benzimidazole_N-thiophenes
+CSc1nn2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(c1C)C(F)(F)F,70685442,GSK2363608,UNC10225417A,morpholino-triazolo-pyrimidinones
+CSc1nn2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(c1C)C(F)(F)F,70685442,GSK2363608,UNC10243881A,morpholino-triazolo-pyrimidinones
+Fc1ccc(cc1)-c1nc[nH]c1-c1ccncc1,667570,SB-217360,UNC10225418A,4-pyridinyl_ortho-aryl_azoles
+O=C(Nc1n[nH]c2cc(ccc12)-c1ccco1)C1CC1,6539609,SB-737447,UNC10225419A,3-acylamino-6-aryl-indazole
+O=C(N1CCOCC1)c1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,10158539,GW812171,UNC10225421A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Cl.Fc1ccccc1COc1ccc(Nc2ncnc3ccc(cc23)-c2nnc(o2)C(F)(F)F)cc1Cl,44532152,GW424170,UNC10225422A,4-anilino-quinazoline and analogues
+COc1ccc(Nc2nccc(n2)N2CCC(C2)NC(=O)Nc2cc(C)ccc2C)cc1,44525943,GSK1379741,UNC10225424A,2-anilino-4-pyrrolidinopyrimidine
+FC(F)(F)c1ccc(cc1)-c1ncn(CCCN2CCOCC2)c1-c1ccncc1,10621826,SB-217780,UNC10225425A,4-pyridinyl_ortho-aryl_azoles
+CS(=O)(=O)Nc1ccc(cc1)-c1ccnc2[nH]ccc12,44591552,GSK993273,UNC10225427A,4-aryl-7-azaindole
+CN(C)Cc1ccc(o1)-c1ccc2c(Nc3ccc(Oc4ccccn4)cc3)ccnc2c1,44532480,GW567148,UNC10225428A,4-anilinoquinoline
+Nc1nc(-c2nccs2)c(s1)-c1ccnc2ccccc12,11197671,GW693542,UNC10225429A,4-pyridinyl_ortho-aryl_azoles
+COc1ccc(cc1)-c1oc2ncnc(N)c2c1-c1ccc(OC)cc1,838889,SB-589132,UNC10225431A,4-amino-3-aryl-thienopyridine and analogues
+Cl.Cc1ccc(cc1)C(=O)Nc1ccc(Nc2ccnc3cc(ccc23)-c2nccs2)cc1O,135925145,GW494702,UNC10225432A,4-anilinoquinoline
+COc1cc(Nc2nccc(n2)-c2c(nn3ncccc23)-c2cccc(NC(=O)c3c(F)cccc3F)c2)cc(OC)c1OC,44529114,GSK327238,UNC10225433A,4-pyrimidinyl_ortho-aryl_azoles
+CSc1nn2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(Cl)c1Cl,70691776,GSK2347225,UNC10225435A,morpholino-triazolo-pyrimidinones
+CSc1cccc2c(c(nn12)-c1ccc(F)cc1)-c1ccncn1,9945696,GW514786,UNC10225437A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.CN(c1ccc2n(C)c(NCc3ccccc3)nc2c1)c1ccnc(Nc2ccc(CS(C)(=O)=O)cc2)n1,44532827,GW811603,UNC10225438A,"2,4-dianilinopyrimidine"
+O=c1cc(nc2n(Cc3cccc4ccccc34)ccn12)N1CCOCC1,57396625,GSK2333389,UNC10225439A,morpholino-imidazo-pyrimidinones
+Cl.Fc1cccc(F)c1C(=O)Nc1cccc(c1)-c1nn2ncccc2c1-c1ccnc(Nc2cccnc2)n1,44529067,GSK312879,UNC10225440A,4-pyrimidinyl_ortho-aryl_azoles
+Oc1cc(Nc2ccnc3cc(I)ccc23)ccc1F,44532433,GW552771,UNC10225441A,4-anilinoquinoline
+CN1CCC(CC1)n1cnc(c1-c1ccnc(NC2CCNCC2)n1)-c1ccc(F)cc1,15838857,SB-229482,UNC10225443A,4-pyrimidinyl_ortho-aryl_azoles
+O[C@H]([C@@H](O)C(O)=O)C(O)=O.Brc1cc2c(NC(=O)c3ccc(CN4CCCC4)cc3)n[nH]c2nc1-c1ccco1,44536188,SB-742352,UNC10225444A,3-amino-6-aryl-pyrazolopyridine
+COc1ccc(NC(=O)Nc2ccc(C)c(c2)-c2ccc(cc2)C(=O)Nc2ccncc2)cc1,44526077,GSK1398475,UNC10225445A,Biphenylamide
+COc1cccc(c1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11558948,GW680338,UNC10225448A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Cl.COc1cc2ncnc(Nc3cccc(Br)c3)c2cc1OC,11246488,GI230329,UNC10225449A,4-anilino-quinazoline and analogues
+COc1cc2ncn(-c3cc(OCCCc4ccccc4)c(s3)C(N)=O)c2cc1OC,25263100,GSK205189,UNC10225450A,benzimidazole_N-thiophenes
+OC(=O)C(F)(F)F.O=c1[nH]ccc2nc(N[C@@H]3CCNC3)nc(Nc3ccc4CCS(=O)(=O)c4c3)c12,44528314,GSK2181306,UNC10225451A,fused carboxamide pyrimidine
+CN(C)CCNS(=O)(=O)c1ccc(cc1)-c1ccnc2[nH]ccc12,23648887,GSK977620,UNC10225452A,4-aryl-7-azaindole
+CCCCc1nn2ncccc2c1-c1ccnc(Nc2ccc(cc2)N2CCN(C)CC2)n1,10151417,GW684941,UNC10225453A,4-pyrimidinyl-azoles
+COc1cccc(c1)-n1cnc2c(N)ncnc12,44305908,SKF-97416,UNC10225454A,6-aminopurines and related
+Brc1cc2c(NC(=O)C3CC3)n[nH]c2nc1-c1cccs1,6539588,SB-735297,UNC10225455A,3-amino-6-aryl-pyrazolopyridine
+COc1cccc(c1)C1=C(Nc2cccc(O)c2)C(=O)NC1=O,6539470,SB-390771,UNC10225456A,3-anilino-4-aryl maleimide
+CN(C)S(=O)(=O)c1cc(cnc1N)-c1ccc2nccc(-c3cccc(c3)S(N)(=O)=O)c2c1,44526922,GSK1669921,UNC10225457A,4-6-di-Ar-quinoline
+Cc1n[nH]c2cc(Nc3ccnc(Nc4cccc(CN5CCOCC5)c4)n3)ccc12,44532712,GW682569,UNC10225458A,"2,4-dianilinopyrimidine"
+CCN(CC)CCOc1ccc(Nc2ncc3cc(-c4c(Cl)cccc4Cl)c(=O)n(C)c3n2)cc1,5311382,SB-601273,UNC10225459A,pyridopyrimidinone
+O=S(=O)(N1CCCC1)c1ccc(cc1)-c1ccnc2[nH]ccc12,23648920,GSK846226,UNC10225462A,4-aryl-7-azaindole
+Clc1ccc(cc1)C1=C(Nc2cccc(Cl)c2)C(=O)NC1=O,6539463,SB-317651,UNC10225464A,3-anilino-4-aryl maleimide
+Cl.Oc1cccc(Nc2ccnc3cc(ccc23)-c2ccncc2)c1,44532314,GW494601,UNC10225467A,4-anilinoquinoline
+Nc1n[nH]c2ncc(cc12)-c1ccccc1,6539528,SB-517081,UNC10225468A,3-amino-5-aryl-pyrazolopyridine
+CN(C1CCOCC1)C(=O)c1ccc(cc1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11633551,GW810083,UNC10225473A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+CCn1c(nc2cnccc12)-c1ccoc1,44397230,SB-733887,UNC10225474A,Imidazolopyridine
+COc1ccc(NC(=O)c2ccc(cc2)-c2cc(ccc2C)-c2nnc(C)o2)cc1,10135552,GW595885,UNC10225475A,Biphenylamide
+Cc1cccc(n1)-c1nc(Nc2ccc3ncsc3c2)c2ccccc2n1,45271244,GW867588,UNC10225477A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+Cn1cc(-c2ccc3N(CCc3c2)C(=O)Cc2cc(F)cc(c2)C(F)(F)F)c2c(N)ncnc12,66561167,GSK2635225,UNC10225478A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+Cc1ccc(O)cc1Nc1ccnc2ccc(cc12)C(C)(C)C,44532979,GW856805,UNC10225479A,4-anilinoquinoline
+Cc1cccc(n1)-c1nc(Nc2ccc3n(C)ncc3c2)c2ccccc2n1,45271243,GW876731,UNC10225480A,2-aryl-4-anilino(pyridin-4-yl)-quinazoline and analogues
+CC(C)c1nc(c(s1)-c1ccnc(Nc2ccc(nc2)N2CCN(CC2)C(C)=O)n1)-c1cccc(NS(=O)(=O)c2cccc(Cl)c2)c1,56683489,GSK1660437,UNC10225481A,4-pyrimidinyl_ortho-aryl_azoles
+Cl.COc1cc2nccc(Nc3ccc(Oc4ccccc4)cc3)c2cc1OC,44523342,GI261656,UNC10225483A,4-anilinoquinoline
+CN1CCN(Cc2cccc(c2)-c2ccc3c(Nc4ccc(Oc5ccccc5)cc4)ccnc3c2)CC1,44532531,GW578342,UNC10225484A,4-anilinoquinoline
+CSc1ccc(cc1)-c1nc2CCCn2c1-c1ccncc1,129723,SKF-105561,UNC10225486A,4-pyridinyl_ortho-aryl_azoles
+Cl.C(c1ccccc1)n1ccc2cc(Nc3ncnc4ccccc34)ccc12,67636397,GW275568,UNC10225488A,4-anilino-quinazoline and analogues
+C[C@@H]1CC[C@@H](CN1c1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1)C(=O)NC1CCCCC1,51357954,GSK2291363,UNC10225489A,3-Amino-6-aryl-indazole
+Cc1ccc(CC(=O)N2CCc3cc(ccc23)-c2cn(C)c3ncnc(N)c23)cc1,66561013,GSK2634758,UNC10225490A,7-alkyl-5-aryl-4-aminopyrrolopyrimidine
+Cc1ccccc1COc1cc(sc1C(N)=O)-n1cnc2cc(Cl)ccc12,25263085,GW813349,UNC10225491A,benzimidazole_N-thiophenes
+Fc1ccc(Nc2nccc(NCCNC(=O)Nc3ccc4OCOc4c3)n2)cc1,44525969,GSK1379882,UNC10225492A,2-anilino-4-aminopyrimidine
+Nc1nccc2scc(-c3ccc4N(CCc4c3)C(=O)Cc3cc(F)ccc3F)c12,53467617,GSK2587663,UNC10225494A,4-amino-3-aryl-thienopyridine and analogues
+COc1cc2ncn(-c3cc(OCC4CCCCC4)c(s3)C(N)=O)c2cc1OC,25263102,GSK204559,UNC10225496A,benzimidazole_N-thiophenes
+Cn1cncc1-c1ccc2ncnc(Nc3ccc(OCc4ccccc4)cc3)c2c1,22609863,GW320571,UNC10225497A,4-anilino-quinazoline and analogues
+Cl.COc1ccc(Nc2ncc(C#N)c(Nc3ccccc3C(N)=O)n2)cc1N1CCN(C)CC1,44526758,GSK1558669,UNC10225498A,"2,4-dianilinopyrimidine"
+Cc1cccc(c1)-c1cc(ccn1)-c1c[nH]nc1-c1ccccn1,11716589,GW679395,UNC10225499A,4-pyridinyl (with 2 aryl) _ortho-aryl_azoles
+Nc1ncc(-c2cn[nH]c2)c2scc(-c3ccc4N(CCc4c3)C(=O)Cc3ccccc3)c12,53469634,GSK2593067,UNC10225500A,4-amino-3-aryl-thienopyridine and analogues
+Cc1nnc(o1)-c1ccc(C)c(c1)-c1ccc(cc1)C(O)=O,11220119,GW608005,UNC10225501A,Biphenylamide
+Clc1cccc(Cl)c1C(=O)c1c[nH]c(c1)C(=O)NCc1cccs1,1491157,GW823670,UNC10225502A,pyrrole-2-carboxamide
+Cl.COc1cc2ncnc(Nc3ccc4nc([nH]c4c3)-c3ccccc3)c2cc1OC,44530989,GW282450,UNC10225504A,4-anilino-quinazoline and analogues
+CN(C)c1ncnc2nc[nH]c12,3134,SKF-31736,UNC10243858A,6-aminopurines and related
+C[C@@H]1CC[C@H](CN1c1cc(nc(N)n1)-c1ccc2c(N)n[nH]c2c1)C(=O)Nc1ccccc1,51357696,GSK2286062,UNC10243859A,3-Amino-6-aryl-indazole
+Cc1c(Cn2ccn3c2nc(cc3=O)N2CCOCC2)cccc1C(F)(F)F,57391365,GSK2289044,UNC10243861A,morpholino-imidazo-pyrimidinones
+CNc1ncnc2[nH]ncc12,221158,SKF-18355,UNC10243862A,6-aminopurines and related
+Nc1ncnc2[nH]c(nc12)-c1ccccc1,309461,AH5015,UNC10243863A,6-aminopurines and related
+CSc1nn2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(c1C)C(F)(F)F,70685442,GSK2363608,UNC10225417A,morpholino-triazolo-pyrimidinones
+CSc1nn2c(nc(cc2=O)N2CCOCC2)n1Cc1cccc(c1C)C(F)(F)F,70685442,GSK2363608,UNC10243881A,morpholino-triazolo-pyrimidinones
+CCn1c(nc2c(nc(OC[C@H](N)c3ccccc3)cc12)C#CC(C)(C)O)-c1nonc1N,11959683,GSK943949,UNC10244034A,Furazan_benzimidazoles

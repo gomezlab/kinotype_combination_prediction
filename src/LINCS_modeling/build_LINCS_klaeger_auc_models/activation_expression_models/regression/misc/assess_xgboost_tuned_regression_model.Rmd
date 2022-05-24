@@ -1,0 +1,54 @@
+---
+title: "Assess PRISM ic50 - klaeger - LINCS regression models"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(patchwork)
+library(ROCR)
+
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+#analyse tuned regression model results
+xgboost_tuned_model = read_rds(here('results/1500_feat_tuned_regression_model_results.rds'))
+
+cv_metrics_regression_1500 = collect_metrics(xgboost_tuned_model)
+
+predictions_regression_1500 = collect_predictions(xgboost_tuned_model) %>% 
+rename('predicted_ic50' = .pred)
+
+predictions_regression_1500 %>% 
+	ggplot(aes(x = ic50, y = predicted_ic50)) +
+	geom_hex() +
+	scale_fill_gradient(low="lightblue1",high="darkblue") +
+	geom_smooth() +
+	labs(title = paste0('Correlation = ', 
+											round(
+												cor(predictions_regression_1500$ic50, 
+														predictions_regression_1500$predicted_ic50),
+												4),
+											', R-Squared = ', round(
+												cv_metrics_regression_1500$mean[2],
+												4),
+											', RMSE = ', round(cv_metrics_regression_1500$mean[1],
+																				 4)),
+			 x = "log10_ic50",
+			 y = "predicted log10ic50") +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'red') 
+	# xlim(c(-1.5,1.5)) +
+	# ylim(c(-1.5,1.5))
+
+ggsave(here('figures/1500_feat_xgboost_tuned_regression_model_results.png'))
+```
+
+```{r}
+
+```
+

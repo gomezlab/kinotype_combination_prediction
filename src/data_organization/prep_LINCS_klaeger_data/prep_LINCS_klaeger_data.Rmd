@@ -1,0 +1,128 @@
+---
+title: "(try) to Combine LINCS and klaeger"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#read in data
+
+LINCS_percent_matrix = read_csv(here('results/full_LINCS_UNC_1uM_data_imputed.csv'))
+
+klaeger_tidy = read_rds(here('data/klaeger_full_tidy.rds'))
+
+matched_kinases = read_csv(here('results/LINCS_klaeger_kinase_matches.csv'))
+
+drug_matches = read_csv(here('results/LINCS_klaeger_drug_matches.csv'))
+
+```
+
+```{r}
+klaeger_tidy_1uM = klaeger_tidy %>% 
+	filter(concentration_M == 0.000001)
+
+LINCS_long = LINCS_percent_matrix %>% 
+	pivot_longer(c(-Small.Molecule.Name, -Dose), names_to = 'kinase', values_to = 'percent_control')
+```
+
+
+```{r}
+#create matched dataset 
+matched_drug_data = LINCS_long %>% 
+	filter(kinase %in% matched_kinases$LINCS_name) %>%
+	left_join(matched_kinases, by = c('kinase' = 'LINCS_name')) %>%
+	rename('klaeger_kinase' = klaeger_name, 'LINCS_kinase' = kinase) %>% 
+	filter(Small.Molecule.Name %in% drug_matches$LINCS_name) %>% 
+	left_join(select(drug_matches, -cid), by = c('Small.Molecule.Name' = 'LINCS_name')) %>% 
+	left_join(klaeger_tidy_1uM, by = c('klaeger_name' = 'drug', 'klaeger_kinase' = 'gene_name' )) %>% 
+	select(klaeger_name, Small.Molecule.Name, klaeger_kinase, LINCS_kinase, percent_control, relative_intensity) %>% 
+	rename('LINCS_relative_intensity' = percent_control, 
+				 'klaeger_relative_intensity' = relative_intensity,
+				 'LINCS_name' = Small.Molecule.Name) %>%
+	mutate(LINCS_relative_intensity = LINCS_relative_intensity/100)
+
+#plot correlation of matches
+matched_drug_data %>%
+	ggplot(aes(x = LINCS_relative_intensity, y = klaeger_relative_intensity)) +
+	geom_hex() +
+	scale_fill_gradient(low="lightblue1",high="darkblue") +
+	geom_smooth() +
+	labs(title = paste0('Correlation = ', cor(matched_drug_data$LINCS_relative_intensity, matched_drug_data$klaeger_relative_intensity))) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'red')
+
+ggsave(here('figures/klaeger_LINCS_correlation.png'))
+
+#create infividual unmatched datasets 
+unmatched_LINCS_data = LINCS_long %>% 
+	filter(!(Small.Molecule.Name %in% matched_drug_data$LINCS_name & kinase %in% matched_drug_data$LINCS_kinase)) %>% 
+	rename('LINCS_name' = Small.Molecule.Name,
+				 'LINCS_kinase' = kinase,
+				'LINCS_relative_intensity' = percent_control) %>% 
+	mutate(LINCS_relative_intensity = LINCS_relative_intensity/100) %>% 
+	select(-Dose)
+
+unmatched_klaeger_data = klaeger_tidy_1uM %>% 
+	filter(!(drug %in% matched_drug_data$klaeger_name & gene_name %in% matched_drug_data$klaeger_kinase)) %>% 
+	rename('klaeger_name' = drug,
+				 'klaeger_kinase' = gene_name,
+				 'klaeger_relative_intensity' = relative_intensity) %>% 
+	select(-concentration_M)
+
+
+```
+
+```{r}
+#combine both matched and unmatched datasets 
+
+# Kinomescan is (in my opinion), a more sensitive and individualized assay than the klaeger kinobeads. For example, by looking at the orrelation figure, we can see that more often than not, kinobeads calls "no interaction" on a drug-kinase pair often, while Kinomescan reports inhibition values. While it is possible that this is an artifact of the assay, it is my assumption and belief here that Kinomescan values take precedence over klaeger in cases where kinomescan returns a "hit" when klaeger does not. 
+#However, in the few cases that klaeger calls a "hit" over kinomescan, I have kept the klaeger values in the interest of keeping as many "hits" as possible in the dataset.
+
+all_klaeger_LINCS_data = matched_drug_data %>% 
+	bind_rows(unmatched_klaeger_data) %>% 
+	bind_rows(unmatched_LINCS_data) %>%
+	mutate(lowest_relative_intensity = case_when(
+		 (LINCS_relative_intensity < klaeger_relative_intensity) ~ LINCS_relative_intensity,
+		 (LINCS_relative_intensity > klaeger_relative_intensity) ~ klaeger_relative_intensity,
+		T ~ LINCS_relative_intensity
+	)) %>%  
+	mutate(relative_intensity = case_when(
+		!is.na(lowest_relative_intensity) ~ lowest_relative_intensity,
+		(is.na(lowest_relative_intensity) & is.na(LINCS_relative_intensity)) ~ klaeger_relative_intensity,
+		(is.na(lowest_relative_intensity) & is.na(klaeger_relative_intensity)) ~ LINCS_relative_intensity
+	)) 
+
+write_csv(all_klaeger_LINCS_data, here('results/all_klaeger_LINCS_data.csv'))
+
+all_klaeger_LINCS_data_for_ml = all_klaeger_LINCS_data %>% 
+	mutate(
+		drug = case_when(
+		is.na(klaeger_name) ~ LINCS_name,
+		is.na(LINCS_name) ~ klaeger_name,
+		T ~ klaeger_name
+	),
+		kinase = case_when(
+		is.na(klaeger_kinase) ~ LINCS_kinase,
+		is.na(LINCS_kinase) ~ klaeger_kinase,
+		T ~ LINCS_kinase
+	)) %>% 
+	group_by(drug, kinase) %>% 
+	summarise(relative_intensity = min(relative_intensity)) %>% 
+	mutate(binary_hit = if_else(
+		relative_intensity < 0.8,
+		1,
+		0
+	)) %>% 
+	select(drug, kinase, relative_intensity, binary_hit)
+
+write_csv(all_klaeger_LINCS_data_for_ml, here('results/all_klaeger_LINCS_data_for_ml_long.csv'))
+
+all_klaeger_LINCS_data_for_ml %>% 
+	ggplot(aes(x = relative_intensity)) + 
+	geom_histogram()
+
+```

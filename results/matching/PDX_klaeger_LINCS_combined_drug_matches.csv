@@ -1,0 +1,15 @@
+drug_name,cid,origin,novartis_name
+BGJ398,53235510,LINCS,BGJ398
+Buparlisib,16654980,LINCS,BKM120
+Alpelisib,56649450,LINCS,BYL719
+Ceritinib,57379345,LINCS,LDK378
+Ribociclib,44631912,LINCS,LEE011
+Binimetinib,10288191,klaeger,binimetinib
+BYL-719,56649450,klaeger,BYL719
+Capmatinib,25145656,klaeger,INC280
+Ceritinib,57379345,klaeger,LDK378
+Encorafenib,50922675,klaeger,encorafenib
+Erlotinib,176870,klaeger,erlotinib
+Ribociclib,44631912,klaeger,LEE011
+Ruxolitinib,25126798,klaeger,INC424
+Trametinib,11707110,klaeger,trametinib

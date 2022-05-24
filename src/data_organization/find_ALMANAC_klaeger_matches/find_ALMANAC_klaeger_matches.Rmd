@@ -1,0 +1,128 @@
+---
+title: "Find ALMANAC-Klaeger Drug Matches"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(readxl)
+library(webchem)
+```
+
+```{r}
+#READING IN DATA
+klaeger_cids = read_csv(here('results/matching/klaeger_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+
+ALMANAC_druglist = read_tsv(here('data/ALMANAC/ComboCompoundNames.txt'), col_names = FALSE)
+```
+
+```{r}
+#DATA PROCESSING
+ALMANAC_matchlist = ALMANAC_druglist %>% 
+	rename("ALMANAC_name" = X2, 'NSC' = X1) %>% 
+	mutate(NSC = paste0("NSC-", NSC))
+```
+
+```{r}
+#CREATING MATCH SETS
+
+ALMANAC_cid = get_cid(unique(ALMANAC_matchlist$NSC), from = "name", domain = "compound", match = "all", verbose = T)
+
+ALMANAC_missing = ALMANAC_cid %>% 
+	rename(NSC = query) %>% 
+	filter(is.na(cid)) %>% 
+	left_join(ALMANAC_matchlist)
+
+ALMANAC_missing_cids = get_cid(unique(ALMANAC_missing$ALMANAC_name), from = "name", domain = "compound", match = "all", verbose = T) 
+
+ALMANAC_full_cids = ALMANAC_cid %>% 
+	rename(NSC = query) %>% 
+	left_join(ALMANAC_matchlist) %>% 
+	bind_rows(ALMANAC_missing_cids %>% 
+							rename(ALMANAC_name = query) %>% 
+							left_join(ALMANAC_matchlist)) %>% 
+	filter(!is.na(cid)) %>% 
+	write_csv(here('results/matching/ALMANAC_all_cids.csv'))
+	
+matches = klaeger_cids %>% 
+	left_join(ALMANAC_full_cids, by = 'cid') %>% 
+	filter(!is.na(ALMANAC_name))
+
+klaeger_no_matches = klaeger_cids %>%
+	filter(!cid %in% matches$cid)
+
+ALMANAC_no_matches = ALMANAC_cids_full %>%
+	filter(!cid %in% matches$cid)
+```
+
+```{r}
+#including manual matches
+manual_matches = data.frame(
+	klaeger_name = c("Pazopanib", "Erlotinib"),
+	ALMANAC_name = c("Pazopanib hydrochloride", "Erlotinib hydrochloride")
+) %>% 
+	left_join(klaeger_cids) %>% 
+	left_join(ALMANAC_matchlist)
+
+full_matches = manual_matches %>% 
+	bind_rows(matches)
+
+klaeger_no_matches = klaeger_cids %>%
+	filter(!cid %in% full_matches$cid)
+
+ALMANAC_no_matches = ALMANAC_cids_full %>%
+	filter(!cid %in% full_matches$cid)
+```
+
+
+```{r}
+#Write Output Files
+write_csv(full_matches, here('results/matching/ALMANAC_Klaeger_matches.csv'))
+```
+
+```{r}
+#ALMANAC ids in klaeger
+# matched_ids = c(757441, 756645, 732517, 718781, 715055, 743414, 745750, 747599, 737754, 763371, 747971, 750690, 760766, 761431, 753082) 
+# 
+# matched_drugs = c('Axitinib', 'Crizotinib', 'Dasatinib', 'Erlotinib hydrochloride', 'Gefitinib', 'Imatinib mesylate', 'Lapatinib ditosylate', 'Nilotinib', 'Pazopanib hydrochloride', 'Ruxolitinib', 'Sorafenib tosylate', 'Sunitinib (free base)', 'Vandetanib', 'vemurafenib', 'vemurafenib')
+# 
+# klaeger_name = c('Axitinib', 'Crizotinib', 'Dasatinib', 'Erlotinib', 'Gefitinib', 'Imatinib', 'Lapatinib', 'Nilotinib', 'Pazopanib', 'Ruxolitinib', 'Sorafenib', 'Sunitinib', 'Vandetanib', 'Vemurafenib', 'Vemurafenib')
+# 
+# ALMANAC_matches = bind_cols(as.data.frame(matched_ids), as.data.frame(matched_drugs), as.data.frame(klaeger_name)) %>% 
+# 	rename('ALMANAC_name' = matched_drugs, 
+# 				 'ALMANAC_id' = matched_ids)
+# 
+# write_csv(ALMANAC_matches, here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_klaeger_matchlist.csv'))
+```
+
+```{r}
+# ALMANAC_unmatched = ALMANAC_matchlist %>% 
+# 	filter(!ALMANAC_name %in% ALMANAC_matches$ALMANAC_name)
+# 
+# klaeger_unmatched = klaeger %>% 
+# 	select(drug) %>% 
+# 	unique() %>% 
+# 	filter(!drug %in% ALMANAC_matches$klaeger_name)
+# 
+# klaeger_cid = read_csv(here('results/klaeger_cids.csv')) %>% 
+# 	mutate(cid = as.character(cid))
+# 
+# ALMANAC_cid = get_cid(unique(ALMANAC_unmatched$ALMANAC_name), from = "name", domain = "compound", match = "all", verbose = TRUE) %>% 
+# 	rename("ALMANAC_name" = query)
+# 	
+# second_try_matches = klaeger_cid %>% 
+# 	left_join(ALMANAC_cid, by = 'cid') %>% 
+# 	filter(!is.na(ALMANAC_name))
+# 
+# klaeger_no_matches = klaeger_cid %>%
+# 	filter(!cid %in% second_try_matches$cid)
+# 
+# ALMANAC_no_matches = ALMANAC_cid %>%
+# 	filter(!cid %in% second_try_matches$cid)
+
+```
+

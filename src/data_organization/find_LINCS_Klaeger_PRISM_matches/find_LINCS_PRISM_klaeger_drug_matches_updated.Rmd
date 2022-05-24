@@ -1,0 +1,72 @@
+---
+title: "find LINCS klaeger PRISM compound matches"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#read in data
+PRISM = read_csv(here('data/PRISM/secondary/secondary-screen-replicate-treatment-info.csv'))
+
+PRISM_match_set = PRISM %>%
+	select(broad_id, name) %>%
+	mutate(name = trimws(name)) %>%
+	unique() %>%
+	filter(!is.na(name))
+
+PRISM_cids = read_csv(here('results/matching/all_PRISM_cids.csv')) %>% 
+	mutate(cid = as.character(cid)) %>% 
+	rename('PRISM_name' = name)
+
+LINCS_PRISM_manual_matchlist = read_csv(here('results/matching/LINCS_PRISM_match_list_percent_updated.csv')) %>% 
+	select(LINCS_name, PRISM_name, broad_id)
+
+klaeger_PRISM_manual_matchlist = read_csv(here('results/matching/klaeger_PRISM_match_list_updated_v2.csv')) %>% 
+	select(klaeger_name, PRISM_name, broad_id)
+
+LINCS_cids = read_csv(here('results/all_LINCS_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+
+klaeger_cids = read_csv(here('results/klaeger_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+
+klaeger_LINCS_combined_match_list = LINCS_cids %>% 
+	mutate(origin = "LINCS") %>% 
+	rename("drug_name" = LINCS_name) %>% 
+	bind_rows(
+		klaeger_cids %>% 
+			mutate(origin = "klaeger") %>% 
+			rename("drug_name" = klaeger_name)
+	)
+
+write_csv(klaeger_LINCS_combined_match_list, here('results/klaeger_LINCS_combined_cid_match_list.csv'))
+
+# LINCS_PRISM_manual_matchlist = read_csv(here('results/LINCS_PRISM_match_list_percent_updated.csv')) %>% 
+# 	select(LINCS_name, PRISM_name, broad_id)
+# 
+# klaeger_PRISM_manual_matchlist = read_csv(here('results/klaeger_PRISM_match_list_updated_v2.csv')) %>% 
+# 	select(klaeger_name, PRISM_name, broad_id)
+```
+
+```{r}
+#compound matching
+	
+matches = klaeger_LINCS_combined_match_list %>% 
+	left_join(PRISM_cids, by = 'cid') %>% 
+	filter(!is.na(prism_name))
+
+klaeger_LINCS_no_matches = klaeger_LINCS_combined_match_list %>%
+	filter(!cid %in% matches$cid)
+
+novartis_no_matches = novartis_cids %>%
+	filter(!cid %in% matches$cid)
+
+write_csv(matches, here('results/PDX_klaeger_LINCS_combined_drug_matches.csv'))
+```
+
+

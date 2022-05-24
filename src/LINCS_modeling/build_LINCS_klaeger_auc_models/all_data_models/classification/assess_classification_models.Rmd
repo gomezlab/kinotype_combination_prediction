@@ -1,0 +1,60 @@
+---
+	title: "Assess Classification Models"
+author: "Matthew Berginski"
+date: "`r Sys.Date()`"
+output: github_document
+---
+	
+```{r}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(ROCR)
+library(patchwork)
+library(tictoc)
+library(broom)
+library(gghighlight)
+library(Metrics)
+```
+
+# Rand Forest and XGBoost Model Assessment
+
+```{r}
+tic()
+
+all_rf_metrics = data.frame()
+for (feature_number in c(100,200,300,400,500,1000,1500,2000,3000,4000,5000)) {
+	this_model_results = read_rds(
+		here('results/PRISM_LINCS_klaeger_models/activation_expression/classification/rand_forest/results',
+				 sprintf('%dfeat.rds.gz',feature_number)))
+	
+	this_model_metrics = collect_metrics(this_model_results) %>% 
+		mutate(num_features = feature_number)
+	all_rf_metrics = bind_rows(all_rf_metrics, this_model_metrics)
+}
+
+all_xgb_metrics = data.frame()
+for (feature_number in c(100)) {
+	this_model_results = read_rds(
+		here('results/PRISM_LINCS_klaeger_models/activation_expression/classification/xgboost/results',
+				 sprintf('%dfeat.rds',feature_number)))
+	
+	this_model_metrics = collect_metrics(this_model_results) %>% 
+		mutate(num_features = feature_number)
+	all_xgb_metrics = bind_rows(all_xgb_metrics, this_model_metrics)
+}
+
+all_model_metrics = all_rf_metrics %>% 
+	pivot_longer(trees, names_to = 'hyperparameter', values_to = 'value') %>% 
+	mutate(model_type = 'random_forest') %>% 
+	bind_rows(
+		all_xgb_metrics %>% 
+			pivot_longer(c(trees, tree_depth, learn_rate), names_to = 'hyperparameter', values_to = 'value') %>% 
+			mutate(model_type = 'xgboost')
+	) %>% 
+	mutate(.config = paste0(.config, '_',model_type)) %>% 
+	rename('model_id' = .config)
+
+write_csv(all_model_metrics, here('results/PRISM_LINCS_klaeger_models/activation_expression/classification/all_model_metrics.csv'))
+```
+

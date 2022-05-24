@@ -1,0 +1,174 @@
+---
+title: "prep_PRISM_LINCS_percent_data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(BerginskiRMisc)
+library(tidyverse)
+library(here)
+library(readxl)
+library(patchwork)
+```
+
+```{r}
+#READING IN DATA
+PRISM_parms = read_csv(here('data/secondary/secondary-screen-dose-response-curve-parameters.csv'))
+
+LINCS_KINOMEscan_percent = read_csv(here('data/LINCS/full_LINCS_UNC_data.csv'))
+
+LINCS_PRISM_matches = read_csv(here('src/data_organization/find_LINCS_PRISM_matches/LINCS_PRISM_match_list_percent.csv')) %>% select(name, broad_id)
+```
+
+```{r}
+#DATA PROCESSING
+
+#Standardizing dose
+LINCS_KINOMEscan_percent_tidy = LINCS_KINOMEscan_percent %>% 
+	mutate(
+		"Dose" = case_when(
+			Conc.unit == "uM" ~ Assay.compound.conc, 
+			Conc.unit == "nM" ~ Assay.compound.conc/1000, 
+			TRUE ~ 0
+		)
+	) %>% 
+	select(-Conc.unit, -Assay.compound.conc)
+
+kinases_per_drug_dose = LINCS_KINOMEscan_percent_tidy %>%
+	filter(!str_detect(Protein.Name, "\\(")) %>%
+	count(Small.Molecule.Name, Dose)
+
+LINCS_KINOMEscan_percent_wide = LINCS_KINOMEscan_percent_tidy %>%
+	filter(!str_detect(Protein.Name, "\\(")) %>%
+	#Filtering out the only observation with duplicates
+	filter(!(Small.Molecule.Name == "ALW-II-38-3" & Protein.Name == "TAOK1" & Dose == 10)) %>%
+	group_by(Small.Molecule.Name, Protein.Name, Dose) %>%
+	mutate("mean_Percent_control" = mean(Percent.Control, na.rm = TRUE)) %>% 
+	ungroup() %>%
+	filter(Dose == 1) %>% 
+	select(-Percent.Control) %>%
+	unique() %>% 
+	pivot_wider(names_from = Protein.Name, values_from = mean_Percent_control) %>%
+	#replacing NAs with standard DiscoverX "100" value for "no hit"
+	mutate_all(~replace(., is.na(.), 100))
+
+write_csv(LINCS_KINOMEscan_percent_wide, here('src/data_organization/prep_PRISM_LINCS_percent_data/full_LINCS_UNC_1uM_data_imputed.csv'))
+
+matched_LINCS_UNC = LINCS_KINOMEscan_percent_wide %>% 
+	filter(Small.Molecule.Name %in% LINCS_PRISM_matches$name) %>% 
+	left_join(LINCS_PRISM_matches, by = c("Small.Molecule.Name" = "name")) %>% 
+	select(-Small.Molecule.Name)
+	
+response_curve_parameters = PRISM_parms %>%
+	#Filter only to compounds that match the LINCS list and to cell lines that
+	#passed STR profiling
+	filter(broad_id %in% matched_LINCS_UNC$broad_id, passed_str_profiling) %>% 
+	#Filter IC50 that are NA
+	filter(!is.na(ic50)) %>% 
+	select(broad_id, depmap_id, ic50, name)
+
+LINCS_percent_ic50_matrix = response_curve_parameters %>% 
+	left_join(matched_LINCS_UNC, by = "broad_id") %>% 
+	filter(ic50 < 1000)
+
+write_csv(LINCS_percent_ic50_matrix, here('data/LINCS_PRISM_percent_ic50_matrix.csv'))
+
+```
+
+```{r}
+#EDA
+
+#Number of obvs per dose
+counts_per_dose = LINCS_KINOMEscan_percent_tidy %>% count(Dose)
+counts_per_unit = LINCS_KINOMEscan_percent %>% count(Conc.unit)
+
+LINCS_KINOMEscan_percent_tidy %>% filter(Dose == 1) %>% select(Small.Molecule.Name, Dose) %>% unique() %>% dim()
+
+counts_per_dose_matches = LINCS_KINOMEscan_percent_tidy %>% 
+	filter(Small.Molecule.Name %in% LINCS_PRISM_matches$name) %>% 
+	count(Small.Molecule.Name, Dose)
+
+#PERCENTAGE NO-HITS
+
+median_ic50 = median(LINCS_percent_ic50_matrix$ic50)
+
+LINCS_percent_ic50_matrix_long = LINCS_percent_ic50_matrix %>% 
+	pivot_longer("ABL1":"p38-gamma", names_to = "kinase", values_to = "percent") %>% 
+	mutate(Max = if_else(percent == 100, "No-Hit", "Hit"))
+
+Percent_max_values = LINCS_percent_ic50_matrix_long %>% 
+	group_by(kinase) %>% 
+	summarise(percent_max = mean(percent == 100))
+
+mean_percent_max = mean(Percent_max_values$percent_max)
+
+ggplot(Percent_max_values, aes(x = kinase, y = percent_max)) + geom_col() + geom_hline(aes(yintercept = mean_percent_max), linetype = "dotted", size = 1, color = "red") + theme(axis.text.x=element_blank())
+
+ggsave(here('percent_no_hits_percent.png'))
+
+
+#KINASE OVERLAP
+
+all_kinase_counts = Kd_ic50_matrix_long %>%
+	count(depmap_id, kinase) %>% 
+	pivot_wider(names_from = depmap_id, values_from = n)
+
+no_max_kinase_counts = Kd_ic50_matrix_long %>%
+	filter(Max == "Not-Max") %>% 
+	count(depmap_id, kinase) %>% 
+	pivot_wider(names_from = depmap_id, values_from = n)
+
+no_max_kinase_counts_na_drop = no_max_kinase_counts %>% 
+	drop_na()
+
+write_csv(no_max_kinase_counts, here('data/no_max_kinase_counts.csv'))
+write_csv(all_kinase_counts, here('data/all_kinase_counts.csv'))
+write_csv(no_max_kinase_counts_na_drop, here('data/no_max_kinase_counts_na_dropped.csv'))
+
+# # all_kinases_list = list(all_kinase_counts$kinase)
+# # no_max_kinases_list = list(no_max_kinase_counts_na_drop$kinase)
+# # comparing_kinase_lists = gdata::cbindX(data.frame(all_kinases_list), data.frame(no_max_kinases_list))
+# # colnames(comparing_kinase_lists) = c("All_kinases", "Dropped")
+# # mutate(comparing_kinase_lists, Dropped = if_else(is.na(Dropped), "Blank", Dropped))
+# 
+# venn.diagram(x = comparing_kinase_lists, 
+# 						 category.names = c("all_kinases", "Dropped"),
+# 						 filename = "venn.png",
+# 						 output = TRUE)
+
+#DATA DISTRIBUTIONS
+
+LINCS_percent_ic50_matrix_filtered = LINCS_percent_ic50_matrix %>% 
+	filter(ic50 < 20)
+LINCS_percent_ic50_matrix_log_ic50 = LINCS_percent_ic50_matrix %>% 
+	mutate(log_ic50 = log10())
+
+#ic50 distribution
+ggplot(LINCS_percent_ic50_matrix_filtered) + geom_histogram(aes(x = ic50))
+ggsave(here('src/data_organization/prep_PRISM_LINCS_percent_data/ic50_distribution.png'))
+
+LINCS_percent_ic50_matrix_log_ic50 %>%  filter(log_ic50 > -5) %>% ggplot()  + geom_histogram(aes(x = log_ic50))
+ggsave(here('src/data_organization/prep_PRISM_LINCS_percent_data/log_ic50_distribution.png'))
+
+#percent distribution
+LINCS_percent_ic50_matrix_long %>%   ggplot() + geom_histogram(aes(x = percent), bins = 50)
+ggsave(here('src/data_organization/prep_PRISM_LINCS_percent_data/percent_distribution.png'))
+
+
+#IC50 by cell line
+ggplot(LINCS_percent_ic50_matrix_filtered, aes(x = depmap_id, y = ic50)) + geom_boxplot() + theme(axis.text.x=element_blank(), legend.position="none")
+
+ggplot()
+
+#IC50 by drug
+ggplot(LINCS_percent_ic50_matrix_filtered, aes(x = name, y = ic50)) + geom_boxplot() + theme(axis.text.x=element_blank(), legend.position="none") + xlab("drug")
+
+#percent by kinase
+LINCS_percent_ic50_matrix_long %>%  ggplot(aes(x = kinase, y = percent)) + geom_boxplot() + theme(axis.text.x=element_blank(), legend.position="none")
+
+#Correlation between percent and ic50
+
+LINCS_percent_ic50_matrix_long %>% filter(ic50 < 20 & ic50 > 0.01) %>% ggplot() + geom_point(aes(x = percent, y = ic50)) + geom_smooth(aes(x = percent, y = ic50))
+	
+```
+

@@ -1,0 +1,106 @@
+---
+title: "prep PRISM LINCS klaeger data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(data.table)
+library(janitor)
+```
+
+```{r}
+#read in data 
+compound_match_list = read_csv(here('results/PDX_klaeger_LINCS_combined_drug_matches.csv'))
+
+LINCS_klaeger_data_long = read_csv(here('results/all_klaeger_LINCS_data_for_ml_long.csv'))
+
+novartis_rnaseq = read_csv(here('data/PDX/novartis_RNAseq_fkpm_transposed.csv'))
+
+novartis_meta = read_csv(here('data/PDX/novartis_metadata.csv'))
+
+novartis_cnv = read_csv(here('data/PDX/novartis_cnv.csv'))
+
+novartis_cnv_transposed = as.data.frame(t(as.matrix(novartis_cnv))) %>% 
+	row_to_names(row_number = 1) %>% 
+	rownames_to_column(var = "sample")
+
+colnames(novartis_cnv_transposed) = paste0("cnv_",colnames(novartis_cnv_transposed))
+```
+
+```{r}
+novartis_long = novartis_rnaseq %>% 
+	select(-...1) %>% 
+	pivot_longer(-PDX,names_to = 'gene', values_to = 'fkpm')
+	
+novartis_TPM_sums = novartis_long %>% 
+	group_by(PDX) %>% 
+	summarise(sum = sum(fkpm)) %>% 
+	mutate('scaling_factor' = 1000000/sum) %>% 
+	select(-sum)
+
+novartis_TPM = novartis_long %>% 
+	left_join(novartis_TPM_sums, by = 'PDX') %>% 
+	mutate(TPM = fkpm*scaling_factor) %>% 
+	select(-fkpm, -scaling_factor)
+
+novartis_rnaseq_wide = novartis_TPM %>% 
+	mutate(exp_gene = paste0('exp_', gene)) %>% 
+	select(-gene) %>% 
+	pivot_wider(names_from = exp_gene, values_from = TPM)
+
+#join metadata
+novartis_metadata = novartis_meta %>% 
+	filter(`Treatment type` == 'single') %>% 
+	mutate(Treatment = case_when(
+		Treatment == 'figitumumab"' ~ 'figitumumab',
+		Treatment == 'gemcitabine-50mpk' ~ 'gemcitabine',
+		Treatment == 'binimetinib-3.5mpk' ~ 'binimetinib',
+		TRUE ~ Treatment
+	)) %>% 
+	filter(Treatment %in% compound_match_list$novartis_name) %>% 
+	select(Model, Treatment, ResponseCategory, BestAvgResponse) %>% 
+	mutate(binary_response = if_else(
+		str_detect(ResponseCategory, 'R'),
+		1,
+		0
+	))
+
+LINCS_klaeger_data_for_model = LINCS_klaeger_data_long %>% 
+	mutate(act_gene_name = paste0('act_', kinase)) %>% 
+	select(-kinase, -binary_hit) %>% 
+	left_join(compound_match_list,
+		by = c('drug' = 'drug_name')
+	) %>% 
+	filter(!is.na(novartis_name)) %>% 
+	unique() %>%  
+	select(-cid) %>%
+	rename('treatment' = novartis_name) %>% 
+	group_by(treatment, act_gene_name) %>%
+	summarise(mean_intensity = mean(relative_intensity)) %>% 
+	pivot_wider(names_from = act_gene_name, values_from = mean_intensity) %>%
+	ungroup() %>% 
+	mutate_all(~replace(., is.na(.), 1))
+	
+all_model_data = novartis_metadata %>% 
+	filter(Model %in% novartis_rnaseq_wide$PDX) %>% 
+	left_join(novartis_rnaseq_wide, by = c('Model' = 'PDX')) %>%
+	left_join(novartis_cnv_transposed, by = c('Model' = 'cnv_sample')) %>%
+	left_join(LINCS_klaeger_data_for_model, by = c('Treatment' = 'treatment')) %>% 
+	mutate(binary_response = as.factor(binary_response)) %>% 
+	mutate(below_median_response = if_else(
+		BestAvgResponse <= median(novartis_metadata$BestAvgResponse),
+		1,
+		0
+	)) %>% 
+	drop_na()
+
+#EDA
+all_model_data %>% 
+	ggplot(aes(x = binary_response)) +
+	geom_bar()
+
+write_csv(all_model_data, here('results/PDX_klaeger_LINCS_data_for_ml.csv'))
+
+```

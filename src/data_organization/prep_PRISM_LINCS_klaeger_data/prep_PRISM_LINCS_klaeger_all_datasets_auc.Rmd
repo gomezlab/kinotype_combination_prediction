@@ -1,0 +1,103 @@
+---
+title: "prep PRISM LINCS klaeger data with all other datasets"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(vroom)
+```
+
+```{r}
+#read in data 
+compound_match_list = read_csv(here('results/matching/LINCS_PRISM_klaeger_combined_drug_matches_final.csv'))
+
+LINCS_klaeger_data_long = read_csv(here('results/all_klaeger_LINCS_data_for_ml_long.csv'))
+
+PRISM_auc = read_csv(here('results/PRISM_auc_for_ml.csv'))
+
+CCLE = read_rds(here('data/full_CCLE_expression_set_for_ML.rds')) %>% 
+	rename('depmap_id' = DepMap_ID) %>% 
+	filter(depmap_id %in% PRISM_auc$depmap_id)
+
+CNV = read_rds(here('data/full_CCLE_CNV_set_for_ML.rds'))
+
+proteomics_data = vroom(here('data/CCLE_proteomics_imputed_wide.csv.gz')) %>%
+	select(-CCLE_cell_line_name,-tenplex_number) %>% 
+	rename_with( ~ paste0("prot_", .x), -DepMap_ID)
+
+depmap_data = read_rds(here('data/full_depmap_for_ML.rds'))
+```
+
+```{r}
+PRISM_auc_binarized = PRISM_auc %>% 
+	mutate(auc_binary = if_else(
+		auc <= median(PRISM_auc$auc),
+		1,
+		0
+	))
+
+LINCS_klaeger_data_for_model = LINCS_klaeger_data_long %>% 
+	mutate(act_gene_name = paste0('act_', kinase)) %>% 
+	select(-kinase, -binary_hit) %>% 
+	left_join(compound_match_list,
+		by = c('drug' = 'klaeger_name')
+	) %>% 
+	select(-LINCS_name) %>% 
+	rename('PRISM_name_klaeger' = PRISM_name, 'broad_id_klaeger' = broad_id) %>%
+	left_join(compound_match_list,
+		by = c('drug' = 'LINCS_name')
+	) %>% 
+	select(-klaeger_name) %>% 
+	rename('PRISM_name_LINCS' = PRISM_name, 'broad_id_LINCS' = broad_id) %>% 
+	mutate(
+		PRISM_name = if_else(
+		is.na(PRISM_name_klaeger),
+		PRISM_name_LINCS,
+		PRISM_name_klaeger
+		),
+		broad_id = if_else(
+			is.na(broad_id_klaeger),
+			broad_id_LINCS,
+			broad_id_klaeger
+		)
+	) %>% 
+	select(-PRISM_name_klaeger, -broad_id_klaeger, -PRISM_name_LINCS, -broad_id_LINCS) %>% 
+	filter(!is.na(broad_id)) %>% 
+	unique() %>% 
+	pivot_wider(names_from = act_gene_name, values_from = relative_intensity) %>% 
+	mutate_all(~replace(., is.na(.), 1))
+
+all_model_data = PRISM_auc_binarized %>% 
+	filter(depmap_id %in% depmap_data$DepMap_ID) %>%
+	filter(depmap_id %in% CCLE$depmap_id) %>%
+	filter(depmap_id %in% CNV$DepMap_ID) %>%
+	filter(depmap_id %in% proteomics_data$DepMap_ID) %>%
+	left_join(CCLE, by = 'depmap_id') %>% 
+	left_join(LINCS_klaeger_data_for_model, by = c('broad_id')) %>% 
+	select(-name, -PRISM_name) %>%
+	mutate(auc_binary = as.factor(auc_binary)) %>%
+	left_join(depmap_data, by=c('depmap_id' = 'DepMap_ID')) %>%
+	left_join(CNV, by=c('depmap_id' = 'DepMap_ID')) %>%
+	left_join(proteomics_data, by=c('depmap_id' = 'DepMap_ID')) %>%
+	drop_na()
+
+#EDA
+
+all_model_data %>% 
+	ggplot(aes(x = auc)) +
+	geom_histogram()
+
+#excluding auc values over 1
+
+all_data_filtered = all_model_data %>%
+	filter(auc <= 1) %>% 
+	mutate(across(starts_with(c('auc_binary')), ~ as.factor(.)))
+
+all_data_filtered %>% 
+	ggplot(aes(x = auc)) +
+	geom_histogram()
+
+write_csv(all_data_filtered, here('results/PRISM_LINCS_klaeger_all_multiomic_data_for_ml_auc.csv'))
+```

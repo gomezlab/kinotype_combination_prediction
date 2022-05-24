@@ -1,0 +1,64 @@
+---
+title: "find HDAC PRISM compound matches"
+output: html_document
+date: '2022-05-11'
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+#read in data
+raw_HDACi_compound_list = read_csv(here('data/HDACi/paper_data/raw_compound_list.csv'))
+ALMANAC_druglist = read_tsv(here('data/ALMANAC/ComboCompoundNames.txt'), col_names = FALSE)
+ALMANAC_cids = read_csv(here('results/matching/ALMANAC_all_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+```
+
+```{r}
+#preprocessing
+ALMANAC_matchlist = ALMANAC_druglist %>% 
+	rename("ALMANAC_name" = X2, 'NSC' = X1) %>% 
+	mutate(NSC = paste0("NSC-", NSC))
+```
+
+```{r}
+#get PubChem cids for HDACi's
+HDAC_cids = get_cid(raw_HDACi_compound_list$drug %>% unique(), from = "name", domain = "compound", match = "all", verbose = T) %>% 
+ 	rename("HDAC_name" = query) 
+
+HDAC_cids_full = HDAC_cids %>% 
+	mutate(cid = case_when(
+		HDAC_name == 'CHDI00390576' ~ '81689842',
+		HDAC_name == 'MC1568' ~ '11381449',
+		HDAC_name == 'Nexturastat_A' ~ '71462653',
+		HDAC_name == 'Phenylbutyric_Acid' ~ '4775',
+		HDAC_name == 'Salicylhydroxamic_acid' ~ '66644',
+		HDAC_name == 'TH195' ~ '67324851',
+		HDAC_name == 'Trichostatin_A'~ '444732',
+		HDAC_name == 'Tubastatin_A' ~ '49850262',
+		HDAC_name == 'Valproic_acid' ~ '3121', 
+		T ~ cid
+	)) %>% 
+	filter(!is.na(cid))
+```
+
+```{r}
+matches = HDAC_cids_full %>% 
+	left_join(ALMANAC_cids) 
+	filter(!is.na(broad_id)) %>% 
+	select(-cid) %>% 
+	rename(PRISM_name = name) %>% 
+	unique() %>%
+	write_csv(here('results/matching/compound_matches.csv'))
+
+drugs_with_duplicate_broad_ids = matches %>% 
+	count(HDAC_name) %>% 
+	filter(n == 2)
+```
+

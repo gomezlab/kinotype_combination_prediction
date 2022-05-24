@@ -1,0 +1,105 @@
+---
+title: "Prep PRISM ic50 for ML"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+compound_match_list = read_csv(here('results/matching/PRISM_LINCS_klaeger_drug_matches.csv'))
+
+response_curve_parameters = read_csv(here('data/PRISM/secondary/secondary-screen-dose-response-curve-parameters.csv')) %>% 
+	#Filter only to compounds that match the Klaeger list and to cell lines that
+	#passed STR profiling
+	filter(broad_id %in% compound_match_list$broad_id, passed_str_profiling, !is.na(ic50))
+```
+
+
+```{r}
+
+PRISM_ic50_for_ml = response_curve_parameters %>% 
+	select(depmap_id, ccle_name, ic50, name, broad_id) 
+	
+write_csv(PRISM_ic50_for_ml, here('results/PRISM_ic50_for_ml.csv'))
+
+PRISM_ic50_auc_for_ml = response_curve_parameters %>% 
+	select(depmap_id, ccle_name, ic50, auc, name, broad_id) %>% 
+	filter(ic50 < 10) %>%
+	filter(ic50 > 0.001) %>% 
+	mutate(ic50 = log10(ic50))
+
+write_csv(PRISM_ic50_auc_for_ml, here('results/PRISM_auc_for_ml.csv'))
+
+```
+
+```{r}
+#EDA Figures
+
+PRISM_ic50_auc_for_ml %>% 
+	ggplot(aes(x = ic50)) +
+	geom_histogram() +
+		theme(panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA),
+    axis.ticks.x=element_blank(), 
+    axis.ticks.y=element_blank()
+      ) +
+	labs(x = "IC50", y = "count")
+ggsave(here('figures/PRISM_IC50_histogram.png'), width = 7, height = 6, units = "cm", bg = "transparent")
+
+PRISM_ic50_auc_for_ml %>% 
+	ggplot(aes(x = auc)) +
+	geom_histogram() +
+		theme(panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA),
+    axis.ticks.x=element_blank(), 
+    axis.ticks.y=element_blank()
+      ) +
+	labs(x = "AUC", y = "count")
+ggsave(here('figures/PRISM_AUC_histogram.png'), width = 7, height = 6, units = "cm", bg = "transparent")
+```
+
+```{r}
+#ic50 auc correlation
+PRISM_ic50_auc_for_ml %>%
+	ggplot(aes(x = ic50, y = auc)) +
+	geom_hex() +
+	scale_fill_gradient(low="lightblue1",high="darkblue") +
+	geom_smooth() +
+	labs(title = 
+			 	paste0('IC50/AUC R = ',
+			 				 round(
+			 				 	cor(
+			 				 		PRISM_ic50_auc_for_ml$ic50,
+			 				 		PRISM_ic50_auc_for_ml$auc),
+			 				 	3)
+			 				 ),
+			 x = "IC50",
+			 y = "AUC") +
+	# geom_abline(intercept = 0, slope = 1, size = 0.3, colour = 'red', linetype = 3) +
+		theme(
+			legend.position = "none",
+			panel.background = element_rect(fill = "transparent",colour = NA),
+    	panel.grid.minor = element_blank(), 
+    	panel.grid.major = element_blank(),
+    	plot.background = element_rect(fill = "transparent",colour = NA),
+    	axis.text.y=element_blank(), 
+    	axis.ticks.x=element_blank(), 
+    	axis.ticks.y=element_blank()
+      )
+
+ggsave(here('figures/PRISM_IC50_AUC_correlation.png'), width = 6.5, height = 6, units = "cm", bg = "transparent")
+	
+```
+
+

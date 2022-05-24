@@ -1,0 +1,105 @@
+---
+title: "Find ALMANAC-Astrazeneca-klaegerscan-L1000 Drug Matches"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#READING IN DATA
+klaegerscan_matchlist_cids = read_csv(here('results/matching/klaeger_LINCS_combined_cid_match_list.csv'))
+klaegerscan_matchlist_smiles = read_tsv(here('results/matching/klaeger_kinomescan_combined_smiles.txt'), col_names = FALSE) %>% 
+	rename("cid" = X1, "smiles" = X2)
+
+ALMANAC_matchlist = read_tsv(here('data/ALMANAC/ComboCompoundNames.txt'), col_names = FALSE) %>% 
+	rename("ALMANAC_name" = X2, 'NSC' = X1)
+
+ALMANAC_smiles = read_tsv(here('results/matching/ALMANAC_smiles.txt'), col_names = FALSE) %>% 
+	rename("cid" = X1, "smiles" = X2) %>% 
+	mutate(cid = as.character(cid))
+
+astrazeneca_druglist = read_csv(here('data/Astrazeneca/Drug_info_release.csv')) %>% 
+	rename("smiles_or_cid" = `SMILES or PubChem ID`) %>% 
+	filter(!is.na(smiles_or_cid))
+
+L1000_matchlist = read_csv(here('data/LINCS/L1000/meta_SMILES.csv')) %>% 
+	rename("smiles" = SMILES, "cid" = "pubchem_cid") %>% 
+	mutate(cid = as.character(cid))
+```
+
+```{r}
+#CREATING MATCH SETS
+klaegerscan_matchlist = klaegerscan_matchlist_cids %>% 
+	left_join(klaegerscan_matchlist_smiles, by = 'cid')
+write_csv(klaegerscan_matchlist, here('results/matching/klaeger_LINCS_combined_cid_smiles_match_list.csv'))
+
+ALMANAC_cid = get_cid(unique(ALMANAC_matchlist$ALMANAC_name), from = "name", domain = "compound", match = "all", verbose = TRUE) %>%
+	rename("ALMANAC_name" = query) %>%
+	left_join(
+		ALMANAC_smiles %>%
+							mutate(cid = as.character(cid))
+		,by = 'cid')
+# write_csv(ALMANAC_cid, here('results/matching/ALMANAC_cids_smiles.csv'))
+ALMANAC_cid = read_csv(here('results/matching/ALMANAC_cids_smiles.csv'))%>% 
+	mutate(cid = as.character(cid))
+
+astrazeneca_matchlist = astrazeneca_druglist %>% 
+	rename("astrazeneca_name" = ChallengeName) %>% 
+	select(astrazeneca_name, smiles_or_cid)
+
+klaegerscan_ALMANAC_matches = klaegerscan_matchlist %>% 
+	mutate(cid = as.character(cid)) %>% 
+	left_join(ALMANAC_cid, by = 'cid') %>% 
+	filter(!is.na(ALMANAC_name)) %>% 
+	rename("klaegerscan_name" = "drug_name",
+				 "smiles_1" = smiles.x, 
+				 "smiles_2" = smiles.y)
+
+L1000_ALMANAC_matches = L1000_matchlist %>%
+	mutate(cid = as.character(cid)) %>% 
+	left_join(ALMANAC_cid, by = 'cid') %>% 
+	filter(!is.na(ALMANAC_name)) %>% 
+	rename("broad_id" = pert_id, 
+				 "L1000_name" = pert_iname, 
+				 "smiles_1" = smiles.x, 
+				 "smiles_2" = smiles.y) %>%
+	select(broad_id, L1000_name, cid, smiles_1, smiles_2)
+
+klaegerscan_astrazeneca_matches = klaegerscan_matchlist %>% 
+	mutate(cid = as.character(cid)) %>% 
+	left_join(astrazeneca_matchlist, by = c('cid' = "smiles_or_cid")) %>% 
+	filter(!is.na(astrazeneca_name)) %>% 
+	rename("smiles_1" = smiles) %>% 
+	mutate(smiles_2 = NA)
+
+L1000_astrazeneca_matches = L1000_matchlist %>%
+	mutate(cid = as.character(cid)) %>% 
+	left_join(astrazeneca_matchlist, by = c('cid' = 'smiles_or_cid')) %>% 
+	filter(!is.na(astrazeneca_name)) %>% 
+	rename("broad_id" = pert_id, 
+				 "L1000_name" = pert_iname, 
+				 "smiles_1" = smiles) %>%
+	mutate(smiles_2 = NA) %>% 
+	select(broad_id, L1000_name, cid, smiles_1, smiles_2)
+```
+
+```{r}
+#Write Output Files
+write_csv(klaegerscan_ALMANAC_matches, here('results/matching/klaegerscan_ALMANAC_matches.csv'))
+write_csv(klaegerscan_astrazeneca_matches, here('results/matching/klaegerscan_astrazeneca_matches.csv'))
+
+write_csv(L1000_ALMANAC_matches, here('results/matching/L1000_ALMANAC_matches.csv'))
+write_csv(L1000_astrazeneca_matches, here('results/matching/L1000_astrazeneca_matches.csv'))
+```
+
+```{r}
+
+```
+
+

@@ -1,0 +1,95 @@
+---
+title: "find LINCS klaeger PRISM compound matches"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#read in data
+klaeger = read_rds(here('data/klaeger_full_tidy.rds'))
+
+klaeger_match_set = data.frame(
+	drug = sort(unique(trimws(klaeger$drug)))
+)
+
+LINCS_UNC_KINOMEscan = read_csv(here('results/full_LINCS_UNC_1uM_data_imputed.csv'))
+
+LINCS_compound_match_set = LINCS_UNC_KINOMEscan %>%
+  select(Small.Molecule.Name) %>%
+	mutate(Small.Molecule.Name = trimws(Small.Molecule.Name))
+
+PRISM = read_csv(here('data/PRISM/secondary/secondary-screen-replicate-treatment-info.csv'))
+
+PRISM_match_set = PRISM %>%
+	select(broad_id, name) %>%
+	mutate(name = trimws(name)) %>%
+	unique() %>%
+	filter(!is.na(name))
+
+LINCS_PRISM_manual_matchlist = read_csv(here('results/matching/LINCS_PRISM_match_list_percent_updated.csv')) %>% 
+	select(LINCS_name, PRISM_name, broad_id)
+
+klaeger_PRISM_manual_matchlist = read_csv(here('results/matching/klaeger_PRISM_match_list_updated_v2.csv')) %>% 
+	select(klaeger_name, PRISM_name, broad_id)
+
+LINCS_cids = read_csv(here('results/matching/all_LINCS_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+
+PRISM_cids = read_csv(here('results/matching/all_PRISM_cids.csv')) %>% 
+	mutate(cid = as.character(cid)) %>% 
+	rename('PRISM_name' = name)
+
+klaeger_cids = read_csv(here('results/matching/klaeger_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+
+
+```
+
+```{r}
+#LINCS PRISM compound matching
+	
+LINCS_PRISM_cid_drug_matches = LINCS_cids %>% 
+	left_join(PRISM_cids, by = 'cid') %>% 
+	filter(!is.na(PRISM_name)) %>% 
+	select(LINCS_name, PRISM_name, broad_id)
+
+LINCS_PRISM_combined_match_list = LINCS_PRISM_manual_matchlist %>% 
+	left_join(PRISM_match_set, by = 'broad_id') %>% 
+	bind_rows(LINCS_PRISM_cid_drug_matches) %>% 
+	select(-name) %>% 
+	unique() 
+
+write_csv(LINCS_PRISM_combined_match_list, here('results/matching/PRISM_LINCS_combined_drug_matches.csv'))
+```
+
+```{r}
+#klaeger PRISM compound matching
+	
+klaeger_PRISM_cid_drug_matches = klaeger_cids %>% 
+	left_join(PRISM_cids, by = 'cid') %>% 
+	filter(!is.na(PRISM_name)) %>% 
+	select(klaeger_name, PRISM_name, broad_id)
+
+klaeger_PRISM_combined_match_list = klaeger_PRISM_manual_matchlist %>% 
+	left_join(PRISM_match_set, by = 'broad_id') %>% 
+	bind_rows(klaeger_PRISM_cid_drug_matches) %>% 
+	select(-name) %>% 
+	unique()
+
+write_csv(klaeger_PRISM_combined_match_list, here('results/matching/PRISM_klaeger_combined_drug_matches.csv'))
+```
+
+```{r}
+LINCS_klaeger_PRISM_drug_matches = klaeger_PRISM_combined_match_list %>% 
+	bind_rows(LINCS_PRISM_combined_match_list)
+
+write_csv(LINCS_klaeger_PRISM_drug_matches, here('results/matching/LINCS_PRISM_klaeger_combined_drug_matches_final.csv'))
+
+
+```
+

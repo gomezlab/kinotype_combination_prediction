@@ -1,0 +1,138 @@
+---
+title: "Compare LINCS and klaeger relative intensities and hit agreements "
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+library(hexbin)
+```
+
+
+```{r}
+#read in data
+
+LINCS_percent_matrix = read_csv(here('results/full_LINCS_UNC_1uM_data_imputed.csv'))
+
+klaeger_tidy = read_rds(here('data/klaeger_full_tidy.rds'))
+
+matched_kinases = read_csv(here('results/matching/LINCS_klaeger_kinase_matches.csv'))
+
+drug_matches = read_csv(here('results/matching/LINCS_klaeger_drug_matches.csv'))
+
+```
+
+```{r}
+klaeger_tidy_1uM = klaeger_tidy %>% 
+	filter(concentration_M == 0.000001)
+
+LINCS_long = LINCS_percent_matrix %>% 
+	pivot_longer(c(-Small.Molecule.Name, -Dose), names_to = 'kinase', values_to = 'percent_control')
+```
+
+
+```{r}
+#create matched dataset 
+matched_drug_data = LINCS_long %>% 
+	filter(kinase %in% matched_kinases$LINCS_name) %>%
+	left_join(matched_kinases, by = c('kinase' = 'LINCS_name')) %>%
+	rename('klaeger_kinase' = klaeger_name, 'LINCS_kinase' = kinase) %>% 
+	filter(Small.Molecule.Name %in% drug_matches$LINCS_name) %>% 
+	left_join(select(drug_matches, -cid), by = c('Small.Molecule.Name' = 'LINCS_name')) %>% 
+	left_join(klaeger_tidy_1uM, by = c('klaeger_name' = 'drug', 'klaeger_kinase' = 'gene_name' )) %>% 
+	select(klaeger_name, Small.Molecule.Name, klaeger_kinase, LINCS_kinase, percent_control, relative_intensity) %>% 
+	rename('LINCS_relative_intensity' = percent_control, 
+				 'klaeger_relative_intensity' = relative_intensity,
+				 'LINCS_name' = Small.Molecule.Name) %>%
+	mutate(LINCS_relative_intensity = LINCS_relative_intensity/100)
+
+#plot correlation of matches
+matched_drug_data %>%
+	ggplot(aes(x = LINCS_relative_intensity, y = klaeger_relative_intensity)) +
+	geom_hex() +
+	scale_fill_gradient(low="lightblue1",high="darkblue") +
+	geom_smooth(method = "lm") +
+	labs(title = 
+			 	paste0('R = ',
+			 				 round(
+			 				 	cor(
+			 				 		matched_drug_data$LINCS_relative_intensity,
+			 				 		matched_drug_data$klaeger_relative_intensity),
+			 				 	3)
+			 				 ),
+			 x = "KINOMEscan Relative Intensity",
+			 y = "Klaeger Relative Intensity") +
+	geom_abline(intercept = 0, slope = 1, size = 0.3, colour = 'red', linetype = 3) +
+	coord_cartesian(xlim = c(0,1), ylim= c(0,1)) +
+	theme(
+		legend.position = "none",
+		panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+      )
+
+ggsave(here('figures/klaeger_LINCS_correlation.png'), height = 6, width = 7, units = "cm", bg = "transparent")
+```
+
+```{r}
+#Defining a "hit" to mean more than 80% inhibition of a kinase (relative intensity < 0.2)
+
+LINCS_klaeger_comparative_data = matched_drug_data %>% 
+	mutate(
+		LINCS_hit = if_else(
+			LINCS_relative_intensity < 0.2,
+			1,
+			0
+		), 
+		klaeger_hit = if_else(
+			klaeger_relative_intensity < 0.2,
+			1,
+			0
+		),
+		hit_agreement = if_else(
+		LINCS_hit == klaeger_hit,
+		TRUE,
+		FALSE)
+	)
+
+kinase_summary = LINCS_klaeger_comparative_data %>% 
+	group_by(klaeger_kinase) %>% 
+	summarise(mean_agree = mean(hit_agreement))
+
+disagreeable_kinases = kinase_summary %>% 
+	filter(mean_agree < 0.8)
+
+write_csv(LINCS_klaeger_comparative_data, here('results/LINCS_Klaeger_Comparitive_Data.csv'))
+```
+
+```{r}
+LINCS_klaeger_comparative_data %>%
+	select(-LINCS_name) %>% 
+	unique() %>% 
+	ggplot(aes(x = klaeger_kinase, y = klaeger_name, fill = hit_agreement)) +
+	geom_tile() +
+	theme(
+		legend.position = 'top', 
+		axis.text.x=element_blank(), 
+		axis.ticks.x=element_blank(), 
+		axis.text.y=element_blank(), 
+		axis.ticks.y=element_blank(),
+		legend.key.height = unit(0.25, 'cm'),
+		legend.key.width = unit(0.25, 'cm')) +
+	labs(
+	# 	title = paste0(
+	# 	"Percent Agreement = ", round(
+	# 		LINCS_klaeger_comparative_data %>% 
+	# summarise(mean(hit_agreement)),
+	# 3)),
+	fill = 'Agree on "hit" at 80% inhibition threshold',
+		x = "Kinase",
+		y = "Drug")
+ggsave(here('figures/klaeger_LINCS_heatmap.png'), width = 20.5, height = 5.5, units = "cm")
+
+
+```
+

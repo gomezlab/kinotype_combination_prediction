@@ -1,0 +1,103 @@
+---
+title: "Find LINCS-PRISM Drug Matches"
+author: "Matthew Berginski"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(BerginskiRMisc)
+library(tidyverse)
+library(here)
+library(readxl)
+
+```
+
+```{r}
+#READING IN DATA
+LINCS_KINOMEscan_Kd = read.csv.all(here('data/LINCS/Data Files/Kd/*'))
+
+PRISM = read_csv(here('data/secondary/secondary-screen-replicate-treatment-info.csv'))
+```
+
+```{r}
+#DATA PROCESSING
+
+#annotating blanks
+LINCS_KINOMEscan_Kd = LINCS_KINOMEscan_Kd %>% 
+  mutate_all(~replace(., is.na(.), 100000))
+```
+
+```{r}
+#CREATING MATCH SETS
+LINCS_kd_compound_match_set = LINCS_KINOMEscan_Kd %>%
+  select(Small.Molecule.Name, Small.Molecule.HMS.LINCS.ID) %>%
+	mutate(Small.Molecule.Name = trimws(Small.Molecule.Name)) %>%
+  rename('name' = Small.Molecule.Name) %>%
+	mutate(lower_case_name = tolower(name)) %>%
+	mutate(no_dash_name = str_replace(name,"-","")) %>% 
+  rename('hms_lincs_id' = Small.Molecule.HMS.LINCS.ID) %>% 
+	unique() %>%
+	filter(!is.na(name))
+
+PRISM_match_set = PRISM %>%
+	select(broad_id, name) %>%
+	mutate(name = trimws(name)) %>%
+	unique() %>%
+	filter(!is.na(name))
+
+matches = LINCS_kd_compound_match_set %>% 
+	left_join(PRISM_match_set, by = "name") %>%
+	rename(reg_broad_id = broad_id) %>%
+	left_join(PRISM_match_set, by = c('lower_case_name'='name')) %>%
+	rename(lower_broad_id = broad_id) %>%
+	left_join(PRISM_match_set, by = c('no_dash_name'='name')) %>%
+	rename(no_dash_broad_id = broad_id) %>%
+	mutate(broad_id = case_when(
+		!is.na(reg_broad_id) ~ reg_broad_id,
+		!is.na(lower_broad_id) ~ lower_broad_id,
+		!is.na(no_dash_broad_id) ~ no_dash_broad_id,
+		TRUE ~ "No Match"
+	)) %>%
+	filter(broad_id != "No Match") %>%
+	unique()
+	identity()
+
+LINCS_no_matches = LINCS_kd_compound_match_set %>%
+	filter(!name %in% c(matches$name))
+
+PRISM_no_matches = PRISM_match_set %>%
+	filter(!broad_id %in% matches$broad_id)
+
+write_csv(LINCS_no_matches, here('src/find_LINCS_PRISM_matches/no_clear_match_LINCS_drug_list.csv'))
+write_csv(PRISM_no_matches, here('src/find_LINCS_PRISM_matches/no_clear_match_PRISM_drug_list.csv'))
+```
+
+From here we opened each individual drug list file and manually matched the drug names, producing "manual_matches.csv". 
+
+```{r}
+manual_matches = read_csv(here('src/find_LINCS_PRISM_matches/manual_matches.csv'))
+
+manual_matches = manual_matches %>%
+	left_join(PRISM_match_set, by = c('PRISM_name'='name'))
+
+combined_match_list = matches %>%
+	mutate(manual_match_broad_id = NA) %>%
+	# select(drug,broad_id) %>%
+	bind_rows(manual_matches %>%
+							select(-PRISM_name) %>%
+							rename(name = LINCS_name, manual_match_broad_id = broad_id)) %>%
+	mutate(broad_id = ifelse(is.na(broad_id), manual_match_broad_id, broad_id)) %>%
+	select(everything(),manual_match_broad_id,broad_id)
+	write_csv(here('src/find_LINCS_PRISM_matches/LINCS_PRISM_match_list.csv'))
+
+unmatched_klaeger = klaeger_match_set %>% 
+		filter(! drug %in% combined_match_list$drug) %>% 
+		select(drug) %>% 
+		select(klaeger_drug = drug)
+unmatched_PRISM = PRISM_match_set %>%
+	filter(! broad_id %in% combined_match_list$broad_id)
+
+write_csv(unmatched_klaeger,here('src/find_PRISM_klaeger_matches/unmatched_klaeger.csv'))
+write_csv(unmatched_PRISM,here('src/find_PRISM_klaeger_matches/unmatched_PRISM.csv'))
+```

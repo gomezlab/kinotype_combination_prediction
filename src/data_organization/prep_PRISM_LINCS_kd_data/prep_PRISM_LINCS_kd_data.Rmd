@@ -1,0 +1,126 @@
+---
+title: "prep_PRISM_LINCS_kd_data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(BerginskiRMisc)
+library(tidyverse)
+library(here)
+library(readxl)
+library(patchwork)
+```
+
+```{r}
+#READING IN DATA
+PRISM_parms = read_csv(here('data/secondary/secondary-screen-dose-response-curve-parameters.csv'))
+
+LINCS_KINOMEscan_Kd = read.csv.all(here('data/LINCS/Data Files/Kd/*'))
+
+LINCS_PRISM_matches = read_csv(here('src/data_organization/find_LINCS_PRISM_matches/LINCS_PRISM_match_list.csv')) %>% select(name, broad_id)
+```
+
+```{r}
+#DATA PROCESSING
+LINCS_KINOMEscan_Kd_wide = LINCS_KINOMEscan_Kd %>%
+	select(-Conc.unit, -Protein.HMS.LINCS.ID, Small.Molecule.HMS.LINCS.ID) %>%
+	filter(!str_detect(Protein.Name, "\\(")) %>% 
+	pivot_wider(names_from = Protein.Name, values_from = Kd) %>% 
+	mutate_all(~replace(., is.na(.), 2*max(LINCS_KINOMEscan_Kd$Kd, na.rm = TRUE))) %>% 
+	left_join(LINCS_PRISM_matches, by = c("Small.Molecule.Name" = "name"))
+
+response_curve_parameters = PRISM_parms %>%
+	#Filter only to compounds that match the Klaeger list and to cell lines that
+	#passed STR profiling
+	filter(broad_id %in% LINCS_PRISM_matches$broad_id, passed_str_profiling) %>% 
+	#Filter IC50 that are NA
+	filter(!is.na(ic50)) %>% 
+	select(broad_id, depmap_id, ic50, name)
+
+Kd_ic50_matrix = response_curve_parameters %>% 
+	left_join(LINCS_KINOMEscan_Kd_wide, by = "broad_id") %>% 
+	select(-Small.Molecule.HMS.LINCS.ID, -Small.Molecule.Name) %>% 
+	filter(ic50 < 1000)
+
+write_csv(Kd_ic50_matrix, here('data/LINCS_PRISM_Kd_ic50_matrix.csv'))
+
+```
+
+```{r}
+#EDA
+
+#PERCENTAGE NO-HITS
+
+median_ic50 = median(Kd_ic50_matrix$ic50)
+
+Kd_ic50_matrix_long = Kd_ic50_matrix %>% 
+	pivot_longer(AAK1:ZAP70, names_to = "kinase", values_to = "Kd") %>% 
+	mutate(Max = if_else(Kd == 19800, "Max", "Not-Max"))
+
+Percent_max_values = Kd_ic50_matrix_long %>% 
+	group_by(kinase) %>% 
+	summarise(percent_max = mean(Kd == 19800))
+
+mean(Percent_max_values$percent_max)
+
+ggplot(Percent_max_values, aes(x = kinase, y = percent_max)) + geom_col() + geom_hline(aes(yintercept = 0.7025), linetype = "dotted", size = 1, color = "red") + theme(axis.text.x=element_blank())
+
+ggsave(here('percent_no_hits.png'))
+
+
+#KINASE OVERLAP
+
+all_kinase_counts = Kd_ic50_matrix_long %>%
+	count(depmap_id, kinase) %>% 
+	pivot_wider(names_from = depmap_id, values_from = n)
+
+no_max_kinase_counts = Kd_ic50_matrix_long %>%
+	filter(Max == "Not-Max") %>% 
+	count(depmap_id, kinase) %>% 
+	pivot_wider(names_from = depmap_id, values_from = n)
+
+no_max_kinase_counts_na_drop = no_max_kinase_counts %>% 
+	drop_na()
+
+write_csv(no_max_kinase_counts, here('data/no_max_kinase_counts.csv'))
+write_csv(all_kinase_counts, here('data/all_kinase_counts.csv'))
+write_csv(no_max_kinase_counts_na_drop, here('data/no_max_kinase_counts_na_dropped.csv'))
+
+#DATA DISTRIBUTIONS
+
+Kd_ic50_matrix_filtered = Kd_ic50_matrix %>% 
+	filter(ic50 < 20)
+Kd_ic50_matrix_logic50 = Kd_ic50_matrix %>% 
+	mutate(log_ic50 = log10(ic50))
+
+LINCS_KINOMEscan_Kd_long = LINCS_KINOMEscan_Kd_wide %>% 
+	pivot_longer(AAK1:ZAP70, names_to = "kinase", values_to = "kd" )
+
+#IC50 by cell line
+ggplot(Kd_ic50_matrix_filtered, aes(x = depmap_id, y = ic50)) + geom_boxplot() + theme(axis.text.x=element_blank(), legend.position="none")
+
+ggsave(here('percent_no_hits.png'))
+
+
+#IC50 by drug
+ggplot(Kd_ic50_matrix_filtered, aes(x = name, y = ic50)) + geom_boxplot() + theme(axis.text.x=element_blank(), legend.position="none") + xlab("drug")
+
+#Kd by ic50
+Kd_ic50_matrix_long %>% filter(depmap_id == "ACH-000319") %>% ggplot(aes(x = Kd, y = ic50)) + geom_point()
+Kd_ic50_matrix_long %>% filter(depmap_id == "ACH-000319") %>% view()
+
+Kd_ic50_matrix_long %>% count(ic50) %>% view()
+
+#IC50 Distribution
+Kd_ic50_matrix_filtered %>% ggplot(aes(x = ic50)) + geom_histogram(bins = 100) + ggtitle("PRISM IC50 Distribution")
+ggsave(here('src/data_organization/prep_PRISM_LINCS_kd_data/ic50_distribution.png'))
+#Log10 IC50 Distribution
+Kd_ic50_matrix_logic50 %>% filter(log_ic50 > -5) %>%  ggplot(aes(x = log_ic50)) + geom_histogram(bins = 100) + ggtitle("PRISM IC50 Distribution")
+ggsave(here('src/data_organization/prep_PRISM_LINCS_kd_data/log10ic50_distribution.png'))
+
+#Kd Distribution
+LINCS_KINOMEscan_Kd_long  %>%  ggplot(aes(x = kd)) + geom_histogram(bins = 100) + ggtitle("LINCS KinomeScan Kd Distribution")
+ggsave(here('src/data_organization/prep_PRISM_LINCS_kd_data/kd_distribution.png'))
+
+```
+
