@@ -1,0 +1,66 @@
+---
+title: "find bromoscan PRISM compound matches"
+output: html_document
+date: '2022-05-11'
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+#read in data
+raw_bromoscani_compound_list = read_csv(here('data/bromoscan/paper_supp_files/kd_data_long.csv'))
+ALMANAC_cids = read_csv(here('results/matching/ALMANAC_all_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+```
+
+```{r}
+#preprocessing
+
+bromoscan_matchlist = raw_bromoscani_compound_list %>%
+  rename(
+    #gene = `BROMOscan Gene Symbol`, 
+    drug = `Common Inhibitor Name`, 
+    smiles = `Inhibitor SMILE`,
+  ) %>% 
+  select(drug, smiles) %>% 
+  unique()
+```
+
+
+```{r}
+#get PubChem cids for bromoscani's
+bromoscan_cids_from_smiles = get_cid(bromoscan_matchlist$smiles %>% unique(), from = "smiles", domain = "compound", match = "all", verbose = T) %>% 
+ 	rename("smiles" = query) %>% 
+  left_join(bromoscan_matchlist)
+
+bromoscan_cids_from_name = get_cid(bromoscan_matchlist$drug %>% unique(), from = "name", domain = "compound", match = "all", verbose = T) %>% 
+ 	rename("drug" = query) %>% 
+  left_join(bromoscan_matchlist)
+
+bromoscan_cids_full = bromoscan_cids_from_smiles %>%
+  bind_rows(bromoscan_cids_from_name) %>% 
+  select(-smiles) %>% 
+  unique() %>% 
+	filter(!is.na(cid))
+```
+
+```{r}
+matches = bromoscan_cids_full %>% 
+	left_join(ALMANAC_cids) 
+	filter(!is.na(broad_id)) %>% 
+	select(-cid) %>% 
+	rename(PRISM_name = name) %>% 
+	unique() %>%
+	write_csv(here('results/matching/compound_matches.csv'))
+
+drugs_with_duplicate_broad_ids = matches %>% 
+	count(bromoscan_name) %>% 
+	filter(n == 2)
+```
+
