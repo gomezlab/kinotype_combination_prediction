@@ -1,0 +1,28 @@
+```{r}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#read in data 
+dtc_data = read_csv(here('data/DrugTargetCommons/DtcDrugTargetInteractions.csv'))
+```
+
+```{r}
+#EDA
+
+compounds = dtc_data %>% 
+	select(compound_name) %>% 
+	unique()
+
+assays = dtc_data %>% 
+	select(assay_description) %>% 
+	unique()
+
+compound_cids = get_cid(compounds$compound_name, from = "name", domain = "compound", match = "all", verbose = T)
+
+write_csv(compound_cids %>% 
+						filter(!is.na(cid)), here('results/matching/all_dtc_cids.csv'))
+```
+
