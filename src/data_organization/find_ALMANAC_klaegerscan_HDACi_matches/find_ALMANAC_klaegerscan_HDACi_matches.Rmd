@@ -45,17 +45,20 @@ HDAC_cids_full = HDAC_cids %>%
 		HDAC_name == 'Valproic_acid' ~ '3121', 
 		T ~ cid
 	)) %>% 
-	filter(!is.na(cid))
+	filter(!is.na(cid)) %>% 
+  write_csv(here('results/matching/all_HDACi_cids.csv'))
+
+HDAC_NSC = cts_convert(HDAC_cids_full$cid, from = "pubchem cid", to = "dtp/nci", match = "all")
+cts_from()
 ```
 
 ```{r}
 matches = HDAC_cids_full %>% 
-	left_join(ALMANAC_cids) 
-	filter(!is.na(broad_id)) %>% 
+	left_join(ALMANAC_cids) %>% 
+	filter(!is.na(NSC)) %>% 
 	select(-cid) %>% 
-	rename(PRISM_name = name) %>% 
 	unique() %>%
-	write_csv(here('results/matching/compound_matches.csv'))
+	write_csv(here('results/matching/ALMANAC_HDACi_compound_matches.csv'))
 
 drugs_with_duplicate_broad_ids = matches %>% 
 	count(HDAC_name) %>% 

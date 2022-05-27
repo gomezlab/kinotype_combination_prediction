@@ -1,135 +1,2021 @@
-NSC,cid,ALMANAC_name
-NSC-740,126941,Methotrexate
-NSC-750,2478,Busulfan
-NSC-752,2723601,Thioguanine
-NSC-752,2723601,6-Thioguanine
-NSC-755,667490,Mercaptopurine
-NSC-762,5935,Mechlorethamine hydrochloride
-NSC-1390,135401907,Allopurinol
-NSC-3053,457193,Dactinomycin
-NSC-3053,44415057,Dactinomycin
-NSC-3088,2708,Chlorambucil
-NSC-6396,5453,Thiotepa
-NSC-8806,460612,Melphalan
-NSC-9706,5799,Triethylenemelamine
-NSC-13875,2123,Altretamine
-NSC-14229,5351141,Quinacrine hydrochloride
-NSC-18509,123608,Aminolevulinic acid hydrochloride
-NSC-19893,3385,Fluorouracil
-NSC-25154,4842,Pipobroman
-NSC-26271,2907,Cyclophosphamide
-NSC-26271,22420,Cyclophosphamide
-NSC-26980,5746,Mitomycin
-NSC-27640,5790,Floxuridine
-NSC-32065,3657,Hydroxyurea
-NSC-34462,6194,Uracil mustard
-NSC-38721,4211,Mitotane
-NSC-45388,135398738,Dacarbazine
-NSC-45923,4114,Methoxsalen
-NSC-49842,5388983,Vinblastine sulfate
-NSC-49842,5388983,Vinblastine Sulfate Hydrate
-NSC-63878,6252,Cytarabine hydrochloride
-NSC-63878,5351180,Cytarabine hydrochloride
-NSC-66847,5426,Thalidomide
-NSC-67574,5978,Vincristine sulfate
-NSC-67574,249332,Vincristine sulfate
-NSC-71423,11683,Megestrol acetate
-NSC-77213,9703,Procarbazine hydrochloride
-NSC-79037,3950,Lomustine
-NSC-82151,30323,Daunorubicin hydrochloride
-NSC-82151,62770,Daunorubicin hydrochloride
-NSC-85998,29327,Streptozocin
-NSC-85998,2733335,Streptozocin
-NSC-92859,518605,Arsenic trioxide
-NSC-102816,9444,Azacitidine
-NSC-105014,20279,Cladribine
-NSC-109724,3690,Ifosfamide
-NSC-119875,5702198,Cisplatin
-NSC-122758,444795,Tretinoin
-NSC-122819,452548,Teniposide
-NSC-122819,34698,Teniposide
-NSC-122819,54610154,Teniposide
-NSC-123127,1691,Doxorubicin hydrochloride
-NSC-123127,31703,Doxorubicin hydrochloride
-NSC-123127,32874,Doxorubicin hydrochloride
-NSC-123127,443939,Doxorubicin hydrochloride
-NSC-125066,5460769,Bleomycin sulfate
-NSC-125973,36314,Paclitaxel
-NSC-127716,451668,Decitabine
-NSC-138783,77082,bendamustine hydrochloride
-NSC-141540,36462,Etoposide
-NSC-169780,71384,Dexrazoxane
-NSC-169780,6918223,Dexrazoxane
-NSC-180973,2733525,Tamoxifen citrate
-NSC-218321,439693,Pentostatin
-NSC-226080,5284616,Sirolimus
-NSC-226080,54600319,Sirolimus
-NSC-241240,426756,Carboplatin
-NSC-241240,38904,Carboplatin
-NSC-241240,56840877,Carboplatin
-NSC-246131,454216,Valrubicin
-NSC-279836,4212,Mitoxantrone
-NSC-296961,2141,Amifostine
-NSC-362856,5394,Temozolomide
-NSC-369100,57469,Imiquimod
-NSC-409962,2578,Carmustine
-NSC-606869,354624,Clofarabine
-NSC-608210,25136944,Vinorelbine tartrate
-NSC-609699,60699,Topotecan hydrochloride
-NSC-613327,60750,Gemcitabine hydrochloride
-NSC-613327,356653,Gemcitabine hydrochloride
-NSC-628503,148124,Docetaxel
-NSC-681239,387447,Bortezomib
-NSC-686673,3011155,Nelarabine
-NSC-698037,135410875,Pemetrexed Disodium
-NSC-701852,5311,Vorinostat
-NSC-702294,54611422,Estramustine phosphate sodium
-NSC-712807,400633,Capecitabine
-NSC-713563,60198,Exemestane
-NSC-715055,123631,Gefitinib
-NSC-718781,176871,Erlotinib hydrochloride
-NSC-719276,104741,Fulvestrant
-NSC-719345,3902,Letrozole
-NSC-719627,2662,Celecoxib
-NSC-721517,68740,Zoledronic acid
-NSC-732517,3062316,Dasatinib
-NSC-733504,54608520,Everolimus
-NSC-743414,5291,Imatinib mesylate
-NSC-745750,208908,Lapatinib ditosylate
-NSC-747599,644241,Nilotinib
-NSC-747971,216239,Sorafenib tosylate
-NSC-747972,216326,Lenalidomide
-NSC-747973,6445540,Ixabepilone
-NSC-747974,5035,Raloxifene hydrochloride
-NSC-755986,24776445,Vismodegib
-NSC-761432,9854073,Cabazitaxel
-NSC-118218,3367,2-Fluoro Ara-A
-NSC-118218,657237,2-Fluoro Ara-A
-NSC-256439,42890,Idarubicin hydrochloride
-NSC-256439,636362,Idarubicin hydrochloride
-NSC-256942,41867,4'-Epiadriamycin
-NSC-256942,32874,4'-Epiadriamycin
-NSC-673596,104842,7-Ethyl-10-hydroxycamptothecin
-NSC-719344,2187,Anastrozole
-NSC-749226,132971,Abiraterone
-NSC-750690,5329102,Sunitinib (free base)
-NSC-754143,5352062,Romidepsin
-NSC-754230,148121,pralatrexate
-NSC-757441,6450551,Axitinib
-NSC-760766,3081361,Vandetanib
-NSC-761431,42611257,vemurafenib
-NSC-707389,11354606,Eribulin mesylate
-NSC-707389,17755248,Eribulin mesylate
-NSC-737754,11525740,Pazopanib hydrochloride
-NSC-763371,25126798,Ruxolitinib
-NSC-24559,163659,Plicamycin
-NSC-24559,457831,Plicamycin
-NSC-24559,5284610,Plicamycin
-NSC-24559,6326719,Plicamycin
-NSC-24559,230076,Plicamycin
-NSC-24559,146157736,Plicamycin
-NSC-24559,163659,Mithramycin
-NSC-266046,9887053,Oxaliplatin
-NSC-756645,11626560,Crizotinib
-NSC-761431,42611257,vemurafenib
-NSC-753082,42611257,vemurafenib
+ALMANAC_name,cid,NSC
+Methotrexate,126941,NSC-740
+Trexall,126941,NSC-740
+Trexall,11329481,NSC-740
+Abitrexate,126941,NSC-740
+Abitrexate,11329481,NSC-740
+Mexate,4112,NSC-740
+Amethopterin,4112,NSC-740
+Amethopterin,126941,NSC-740
+MTX,126941,NSC-740
+HDMTX,126941,NSC-740
+Methylaminopterin,126941,NSC-740
+Methylaminopterin,4112,NSC-740
+Metatrexan,126941,NSC-740
+Methopterin,135434845,NSC-740
+R 9985,126941,NSC-740
+CL 14377,126941,NSC-740
+"EMT 25,299",126941,NSC-740
+NCI-C04671,126941,NSC-740
+METHOTREXATE,126941,NSC-740
+METHOTREXATE,126941,NSC-740
+WLN: T66 BN DN GN JNJ CZ EZ H1N1&R DVMYVQ2VQ,126941,NSC-740
+L-Glutamic acid,33032,NSC-740
+L-Glutamic acid,33032,NSC-698037
+Glutamic acid,33032,NSC-740
+Busulfan,2478,NSC-750
+Myleran,2478,NSC-750
+Busulfex,2478,NSC-750
+"1,4-Dimethylsulfonoxybutane",2478,NSC-750
+"1,4-Butanediol dimethylsulfonate",2478,NSC-750
+GT 41,2478,NSC-750
+X 149,2478,NSC-750
+Mablin,2478,NSC-750
+NSC-750,2478,NSC-750
+NSC 750,2478,NSC-750
+Mileran,2478,NSC-750
+MYLERAN,2478,NSC-750
+GT 2041,2478,NSC-750
+G.T. 41,2478,NSC-750
+CB 2041,2478,NSC-750
+Mielosan,2478,NSC-750
+Misulban,2478,NSC-750
+Mitostan,2478,NSC-750
+AN 33501,2478,NSC-750
+Myelosan,2478,NSC-750
+Buzulfan,2478,NSC-750
+Mielucin,2478,NSC-750
+Mylecytan,2478,NSC-750
+Busulphan,2478,NSC-750
+C.B. 2041,2478,NSC-750
+Mielevcin,2478,NSC-750
+Milecitan,2478,NSC-750
+NCI-C01592,2478,NSC-750
+2041 C. B.,2478,NSC-750
+Citosulfan,2478,NSC-750
+Leucosulfan,2478,NSC-750
+Myeloleukon,2478,NSC-750
+Sulphabutin,2478,NSC-750
+"1,4-Dimesyloxybutane",2478,NSC-750
+"1,4-Dimethanesulfonoxybutane",2478,NSC-750
+"1,4-Dimethylsulfonyloxybutane",2478,NSC-750
+"1,4-Dimethanesulfonyloxybutane",2478,NSC-750
+"1,4-Bis[methanesulfonoxy]butane",2478,NSC-750
+"1,4-Bis(methanesulfonyloxy)butane",2478,NSC-750
+"1,4-Butanediol dimethanesulfonate",2478,NSC-750
+Tetramethylene dimethane sulfonate,2478,NSC-750
+Tetramethylene bis[methanesulfonate],2478,NSC-750
+Methanesulfonic acid,6395,NSC-750
+WLN: WS1&O4OSW1,2478,NSC-750
+"1,4-Butanediol",8064,NSC-750
+"1,4-Butanediol",8064,NSC-750
+Sulfabutin,2478,NSC-750
+Thioguanine,2723601,NSC-752
+Thioguanine,2723601,NSC-752
+Thioguanine,2723601,NSC-752
+6-Thioguanine,2723601,NSC-752
+Lanvis,2723601,NSC-752
+Tioguanine,2723601,NSC-752
+6-Mercaptoguanine,2723601,NSC-752
+2-Aminopurine-6-thiol,2723601,NSC-752
+2-Amino-6-mercaptopurine,2723601,NSC-752
+Tioguanin,2723601,NSC-752
+TG,2723601,NSC-752
+2-Amino-6-purinethiol,2723601,NSC-752
+X 27,2723601,NSC-752
+6-Mercapto-2-aminopurine,2723601,NSC-752
+Purine-6-thiol,667490,NSC-752
+Purine-6-thiol,667490,NSC-755
+Purine-6-thiol,667490,NSC-755
+BW 5071,2723601,NSC-752
+2-Aminopurine-6(1H)-thione,2723601,NSC-752
+Tabloid,2723601,NSC-752
+2-Amino 6MP,2723601,NSC-752
+Wellcome U3B,2723601,NSC-752
+6-THIOGUANINE,2723601,NSC-752
+NSC 752,2723601,NSC-752
+2-Aminopurin-6-thiol,2723601,NSC-752
+WLN: T56 BNM FYM INJ FUS HZ,2723601,NSC-752
+6H-Purine-6-thione,185097,NSC-752
+6H-Purine-6-thione,185097,NSC-755
+Purine-6(1H)-thione,667490,NSC-752
+Guanine,135398634,NSC-752
+Mercaptopurine,667490,NSC-755
+6-Purinethiol,667490,NSC-755
+6-Mercaptopurine,667490,NSC-755
+6-Thiopurine,667490,NSC-755
+Purinethol,667490,NSC-755
+6-MP,667490,NSC-755
+3H-Purine-6-thiol,667490,NSC-755
+Purine,1044,NSC-755
+"7-Mercapto-1,3,4,6-tetrazaindene",667490,NSC-755
+Ismipur,667490,NSC-755
+Leukeran,2708,NSC-755
+Leukeran,2708,NSC-3088
+Leukerin,667490,NSC-755
+Leupurin,667490,NSC-755
+Mercapurin,667490,NSC-755
+Purimethol,667490,NSC-755
+Mercaleukin,667490,NSC-755
+Mern,667490,NSC-755
+6-Thioxopurine,667490,NSC-755
+U-4748,667490,NSC-755
+6-Mercaptopurin,667490,NSC-755
+NCI-C04886,667490,NSC-755
+6 MP,667490,NSC-755
+Puri-Nethol,667490,NSC-755
+Mercaleukim,667490,NSC-755
+NSC 755,667490,NSC-755
+WLN: T56 BM DN FN HNJ ISH,667490,NSC-755
+6-MERCAPTOPURINE,667490,NSC-755
+Purinethiol,667490,NSC-755
+Hypoxanthine,135398638,NSC-755
+Mechlorethamine hydrochloride,5935,NSC-762
+Mustargen hydrochloride,5935,NSC-762
+HN2,4033,NSC-762
+Nitrogen mustard hydrochloride,5935,NSC-762
+Dichloromethyldiethylamine hydrochloride,5935,NSC-762
+Bis(2-chloroethyl)methylamine hydrochloride,5935,NSC-762
+HN2 hydrochloride,5935,NSC-762
+Methyldi(2-chloroethyl)amine hydrochloride,5935,NSC-762
+Di(2-chloroethyl)methylamine hydrochloride,5935,NSC-762
+Methylbis(2-chloroethyl)amine hydrochloride,5935,NSC-762
+BIS(2-CHLOROETHYL)METHYLAMINE HYDROCHLORIDE,5935,NSC-762
+N-Methylbis(2-chloroethyl)amine hydrochloride,5935,NSC-762
+Methyldi(.beta.-chloroethyl)amine hydrochloride,5935,NSC-762
+"1,5-Dichloro-3-methyl-3-azapentane hydrochloride",5935,NSC-762
+Methylbis(.beta.-chloroethyl)amine hydrochloride,5935,NSC-762
+"2,2'-Dichloro-N-methyldiethylamine hydrochloride",5935,NSC-762
+"N-Methyl-2,2'-dichlorodiethylamine hydrochloride",5935,NSC-762
+"2,2'-Dichloro-N-methyldiethylamino hydrochloride",5935,NSC-762
+Azotoyperite,5935,NSC-762
+N-Methylbis(.beta.-chlorethyl)amine hydrochloride,5935,NSC-762
+Mitoxine,5935,NSC-762
+Carolysine,4033,NSC-762
+Carolysine,5935,NSC-762
+Diethylamine,8021,NSC-762
+Diethylamine,8021,NSC-762
+Caryolysine,4033,NSC-762
+Caryolysine,5935,NSC-762
+MBA hydrochloride,5935,NSC-762
+".beta.,.beta.'-Dichlorodiethyl-N-methylamine hydrochloride",5935,NSC-762
+2-Chloro-N-(2-chloroethyl)-N-methylethanamine hydrochlroide,5935,NSC-762
+Dema,5935,NSC-762
+Nitol,5935,NSC-762
+SK 101,5935,NSC-762
+N-Lost,4033,NSC-762
+N-Lost,5935,NSC-762
+C 6866,5935,NSC-762
+Erasol,5935,NSC-762
+Dimitan,5935,NSC-762
+Embichin,4033,NSC-762
+Embichin,5935,NSC-762
+Erasol hydrochloride,5935,NSC-762
+Mustine hydrochloride,5935,NSC-762
+NSC-762 hydrochloride,5935,NSC-762
+Embichin hydrochloride,5935,NSC-762
+Chloramin hydrochloride,5935,NSC-762
+Dichloren hydrochloride,5935,NSC-762
+Caryolysine hydrochloride,5935,NSC-762
+Chlormethine hydrochloride,5935,NSC-762
+Mechorethamine hydrochloride,5935,NSC-762
+Nitrogranulogen hydrochloride,5935,NSC-762
+Embikhine,5935,NSC-762
+Dichloren,5935,NSC-762
+Embechine,4033,NSC-762
+Embechine,5935,NSC-762
+Erasol-Ido,5935,NSC-762
+NCI-C56382,5935,NSC-762
+Nitol takeda,5935,NSC-762
+Chlorethazine,4033,NSC-762
+Chlormethinum,5935,NSC-762
+Chlorethamine,5935,NSC-762
+Mebichloramine,4033,NSC-762
+Mebichloramine,5935,NSC-762
+Stickstofflost,5935,NSC-762
+Nitrogranulogen,4033,NSC-762
+Nitrogranulogen,5935,NSC-762
+Mustine hydrochlor,5935,NSC-762
+Nitrogen Mustard hydrochloride,5935,NSC-762
+WLN: G2N1&2G &GH,5935,NSC-762
+Ethanamine,6341,NSC-762
+Ethanamine,6341,NSC-180973
+Ethanamine,6341,NSC-180973
+Ethanamine,6341,NSC-180973
+Chloramin,5935,NSC-762
+Chloramine,25423,NSC-762
+Allopurinol,135401907,NSC-1390
+Lopurin,135401907,NSC-1390
+4-HPP,135401907,NSC-1390
+"4-Hydroxypyrazolo[3,4-d]pyrimidine",135401907,NSC-1390
+"4-Hydroxy-1H-pyrazolo[3,4-d]pyrimidine",135401907,NSC-1390
+"1H-Pyrazolo[3,4-d]pyrimidin-4-ol",135401907,NSC-1390
+Uripurinol,135401907,NSC-1390
+"4-Hydroxy-3,4-pyrazolopyrimidine",135401907,NSC-1390
+"4-Hydroxypyrazolyl[3,4-d]pyrimidine",135401907,NSC-1390
+"4'-Hydroxypyrazolol[3,4-d]pyrimidine",135401907,NSC-1390
+B. W. 56-158,135401907,NSC-1390
+BW 56-158,135401907,NSC-1390
+BW 56158,135401907,NSC-1390
+Zyloprim,135401907,NSC-1390
+Gotax,135401907,NSC-1390
+Urbol,135401907,NSC-1390
+Geapur,135401907,NSC-1390
+Urosin,135401907,NSC-1390
+Apurol,135401907,NSC-1390
+Urolit,135401907,NSC-1390
+Anzief,135401907,NSC-1390
+Foligan,135401907,NSC-1390
+Milurit,135401907,NSC-1390
+Allopur,135401907,NSC-1390
+Uriprim,135401907,NSC-1390
+Progout,135401907,NSC-1390
+Zyloric,135401907,NSC-1390
+Ailural,135401907,NSC-1390
+Embarin,135401907,NSC-1390
+Xanturat,135401907,NSC-1390
+Uricemil,135401907,NSC-1390
+Bleminol,135401907,NSC-1390
+Bloxanth,135401907,NSC-1390
+Atisuril,135401907,NSC-1390
+Alositol,135401907,NSC-1390
+Ketobun-A,135401907,NSC-1390
+Epidropal,135401907,NSC-1390
+Anoprolin,135401907,NSC-1390
+Allopurinol(I),135401907,NSC-1390
+WLN: T56 BMN GN INJ FQ,135401907,NSC-1390
+"1,5-Dihydro-4H-pyrazolo[3,4-d]pyrimidin-4-one",135401907,NSC-1390
+Dactinomycin,457193,NSC-3053
+Cosmegen,457193,NSC-3053
+Actinomycin D,457193,NSC-3053
+Actinomycin D,457193,NSC-3053
+Actinomycin D,457193,NSC-3053
+Actinomycin D,2019,NSC-3053
+Actinomycin D,2019,NSC-3053
+Actinomycin D,2019,NSC-3053
+Actinomycin D,78357827,NSC-3053
+Actinomycin D,78357827,NSC-3053
+Actinomycin D,78357827,NSC-3053
+Actinomycin D,44415057,NSC-3053
+Actinomycin D,44415057,NSC-3053
+Actinomycin D,44415057,NSC-3053
+Actinomycin D,71306720,NSC-3053
+Actinomycin D,71306720,NSC-3053
+Actinomycin D,71306720,NSC-3053
+Actinomycin D,126963444,NSC-3053
+Actinomycin D,126963444,NSC-3053
+Actinomycin D,126963444,NSC-3053
+Actinomycin D,131954673,NSC-3053
+Actinomycin D,131954673,NSC-3053
+Actinomycin D,131954673,NSC-3053
+Antibiotic from Streptomyces parvullus,2019,NSC-3053
+Antibiotic from Streptomyces parvullus,457193,NSC-3053
+Antibiotic from Streptomyces parvullus,44415057,NSC-3053
+Oncostatin K,2019,NSC-3053
+Oncostatin K,457193,NSC-3053
+Oncostatin K,44415057,NSC-3053
+Actinomycin 7,2019,NSC-3053
+Actinomycin 7,457193,NSC-3053
+Actinomycin 7,44415057,NSC-3053
+Meractinomycin,457193,NSC-3053
+Actinomycin IV,457193,NSC-3053
+Dactinomycin D,2019,NSC-3053
+Dactinomycin D,457193,NSC-3053
+Dactinomycin D,44415057,NSC-3053
+Lyovac cosmegen,2019,NSC-3053
+Lyovac cosmegen,457193,NSC-3053
+Lyovac cosmegen,44415057,NSC-3053
+Actinomycin AIV,2019,NSC-3053
+Actinomycin AIV,457193,NSC-3053
+Actinomycin AIV,44415057,NSC-3053
+Actinomycin X 1,457193,NSC-3053
+Actinomycin X 1,44415057,NSC-3053
+Actinomycin I(sub1),44415057,NSC-3053
+Actactinomycin A IV,457193,NSC-3053
+Actactinomycin A IV,44415057,NSC-3053
+Actinomycin C(sub1),2019,NSC-3053
+Actinomycin C(sub1),457193,NSC-3053
+Actinomycin C(sub1),44415057,NSC-3053
+Actinomycin I (sub1),44415057,NSC-3053
+Actinomycin C (sub1),44415057,NSC-3053
+Dilactone actinomycin D acid,2019,NSC-3053
+Dilactone actinomycin D acid,457193,NSC-3053
+Dilactone actinomycin D acid,44415057,NSC-3053
+Dilactone actinomycindioic D acid,2019,NSC-3053
+Dilactone actinomycindioic D acid,457193,NSC-3053
+Dilactone actinomycindioic D acid,44415057,NSC-3053
+Actinomycindioic D acid,101826955,NSC-3053
+Actinomycin-[threo-val-pro-sar-meval],44415057,NSC-3053
+"3H-Phenoxazine-1,9-dicarboxamide",57431226,NSC-3053
+L-Valine,6287,NSC-3053
+L-Valine,6287,NSC-754143
+X 97,2019,NSC-3053
+X 97,457193,NSC-3053
+X 97,44415057,NSC-3053
+ACTO-D,2019,NSC-3053
+ACTO-D,457193,NSC-3053
+ACTO-D,44415057,NSC-3053
+HBF 386,44415057,NSC-3053
+NSC-3053,457193,NSC-3053
+NSC-3053,44415057,NSC-3053
+NCI-C04682,457193,NSC-3053
+ACTINOMYCIN D,457193,NSC-3053
+ACTINOMYCIN D,2019,NSC-3053
+ACTINOMYCIN D,78357827,NSC-3053
+ACTINOMYCIN D,44415057,NSC-3053
+ACTINOMYCIN D,71306720,NSC-3053
+ACTINOMYCIN D,126963444,NSC-3053
+ACTINOMYCIN D,131954673,NSC-3053
+WLN: 16- AN FVN IVN LVO PVM SVTJ G1 J1 KY1&1 N1 RY1&1,44415057,NSC-3053
+Chlorambucil,2708,NSC-3088
+Ambochlorin,2708,NSC-3088
+Phenylbutyric acid nitrogen mustard,2708,NSC-3088
+4-[Bis(2-chloroethyl)amino]phenylbutyric acid,2708,NSC-3088
+"p-(N,N-Di-2-chloroethyl)aminophenyl butyric acid",2708,NSC-3088
+CB 1348,2708,NSC-3088
+Elcoril,2708,NSC-3088
+Ecloril,2708,NSC-3088
+Cb l348,2708,NSC-3088
+NSC 3088,2708,NSC-3088
+Leukoran,2708,NSC-3088
+Leukersan,2708,NSC-3088
+NCI-C03485,2708,NSC-3088
+Amboclorin,2708,NSC-3088
+Chlorbutin,2708,NSC-3088
+Linfolizin,2708,NSC-3088
+Linfolysin,2708,NSC-3088
+Chlorbutine,2708,NSC-3088
+Chlorobutin,2708,NSC-3088
+CHLORAMBUCIL,2708,NSC-3088
+Chlorobutine,2708,NSC-3088
+Chloroambucil,2708,NSC-3088
+Chloraminophen,2708,NSC-3088
+Chloraminophene,2708,NSC-3088
+4-[Bis(2-chloroethyl)amino]benzenebutanoic acid,2708,NSC-3088
+4-[p-[Bis(2-chloroethyl)amino]phenyl]butyric acid,2708,NSC-3088
+Butyric acid,264,NSC-3088
+Butyric acid,264,NSC-3088
+Butyric acid,264,NSC-3088
+4[p-Bis(.beta.-chloroethyl)aminophenyl]butyric acid,2708,NSC-3088
+.gamma.-[p-Di(2-chloroethyl)aminophenyl]butyric acid,2708,NSC-3088
+4-[p-Bis(.beta.-chloroethyl)aminophenyl]butyric acid,2708,NSC-3088
+"p-N,N-Di-(.beta.-chloroethyl)aminophenyl butyric acid",2708,NSC-3088
+.gamma.-(p-bis(2-chloroethyl)aminophenyl)butyric acid,2708,NSC-3088
+.gamma.-[p-bis(2-chloroethyl)aminophenyl]butyric acid,2708,NSC-3088
+"N,N-Di-2-chloroethyl-.gamma.-p-aminophenylbutyric acid",2708,NSC-3088
+WLN: QV3R DN2G2G,2708,NSC-3088
+Benzenebutanoic acid,4775,NSC-3088
+Thiotepa,5453,NSC-6396
+Thioplex,5453,NSC-6396
+Triethylene thiophosphoramide,5453,NSC-6396
+Thiophosphamide,5453,NSC-6396
+TSPA,5453,NSC-6396
+Triethylenethiophosphoramide,5453,NSC-6396
+Tris(ethylenimino)thiophosphate,5453,NSC-6396
+Thiotriethylenephosphoramide,5453,NSC-6396
+Thio-tepa,5453,NSC-6396
+Triaziridinylphosphine sulfide,5453,NSC-6396
+Triethylenethiophosphorotriamide,5453,NSC-6396
+Tri(ethyleneimino)thiophosphoramide,5453,NSC-6396
+Tris(1-aziridinyl)phosphine sulfide,5453,NSC-6396
+"N,N',N''-Triethylenethiophosphamide",5453,NSC-6396
+"N,N',N''-Triethylenethiophosphoramide",5453,NSC-6396
+Phosphorothioic acid triethylenetriamide,5453,NSC-6396
+Thiophosphoramide,13908707,NSC-6396
+Thiophosphoramide,13908707,NSC-6396
+"1,1',1''-Phosphinothioylidynetrisaziridine",5453,NSC-6396
+"N,N',N''-Triethylenephosphorothioic triamide",5453,NSC-6396
+"N,N',N''-Tri-1,2-ethanediylthiophosphoramide",5453,NSC-6396
+Phosphorothioic triamide,13908707,NSC-6396
+Phosphorothioic triamide,13908707,NSC-6396
+"N,N',N''-Tri-1,2-ethanediylphosphorothioic triamide",5453,NSC-6396
+TESPA,5453,NSC-6396
+Tespa,5453,NSC-6396
+STEPA,5453,NSC-6396
+Thio-Tep,5453,NSC-6396
+TIO TEF,5453,NSC-6396
+Tio-tef,5453,NSC-6396
+SK 6882,5453,NSC-6396
+Tifosyl,5453,NSC-6396
+Thiotef,5453,NSC-6396
+Tespamin,5453,NSC-6396
+Girostan,5453,NSC-6396
+Oncotepa,5453,NSC-6396
+Tiofozil,5453,NSC-6396
+Tiofosyl,5453,NSC-6396
+Tespamine,5453,NSC-6396
+Thiofozil,5453,NSC-6396
+CBC 806495,5453,NSC-6396
+NCI-C01649,5453,NSC-6396
+Oncotiotepa,5453,NSC-6396
+Thio-tepa S,5453,NSC-6396
+Tiofosfamid,5453,NSC-6396
+Oncothio-tepa,5453,NSC-6396
+WLN: T3NTJ APS&- AT3NTJ&- AT3NTJ,5453,NSC-6396
+NSC 6396,5453,NSC-6396
+Thio-Tepa,5453,NSC-6396
+Aziridine,9033,NSC-6396
+Aziridine,9033,NSC-9706
+Phosphine sulfide,11147437,NSC-6396
+Melphalan,460612,NSC-8806
+Alkeran,460612,NSC-8806
+Phenylalanine mustard hydrochloride,9927978,NSC-8806
+Melphalan hydrochloride,9927978,NSC-8806
+L-PAM,460612,NSC-8806
+Alanine Nitrogen Mustard,460612,NSC-8806
+Alanine Nitrogen Mustard,9927978,NSC-8806
+L-Phenylalanine Mustard hydrochloride,9927978,NSC-8806
+L-Sarcolysine hydrochloride,9927978,NSC-8806
+L-Alanine,5950,NSC-8806
+CB 3025,460612,NSC-8806
+SK 15673,460612,NSC-8806
+SK 15673,9927978,NSC-8806
+Melfalan,460612,NSC-8806
+MELPHALAN,460612,NSC-8806
+WLN: QVYZ1R DN2G2G &GH,9927978,NSC-8806
+WLN: QVYZ1R DN2G2G &GH,12312742,NSC-8806
+L-Phenylalanine,6140,NSC-8806
+Alanine,5950,NSC-8806
+Alanine,449619,NSC-8806
+Alanine,7311724,NSC-8806
+Alanine,155817681,NSC-8806
+Triethylenemelamine,5799,NSC-9706
+Tretamine,5799,NSC-9706
+Triaziridinyl triazine,5799,NSC-9706
+Melamine,7955,NSC-9706
+Melamine,7955,NSC-13875
+Triethanomelamine,5799,NSC-9706
+"2,4,6-Tris(1-aziridinyl)-s-triazine",5799,NSC-9706
+Tretamin,5799,NSC-9706
+Triamelin,5799,NSC-9706
+Tem-Simes,5799,NSC-9706
+Persistol,5799,NSC-9706
+Trisaziridinyltriazine,5799,NSC-9706
+Tris(ethyleneimino)triazine,5799,NSC-9706
+"2,4,6-Tris(ethylenimino)-s-triazine",5799,NSC-9706
+"2,4,6-Tri(ethyleneimino)-s-triazine",5799,NSC-9706
+"2,4,6-Tris(ethyleneimino)-s-triazine",5799,NSC-9706
+"2,4,6-Tri(ethyleneimino)-1,3,5-triazine",5799,NSC-9706
+"2,4,6-Tris(1-aziridinyl)-1,3,5-triazine",5799,NSC-9706
+"1,1',1''-s-Triazine-2,4,6-triyltrisaziridine",5799,NSC-9706
+TAT,5799,NSC-9706
+TEM,5799,NSC-9706
+R-246,5799,NSC-9706
+R 246,5799,NSC-9706
+M-9500,5799,NSC-9706
+M 9500,5799,NSC-9706
+SK 1133,5799,NSC-9706
+SK #1133,5799,NSC-9706
+DRP 859025,5799,NSC-9706
+"ENT 25,296",5799,NSC-9706
+TEM (cytostatic),5799,NSC-9706
+NSC-9706,5799,NSC-9706
+WLN: T6N CN ENJ B- AT3NTJ& D- AT3NTJ& F- AT3NTJ,5799,NSC-9706
+"1,3,5-Triazine",9262,NSC-9706
+s-Triazine,9262,NSC-9706
+s-Triazine,9262,NSC-13875
+Altretamine,2123,NSC-13875
+Hexalen,2123,NSC-13875
+Hemel,2123,NSC-13875
+Hexamethylmelamine,2123,NSC-13875
+"2,4,6-Tris(dimethylamino)-s-triazine",2123,NSC-13875
+"2,4,6-Tris(dimethylamino)-1,3,5-triazine",2123,NSC-13875
+Hexastat,2123,NSC-13875
+ENT 50852,2123,NSC-13875
+NSC 13875,2123,NSC-13875
+HXM,2123,NSC-13875
+HTM,2123,NSC-13875
+HMM,2123,NSC-13875
+NC 195,2123,NSC-13875
+NCI-C50259,2123,NSC-13875
+HEXAMETHYLMELAMINE,2123,NSC-13875
+WLN: T6N CN ENJ BN1&1 DN1&1 FN1&1,2123,NSC-13875
+"1,3,5-Triazine-2,4,6-triamine",7955,NSC-13875
+Quinacrine hydrochloride,6239,NSC-14229
+Quinacrine hydrochloride,5351141,NSC-14229
+Quinacrine hydrochloride,237,NSC-14229
+Quinacrine hydrochloride,2725002,NSC-14229
+Mepacrine,237,NSC-14229
+Atabrine dihydrochloride,6239,NSC-14229
+Atabrine dihydrochloride,5351141,NSC-14229
+Acrichine,237,NSC-14229
+Acrichine,5351141,NSC-14229
+Acrichine,15329120,NSC-14229
+Quinacrine,237,NSC-14229
+Acriquine,237,NSC-14229
+Mepacrine HCl,2725002,NSC-14229
+Mepacrine HCl,5351141,NSC-14229
+Erion,237,NSC-14229
+SN 390,6239,NSC-14229
+SN 390,5351141,NSC-14229
+Mecryl,6239,NSC-14229
+Mecryl,237,NSC-14229
+Mecryl,5351141,NSC-14229
+Atabrine,237,NSC-14229
+Palusan,6239,NSC-14229
+Palusan,237,NSC-14229
+Palusan,5351141,NSC-14229
+Arichin,5351141,NSC-14229
+Metoquin,6239,NSC-14229
+Metoquin,5351141,NSC-14229
+S.N. 390,6239,NSC-14229
+S.N. 390,5351141,NSC-14229
+Pentilen,6239,NSC-14229
+Pentilen,237,NSC-14229
+Pentilen,5351141,NSC-14229
+Palacrin,6239,NSC-14229
+Palacrin,237,NSC-14229
+Palacrin,5351141,NSC-14229
+866 R.P.,6239,NSC-14229
+866 R.P.,5351141,NSC-14229
+Atebrine,6239,NSC-14229
+Atebrine,5351141,NSC-14229
+Italchin,6239,NSC-14229
+Italchin,237,NSC-14229
+Italchin,5351141,NSC-14229
+Metochin,6239,NSC-14229
+Metochin,237,NSC-14229
+Metochin,5351141,NSC-14229
+Metoquine,6239,NSC-14229
+Metoquine,5351141,NSC-14229
+Crinodora,6239,NSC-14229
+Crinodora,5351141,NSC-14229
+Chemiochin,6239,NSC-14229
+Chemiochin,5351141,NSC-14229
+Methoquine,6239,NSC-14229
+Methoquine,237,NSC-14229
+Methoquine,5351141,NSC-14229
+Malaricida,6239,NSC-14229
+Malaricida,237,NSC-14229
+Malaricida,5351141,NSC-14229
+Atebrin hydrochloride,6239,NSC-14229
+Atebrin hydrochloride,5351141,NSC-14229
+Atabrine hydrochloride,5351141,NSC-14229
+Mepacrine hydrochloride,6239,NSC-14229
+Mepacrine hydrochloride,2725002,NSC-14229
+Mepacrine hydrochloride,5351141,NSC-14229
+Mepacrine hydrochloride,237,NSC-14229
+Chinacrin hydrochloride,6239,NSC-14229
+Chinacrin hydrochloride,5351141,NSC-14229
+Mepacrine dihydrochloride,6239,NSC-14229
+Quinacrine dihydrochloride,6239,NSC-14229
+Quinacrine dihydrochloride mustard,5351141,NSC-14229
+3-Chloro-7-methoxy-9-[1-methyl-4-(diethylamino)butylamino]acridine dihydrochloride,5351141,NSC-14229
+2-Methoxy-6-chloro-9-[[4-(diethylamino)-1-methylbutyl]amino]acridine dihydrochloride,5351141,NSC-14229
+6-Chloro-9-[[4-(diethylamino)-1-methylbutyl]amino]-2-methoxyacridine dihydrochloride,5351141,NSC-14229
+3-Chloro-9-[4'-(diethylamino)-1'-methylbutyl]amino]-7-methoxyacridine dihydrochloride,5351141,NSC-14229
+2-Chloro-5-[[.omega.-(diethylamino)-.alpha.-methylbutyl)amino]-7-methoxyacridine dihydrochloride,5351141,NSC-14229
+Acridine,9215,NSC-14229
+Acridine,9215,NSC-14229
+Acridine,9215,NSC-14229
+WLN: T C666 BNJ EG IMY1&3N2&2 LO1 &GH 2,5351141,NSC-14229
+"1,4-Pentanediamine",550880,NSC-14229
+Aminolevulinic acid hydrochloride,123608,NSC-18509
+Levulan,123608,NSC-18509
+Aminolevulinic acid,137,NSC-18509
+5-Aminolevulinate hydrochloride,123608,NSC-18509
+.delta.-Aminolevulinic acid hydrochloride,123608,NSC-18509
+Pentanoic acid,7991,NSC-18509
+Pentanoic acid,7991,NSC-246131
+Levulinic acid,11579,NSC-18509
+Fluorouracil,3385,NSC-19893
+Efudex,3385,NSC-19893
+5-FU,3385,NSC-19893
+5-Fluorouracil,3385,NSC-19893
+Adrucil,3385,NSC-19893
+"5-Fluoro-2,4-pyrimidinedione",3385,NSC-19893
+"5-Fluoropyrimidine-2,4-dione",3385,NSC-19893
+"5-Fluoro-2,4(1H,3H)-pyrimidinedione",3385,NSC-19893
+Uracil,1174,NSC-19893
+Uracil,1174,NSC-19893
+Uracil,1174,NSC-19893
+Uracil,1174,NSC-34462
+Effluderm (free base),3385,NSC-19893
+FU,3385,NSC-19893
+Fluoroblastin,3385,NSC-19893
+5-Ftouracyl,3385,NSC-19893
+Fluoroplex,3385,NSC-19893
+Timazin,3385,NSC-19893
+Fluracil,3385,NSC-19893
+Carzonal,3385,NSC-19893
+Kecimeton,3385,NSC-19893
+Ro 2-9757,3385,NSC-19893
+FLUOROURACIL,3385,NSC-19893
+Ulup,3385,NSC-19893
+5-Fu,3385,NSC-19893
+Fluri,3385,NSC-19893
+Arumel,3385,NSC-19893
+Fluril,3385,NSC-19893
+Efudix,3385,NSC-19893
+U-8953,3385,NSC-19893
+NSC-19893,3385,NSC-19893
+NSC 19893,3385,NSC-19893
+WLN: T6MVMVJ EF,3385,NSC-19893
+"2,4(1H,3H)-Pyrimidinedione",1174,NSC-19893
+"2,4(1H,3H)-Pyrimidinedione",1174,NSC-34462
+Plicamycin,163659,NSC-24559
+Plicamycin,457831,NSC-24559
+Plicamycin,5284610,NSC-24559
+Plicamycin,6326719,NSC-24559
+Plicamycin,230076,NSC-24559
+Plicamycin,146157736,NSC-24559
+Mithramycin,163659,NSC-24559
+Mithramycin,163659,NSC-24559
+Mithramycin,163659,NSC-24559
+Mithracin,163659,NSC-24559
+Aurelic acid,163659,NSC-24559
+Aurelic acid,6326719,NSC-24559
+Mithramycin A,163659,NSC-24559
+Mithramycin A,457831,NSC-24559
+Mithramycin A,5284610,NSC-24559
+Mithramycin A,29051,NSC-24559
+Mithramycin A,230076,NSC-24559
+Mithramycin A,6326719,NSC-24559
+Mithramycin A,90479798,NSC-24559
+Mithramycin A,146157736,NSC-24559
+Mithramycin A,89624207,NSC-24559
+Mithramycin A,122172942,NSC-24559
+Mithramycin A,133562729,NSC-24559
+Aureolic acid,163659,NSC-24559
+Aureolic acid,457831,NSC-24559
+Aureolic acid,230076,NSC-24559
+Aureolic acid,6326719,NSC-24559
+Aureolic acid,129629420,NSC-24559
+Antibiotic LA 7017,163659,NSC-24559
+Antibiotic LA 7017,457831,NSC-24559
+Antibiotic LA 7017,6326719,NSC-24559
+PA-144,163659,NSC-24559
+PA-144,457831,NSC-24559
+PA-144,6326719,NSC-24559
+A-2371,163659,NSC-24559
+A-2371,457831,NSC-24559
+A-2371,6326719,NSC-24559
+Mitramycin,163659,NSC-24559
+Mitramycin,457831,NSC-24559
+Mitramycin,5284610,NSC-24559
+Mitramycin,6326719,NSC-24559
+MITHRAMYCIN,163659,NSC-24559
+Pipobroman,4842,NSC-25154
+Amedel,4842,NSC-25154
+Vercyte,4842,NSC-25154
+"1,4-Bis(3-bromopropionyl)piperazine",4842,NSC-25154
+"N,N'-Bis(3-bromopropionyl)piperazine",4842,NSC-25154
+A 1803,4842,NSC-25154
+A-8103,4842,NSC-25154
+NSC-25154,4842,NSC-25154
+WLN: T6N DNTJ AV2E DV2E,4842,NSC-25154
+Piperazine,4837,NSC-25154
+Piperazine,4837,NSC-25154
+Cyclophosphamide,2907,NSC-26271
+Cytoxan,2907,NSC-26271
+Cytoxan,22420,NSC-26271
+Neosar,2907,NSC-26271
+Bis(2-chloroethyl)phosphoramide cyclic propanolamide ester,2907,NSC-26271
+Mitoxan,2907,NSC-26271
+Enduxan,2907,NSC-26271
+Endoxan,2907,NSC-26271
+Genoxal,2907,NSC-26271
+Procytox,2907,NSC-26271
+(-)-Cyclophosphamide,2907,NSC-26271
+(-)-Cyclophosphamide,9554281,NSC-26271
+Endoxanal,2907,NSC-26271
+Cyclostin,2907,NSC-26271
+Cytophosphan,2907,NSC-26271
+Endoxan-Asta,2907,NSC-26271
+Cyclophosphan,2907,NSC-26271
+Cyclophosphane,2907,NSC-26271
+Cyclophosphamid,2907,NSC-26271
+Cyclophosphamidum,2907,NSC-26271
+"2-(Bis(2-chloroethyl)amino)-2H-1,3,2-oxazaphosphorine 2-oxide",2907,NSC-26271
+"N,N-Di(2-chloroethyl)-N,O-propylene-phosphoric acid ester diamide",2907,NSC-26271
+"N,N-Bis(2-chloroethyl)-N',O-propylenephosphoric acid ester diamide",2907,NSC-26271
+"N,N-Bis(2-chloroethyl)tetrahydro-2H-1,3,2-oxazaphosphorin-2-amine-2-oxide",2907,NSC-26271
+"2H-1,3,2-Oxazaphosphorine",20239299,NSC-26271
+"2H-1,3,2-Oxazaphosphorine",20239299,NSC-26271
+"2H-1,3,2-Oxazaphosphorine",20239299,NSC-26271
+"2H-1,3,2-Oxazaphosphorine",20239299,NSC-109724
+"N,N-Bis(.beta.-chloroethyl)-N',O-trimethylenephosphoric acid ester diamide",2907,NSC-26271
+Asta B 518,2907,NSC-26271
+NCI-C04900,2907,NSC-26271
+Phosphorodiamidic acid,165802,NSC-26271
+CY,2907,NSC-26271
+ASTA,2907,NSC-26271
+B 518,2907,NSC-26271
+Clafen,2907,NSC-26271
+CB-4564,2907,NSC-26271
+CB 4564,2907,NSC-26271
+SK 20501,2907,NSC-26271
+Endoxana,2907,NSC-26271
+Sendoxan,2907,NSC-26271
+Senduxan,2907,NSC-26271
+Endoxane,2907,NSC-26271
+Hexadrin,12358480,NSC-26271
+Hexadrin,3048,NSC-26271
+Hexadrin,71312306,NSC-26271
+Hexadrin,134687884,NSC-26271
+Semdoxan,2907,NSC-26271
+Claphene,2907,NSC-26271
+Endoxan R,2907,NSC-26271
+NSC 26271,2907,NSC-26271
+WLN: T6MPOTJ BO BN2G2G,2907,NSC-26271
+"2H-1,3,2-Oxazaphosphorin-2-amine",21918215,NSC-26271
+"2H-1,3,2-Oxazaphosphorin-2-amine",21918215,NSC-109724
+Zyklophosphamid,2907,NSC-26271
+"N,N-Bis-(.beta.-chloraethyl)-N',O-propylen-phosphorsaeure-ester-diamid",2907,NSC-26271
+Mitomycin,5746,NSC-26980
+Mitomycin C,5746,NSC-26980
+Mutamycin,5746,NSC-26980
+7-Amino-9.alpha.-methoxymitosane,5746,NSC-26980
+7-Amino-9.alpha.-methoxymitosane,351727,NSC-26980
+Ametycine,5746,NSC-26980
+Mitomycinum,5746,NSC-26980
+MMC,5746,NSC-26980
+Mit-C,5746,NSC-26980
+Mit-C,351727,NSC-26980
+Mito-C,5746,NSC-26980
+Mito-C,351727,NSC-26980
+Ametycin,5746,NSC-26980
+Mitocin-C,5746,NSC-26980
+Mytomycin,5746,NSC-26980
+NCI-C04706,5746,NSC-26980
+MITOMYCIN,5746,NSC-26980
+WLN: T D3 B556 BN EM JV MVTTT&J GO1 H1OVZ KZ L1,5746,NSC-26980
+Floxuridine,5790,NSC-27640
+FUDR,5790,NSC-27640
+5-FUDR,5790,NSC-27640
+5-FUDR,3363,NSC-27640
+5-FUDR,643968,NSC-27640
+FdUrd,5790,NSC-27640
+FdUrd,3363,NSC-27640
+FdUrd,643968,NSC-27640
+5-Fluorodeoxyuridine,5790,NSC-27640
+5-Fluoro-2'-deoxyuridine,5790,NSC-27640
+5-Fluoro-2'-deoxyuridine,3363,NSC-27640
+5-Fluoro-2'-deoxyuridine,43834572,NSC-27640
+5-Fluoro-2'-deoxyuridine,643968,NSC-27640
+5-Fluoro-2'-deoxyuridine,667486,NSC-27640
+Fluorodeoxyuridine,5790,NSC-27640
+Deoxyfluorouridine,5790,NSC-27640
+2'-Deoxy-5-fluorouridine,5790,NSC-27640
+Fluoruridine deoxyribose,5790,NSC-27640
+5-Fluorouracil deoxyriboside,5790,NSC-27640
+5-Fluorouracil deoxyriboside,3363,NSC-27640
+5-Fluorouracil deoxyriboside,643968,NSC-27640
+Uridine,6029,NSC-27640
+Uridine,6029,NSC-27640
+Uridine,6029,NSC-27640
+5-Fluorouracil 2'-deoxyriboside,5790,NSC-27640
+1.beta.-D-2'-Deoxyribofuranosyl-5-flurouracil,3363,NSC-27640
+Floxuridin,5790,NSC-27640
+Floxuridin,3363,NSC-27640
+Floxuridin,643968,NSC-27640
+Ro 5-0360,5790,NSC-27640
+Ro 5-0360,3363,NSC-27640
+Ro 5-0360,643968,NSC-27640
+FDUR,5790,NSC-27640
+FDUR,3363,NSC-27640
+NSC-27640,5790,NSC-27640
+NSC 27640,5790,NSC-27640
+NSC 27640,3363,NSC-27640
+WLN: T6NVMVJ EF A- ET5OTJ B1Q CQ,3363,NSC-27640
+Hydroxyurea,3657,NSC-32065
+Hydroxyurea,3657,NSC-32065
+Hydroxycarbamide,3657,NSC-32065
+Hydrea,3657,NSC-32065
+Hydroxylamine,787,NSC-32065
+Hydroxylamine,787,NSC-32065
+N-Carbamoylhydroxylamine,3657,NSC-32065
+N-Hydroxyurea,3657,NSC-32065
+Carbamoyl oxime,3657,NSC-32065
+Hydroxyurea (D4),3657,NSC-32065
+Hydroxycarbamine,3657,NSC-32065
+Carbamyl hydroxamate,3657,NSC-32065
+Carbamohydroximic acid,3657,NSC-32065
+Carbamohydroxamic acid,3657,NSC-32065
+Carbamohydroxyamic acid,3657,NSC-32065
+Onco-carbide,3657,NSC-32065
+Biosupressin,3657,NSC-32065
+HU,3657,NSC-32065
+Hydura,3657,NSC-32065
+Hidrix,3657,NSC-32065
+Litalir,3657,NSC-32065
+SQ 1089,3657,NSC-32065
+Litaler,3657,NSC-32065
+Hydreia,3657,NSC-32065
+Oxyurea,3657,NSC-32065
+Hydurea,3657,NSC-32065
+SK 22591,3657,NSC-32065
+NCI-C04831,3657,NSC-32065
+NSC 32065,3657,NSC-32065
+HYDROXYUREA,3657,NSC-32065
+Hydroxylurea,3657,NSC-32065
+WLN: ZVMQ,3657,NSC-32065
+Urea,1176,NSC-32065
+Urea,1176,NSC-32065
+Urea,1176,NSC-79037
+Urea,1176,NSC-79037
+Urea,1176,NSC-79037
+Urea,1176,NSC-409962
+Urea,1176,NSC-409962
+Uracil mustard,6194,NSC-34462
+Uramustine,6194,NSC-34462
+Uracil nitrogen mustard,6194,NSC-34462
+Aminouracil mustard,6194,NSC-34462
+5-[Di(2-chloroethyl)amino]uracil,6194,NSC-34462
+Nordopan,6194,NSC-34462
+5-[Bis(2-chloroethyl)amino]uracil,6194,NSC-34462
+Uramustin,6194,NSC-34462
+5-[Di(.beta.-chloroethyl)amino]uracil,6194,NSC-34462
+"2,6-Dihydroxy-5-bis[2-chloroethyl]aminopyrimidine",6194,NSC-34462
+U 8344,6194,NSC-34462
+U-8344,6194,NSC-34462
+CB-4835,6194,NSC-34462
+SK-19849,6194,NSC-34462
+ENT 50439,6194,NSC-34462
+Uracillost,6194,NSC-34462
+Uracilmostaza,6194,NSC-34462
+Demethyldopan,6194,NSC-34462
+Desmethyldopan,6194,NSC-34462
+Chlorethaminacil,6194,NSC-34462
+NSC-34462,6194,NSC-34462
+NCI-C04820,6194,NSC-34462
+URACIL NITROGEN MUSTARD,6194,NSC-34462
+WLN: T6MVMVJ EN2G2G,6194,NSC-34462
+Mitotane,4211,NSC-38721
+Lysodren,4211,NSC-38721
+"o,p'-DDD",4211,NSC-38721
+"2,4'-Dichlorodiphenyldichloroethane",4211,NSC-38721
+"o,p'-Dichlorodiphenyldichloroethane",4211,NSC-38721
+Chloditan,4211,NSC-38721
+Mitotan,4211,NSC-38721
+"o,p'-TDE",4211,NSC-38721
+"2,4'-DDD",4211,NSC-38721
+"(o,p)-DDD",4211,NSC-38721
+"1,1-Dichloro-2,2-bis(2,4'-dichlorophenyl)ethane",4211,NSC-38721
+"2-(o-Chlorophenyl)-2-(p-chlorophenyl)-1,1-dichloroethane",4211,NSC-38721
+"1,1-Dichloro-2-(o-chlorophenyl)-2-(p-chlorophenyl)ethane",4211,NSC-38721
+"2,2-Bis(2-chlorophenyl-4-chlorophenyl)-1,1-dichloroethane",4211,NSC-38721
+Ethane,6324,NSC-38721
+Ethane,6324,NSC-38721
+CB 313,4211,NSC-38721
+Chlodithan,4211,NSC-38721
+Khlodithan,4211,NSC-38721
+Chlodithane,4211,NSC-38721
+NSC-38721,4211,NSC-38721
+NCI-C04933,4211,NSC-38721
+WLN: GYGYR BG&R DG,4211,NSC-38721
+Benzene,241,NSC-38721
+Dacarbazine,135398738,NSC-45388
+Dacarbazine,2942,NSC-45388
+DTIC-Dome,135398738,NSC-45388
+DTIC-Dome,2942,NSC-45388
+DTIC,135398738,NSC-45388
+Imidazole carboxamide,2942,NSC-45388
+Imidazole carboxamide,135398738,NSC-45388
+4-(Dimethyltriazeno)imidazole-5-carboxamide,135398738,NSC-45388
+4-(Dimethyltriazeno)imidazole-5-carboxamide,2942,NSC-45388
+Di-me-triazenoimidazolecarboxamide,135398738,NSC-45388
+Dimethyltriazenoimidazolecarboxamide,135398738,NSC-45388
+(Dimethyltriazeno)imidazolecarboxamide,135398738,NSC-45388
+5-(Dimethyltriazeno)imidazole-4-carboxamide,135398738,NSC-45388
+5-(Dimethyltriazeno)imidazole-4-carboximide,135398738,NSC-45388
+"5-(3,3-Dimethyltriazeno)imidazole-4-carboxamide",135398738,NSC-45388
+"5-(3,3-Dimethyl-1-triazeno)imidazole-4-carboxamide",135398738,NSC-45388
+"4-(3,3-Dimethyl-1-triazeno)imidazole-5-carboxamide",135398738,NSC-45388
+"4(5)-(3,3-Dimethyl-1-triazeno)imidazole-5(4)-carboxamide",135398738,NSC-45388
+"4-(5)-(3,3-Dimethyl-1-triazeno)imidazole-5(4)-carboxamide",135398738,NSC-45388
+"4-(or 5)-(3,3-Dimethyl-1-triazeno)imidazole-5(or 4)-carboxamide",135398738,NSC-45388
+DIC,12734,NSC-45388
+ICDT,135398738,NSC-45388
+ICDT,2942,NSC-45388
+DTIE,135398738,NSC-45388
+DTIE,2942,NSC-45388
+ICDMT,135398738,NSC-45388
+Deticene,135398738,NSC-45388
+DACARBAZINE,135398738,NSC-45388
+DACARBAZINE,2942,NSC-45388
+NSC 45388,135398738,NSC-45388
+NCI-C04717,135398738,NSC-45388
+WLN: T5M CNJ DVZ ENUNN1&1,135398738,NSC-45388
+1H-Imidazole-4-carboxamide,152917,NSC-45388
+Imidazole-4-carboxamide,152917,NSC-45388
+Methoxsalen,4114,NSC-45923
+8-MOP,4114,NSC-45923
+Methoxa-Dome,4114,NSC-45923
+8-Methoxypsoralen,4114,NSC-45923
+Oxsoralen,4114,NSC-45923
+"8-Methoxy-2',3',6,7-furocoumarin",4114,NSC-45923
+8-Methoxypsoralene,4114,NSC-45923
+Puvalen,4114,NSC-45923
+Ammodin,4114,NSC-45923
+Oxoralen,4114,NSC-45923
+Ammoidin,4114,NSC-45923
+Meloxine,4114,NSC-45923
+Meladoxen,4114,NSC-45923
+Meladinine,4114,NSC-45923
+Methoxalen,4114,NSC-45923
+Xanthotoxin,4114,NSC-45923
+Oxypsoralen,4114,NSC-45923
+Xanthotoxine,4114,NSC-45923
+"8-Methoxy-4',5',6,7-furocoumarin",4114,NSC-45923
+New-Meladinin,4114,NSC-45923
+8-Methoxy(furano-3'.2':6.7-coumarin),4114,NSC-45923
+8-Methoxy-[furano-3'.2':6.7-coumarin],4114,NSC-45923
+8-MP,4114,NSC-45923
+NCI-C55903,4114,NSC-45923
+WLN: T C566 DO LVOJ BO1,4114,NSC-45923
+XANTHOTOXIN,4114,NSC-45923
+"7H-Furo[3,2-g][1]benzopyran-7-one",6199,NSC-45923
+"7H-Furo[3,2-g][1]benzopyran-7-one",6199,NSC-45923
+Meladinin,4114,NSC-45923
+Vinblastine sulfate,241902,NSC-49842
+Vinblastine sulfate,5388983,NSC-49842
+Vinblastine sulfate,9962911,NSC-49842
+Vinblastine sulfate,657289,NSC-49842
+Vinblastine sulfate,73759759,NSC-49842
+Vinblastine sulfate,131709225,NSC-49842
+Vinblastine Sulfate Hydrate,241902,NSC-49842
+Vinblastine,13342,NSC-49842
+Vinblastine,13342,NSC-49842
+Vinblastine,241903,NSC-49842
+Vinblastine,241903,NSC-49842
+Vinblastine,3823887,NSC-49842
+Vinblastine,3823887,NSC-49842
+Vinblastine,6710780,NSC-49842
+Vinblastine,6710780,NSC-49842
+Vinblastine,44417235,NSC-49842
+Vinblastine,44417235,NSC-49842
+Vinblastine,11104792,NSC-49842
+Vinblastine,11104792,NSC-49842
+Vinblastine,129009934,NSC-49842
+Vinblastine,129009934,NSC-49842
+Vinblastine,133126830,NSC-49842
+Vinblastine,133126830,NSC-49842
+Velban,5388983,NSC-49842
+Velban,13342,NSC-49842
+Vincaleukoblastine sulfate (1:1) (salt),241902,NSC-49842
+VLB monosulfate,241902,NSC-49842
+Exal,5388983,NSC-49842
+Velbe,13342,NSC-49842
+Velbe,5388983,NSC-49842
+Vincaleucoblastine sulfate,241902,NSC-49842
+Vincaleucoblastine sulfate,5388983,NSC-49842
+Vincaleukoblastine sulfate,241902,NSC-49842
+Vincaleukoblastine,13342,NSC-49842
+Vincaleukoblastine,13342,NSC-49842
+Vincaleukoblastine,13342,NSC-49842
+Vincaleukoblastine,13342,NSC-49842
+Vincaleukoblastine,13342,NSC-67574
+Vincaleukoblastine,241903,NSC-49842
+Vincaleukoblastine,241903,NSC-49842
+Vincaleukoblastine,241903,NSC-49842
+Vincaleukoblastine,241903,NSC-49842
+Vincaleukoblastine,241903,NSC-67574
+Vincaleukoblastine,3823887,NSC-49842
+Vincaleukoblastine,3823887,NSC-49842
+Vincaleukoblastine,3823887,NSC-49842
+Vincaleukoblastine,3823887,NSC-49842
+Vincaleukoblastine,3823887,NSC-67574
+29060-LE,13342,NSC-49842
+29060-LE,5388983,NSC-49842
+29060 LE,241902,NSC-49842
+29060 LE,5388983,NSC-49842
+VINCALEUKOBLASTINE,13342,NSC-49842
+VINCALEUKOBLASTINE,241903,NSC-49842
+VINCALEUKOBLASTINE,3823887,NSC-49842
+VINBLASTINE SULFATE,241902,NSC-49842
+VINBLASTINE SULFATE,241902,NSC-49842
+VINBLASTINE SULFATE,5388983,NSC-49842
+VINBLASTINE SULFATE,5388983,NSC-49842
+VINBLASTINE SULFATE,9962911,NSC-49842
+VINBLASTINE SULFATE,9962911,NSC-49842
+VINBLASTINE SULFATE,657289,NSC-49842
+VINBLASTINE SULFATE,657289,NSC-49842
+VINBLASTINE SULFATE,73759759,NSC-49842
+VINBLASTINE SULFATE,73759759,NSC-49842
+VINBLASTINE SULFATE,131709225,NSC-49842
+VINBLASTINE SULFATE,131709225,NSC-49842
+NSC 49842,241902,NSC-49842
+Cytarabine hydrochloride,6252,NSC-63878
+Cytosar-U,6253,NSC-63878
+Cytosine arabinoside hydrochloride,6252,NSC-63878
+Ara-C,6253,NSC-63878
+1.beta.-D-Arabinofuranosylcytosine hydrochloride,5351180,NSC-63878
+Arabinosyl cytosine hydrochloride,6252,NSC-63878
+Arabinosyl cytosine hydrochloride,5351180,NSC-63878
+Cytosar hydrochloride,6252,NSC-63878
+Cytosar hydrochloride,5351180,NSC-63878
+Aracytin hydrochloride,6252,NSC-63878
+Aracytin hydrochloride,5351180,NSC-63878
+Arabinosylcytosine hydrochloride,6252,NSC-63878
+Arabinosylcytosine hydrochloride,5351180,NSC-63878
+Aracytidine hydrochloride,6252,NSC-63878
+Aracytidine hydrochloride,5351180,NSC-63878
+Ara-cytidine hydrochloride,5351180,NSC-63878
+Spongocytidine-hydrochloride,5351180,NSC-63878
+Arabitin hydrochloride,6252,NSC-63878
+Arabitin hydrochloride,5351180,NSC-63878
+Arabinofuranosylcytosine hydrochloride,6252,NSC-63878
+Arabinofuranosylcytosine hydrochloride,5351180,NSC-63878
+Arabinofuranosylcytosine hydrochloride,23615336,NSC-63878
+Arabinosylcytosin,5351180,NSC-63878
+1.beta.-D-Arabinofuranosylcytosine monohydrochloride,5351180,NSC-63878
+Cytosine,597,NSC-63878
+Cytosine,597,NSC-63878
+Cytosine,597,NSC-63878
+2(1H)-Pyrimidinone,68401,NSC-63878
+2(1H)-Pyrimidinone,68401,NSC-63878
+2(1H)-Pyrimidinone,68401,NSC-63878
+Iretin,6253,NSC-63878
+Iretin,596,NSC-63878
+Iretin,114682,NSC-63878
+Alexan,6253,NSC-63878
+Alexan,596,NSC-63878
+Alexan,114682,NSC-63878
+AC 1075,6252,NSC-63878
+AC 1075,5351180,NSC-63878
+AC 1075,596,NSC-63878
+AC 1075,114682,NSC-63878
+U 19920,596,NSC-63878
+U 19920,5351180,NSC-63878
+Cylocide,5351180,NSC-63878
+Cylocide,596,NSC-63878
+u-19920a,6252,NSC-63878
+U-19920A,6252,NSC-63878
+CA,5460341,NSC-63878
+Thalidomide,5426,NSC-66847
+Thalidomide,5426,NSC-66847
+Kevadon,5426,NSC-66847
+Thalomid,5426,NSC-66847
+N-Phthaloylglutamimide,5426,NSC-66847
+N-Phthalylglutamic acid imide,5426,NSC-66847
+K-17,5426,NSC-66847
+E-217,5426,NSC-66847
+Sedin,5426,NSC-66847
+Nibrol,5426,NSC-66847
+Glupan,5426,NSC-66847
+Isomin,5426,NSC-66847
+Valgis,5426,NSC-66847
+Thalin,5426,NSC-66847
+Pangul,5426,NSC-66847
+Slipro,5426,NSC-66847
+Asmaval,5426,NSC-66847
+Sleepan,5426,NSC-66847
+Calmore,5426,NSC-66847
+Telagan,5426,NSC-66847
+Grippex,5426,NSC-66847
+Noxodyn,5426,NSC-66847
+Talimol,5426,NSC-66847
+Kedavon,5426,NSC-66847
+Imidene,5426,NSC-66847
+Sedoval,5426,NSC-66847
+Yodomin,5426,NSC-66847
+Neufatin,5426,NSC-66847
+Asidon 3,5426,NSC-66847
+Asmadion,5426,NSC-66847
+Bonbrain,5426,NSC-66847
+Bonbrrin,5426,NSC-66847
+Calmorex,5426,NSC-66847
+Distaval,5426,NSC-66847
+Distaxal,5426,NSC-66847
+Distoval,5426,NSC-66847
+Glutanon,5426,NSC-66847
+Hippuzon,5426,NSC-66847
+Neosedyn,5426,NSC-66847
+Neosydyn,5426,NSC-66847
+Neurodyn,5426,NSC-66847
+Nevrodyn,5426,NSC-66847
+Quetimid,5426,NSC-66847
+Sedimide,5426,NSC-66847
+Softenil,5426,NSC-66847
+Softenon,5426,NSC-66847
+Talargan,5426,NSC-66847
+Talismol,5426,NSC-66847
+Tensival,5426,NSC-66847
+Ulcerfen,5426,NSC-66847
+Valgraine,5426,NSC-66847
+Algosediv,5426,NSC-66847
+Pro-ban M,5426,NSC-66847
+Profarmil,5426,NSC-66847
+Contergan,5426,NSC-66847
+Sandormin,5426,NSC-66847
+Ectiluran,5426,NSC-66847
+Imida-Lab,5426,NSC-66847
+Telargean,5426,NSC-66847
+Nerosedyn,5426,NSC-66847
+Polygripan,5426,NSC-66847
+Neurosedin,5426,NSC-66847
+Neurosedym,5426,NSC-66847
+Noctosediv,5426,NSC-66847
+Pantosediv,5426,NSC-66847
+Poly-Giron,5426,NSC-66847
+Quietoplex,5426,NSC-66847
+Thalinette,5426,NSC-66847
+Sedisperil,5426,NSC-66847
+Shinnibrol,5426,NSC-66847
+Gastrinide,5426,NSC-66847
+Enterosediv,5426,NSC-66847
+Shin-naito S,5426,NSC-66847
+Psycholiquid,5426,NSC-66847
+Predni-Sediv,5426,NSC-66847
+Psychotablets,5426,NSC-66847
+Imidan (peyta),5426,NSC-66847
+Corronarobetin,5426,NSC-66847
+Theophilcholine,5426,NSC-66847
+Sedalis sedi-lab,5426,NSC-66847
+3-Phthalimidoglutarimide,5426,NSC-66847
+Thalidomide (soluble form),5426,NSC-66847
+Glutarimide,70726,NSC-66847
+.alpha.-N-Phthalylglutaramide,5426,NSC-66847
+.alpha.-Phthalimidoglutarimide,5426,NSC-66847
+"2,6-Dioxo-3-phthalimidopiperidine",5426,NSC-66847
+.alpha.-(N-Phthalimido)glutarimide,5426,NSC-66847
+"N-(2,6-Dioxo-3-piperidyl)phthalimide",5426,NSC-66847
+WLN: T56 BVNVJ C- DT6VMVTJ,5426,NSC-66847
+"1H-Isoindole-1,3(2H)-dione",6809,NSC-66847
+Phthalimide,6809,NSC-66847
+K 17,5426,NSC-66847
+N-Phthalyl-glutaminsaeure-imid,5426,NSC-66847
+Vincristine sulfate,249332,NSC-67574
+Vincristine sulfate,5388992,NSC-67574
+Vincristine sulfate,21864436,NSC-67574
+Vincristine sulfate,45356935,NSC-67574
+Vincristine sulfate,11957714,NSC-67574
+Vincristine sulfate,9832825,NSC-67574
+Vincristine sulfate,45073403,NSC-67574
+Vincristine sulfate,71296920,NSC-67574
+Vincristine sulfate,90489752,NSC-67574
+Vincristine sulfate,139291782,NSC-67574
+Vincristine,5978,NSC-67574
+Vincristine,5978,NSC-67574
+Vincristine,5388993,NSC-67574
+Vincristine,5388993,NSC-67574
+Vincristine,45358158,NSC-67574
+Vincristine,45358158,NSC-67574
+Vincristine,3717450,NSC-67574
+Vincristine,3717450,NSC-67574
+Vincristine,6324671,NSC-67574
+Vincristine,6324671,NSC-67574
+Vincristine,71296921,NSC-67574
+Vincristine,71296921,NSC-67574
+Vincristine,62313,NSC-67574
+Vincristine,62313,NSC-67574
+Vincristine,122172881,NSC-67574
+Vincristine,122172881,NSC-67574
+Vincristine,134755071,NSC-67574
+Vincristine,134755071,NSC-67574
+Onkovin,249332,NSC-67574
+Onkovin,5388992,NSC-67574
+Leurocristine sulfate,249332,NSC-67574
+Leurocristine sulfate,5978,NSC-67574
+Oncovin,5388992,NSC-67574
+Oncovin,249332,NSC-67574
+Oncovin,45356935,NSC-67574
+VCR sulfate,249332,NSC-67574
+VCR sulfate,5388992,NSC-67574
+Alkaloid extracted from Vinca rosea Linn,249332,NSC-67574
+Alkaloid extracted from Vinca rosea Linn,5388992,NSC-67574
+Vincasar,138911098,NSC-67574
+Vincrex,5388992,NSC-67574
+Vincrex,138911098,NSC-67574
+Kyocristine,249332,NSC-67574
+Kyocristine,5978,NSC-67574
+Lilly 37231,249332,NSC-67574
+Lilly 37231,5388992,NSC-67574
+LCR,5978,NSC-67574
+LCR,5388993,NSC-67574
+LCR,249332,NSC-67574
+Vincrisul,249332,NSC-67574
+NSC 67574,249332,NSC-67574
+LEUROCRISTINE SULFATE,249332,NSC-67574
+LEUROCRISTINE SULFATE,5978,NSC-67574
+Leurocristine,5978,NSC-67574
+Leurocristine,5978,NSC-67574
+Leurocristine,5388993,NSC-67574
+Leurocristine,5388993,NSC-67574
+Leurocristine,3717450,NSC-67574
+Leurocristine,3717450,NSC-67574
+Leurocristine sulfate (1:1),249332,NSC-67574
+Leurocristine sulfate (1:1) (salt),249332,NSC-67574
+Leurocristine sulfate (1:1) (salt),5388992,NSC-67574
+VINCRISTINE SULFATE,249332,NSC-67574
+VINCRISTINE SULFATE,5388992,NSC-67574
+VINCRISTINE SULFATE,21864436,NSC-67574
+VINCRISTINE SULFATE,45356935,NSC-67574
+VINCRISTINE SULFATE,11957714,NSC-67574
+VINCRISTINE SULFATE,9832825,NSC-67574
+VINCRISTINE SULFATE,45073403,NSC-67574
+VINCRISTINE SULFATE,71296920,NSC-67574
+VINCRISTINE SULFATE,90489752,NSC-67574
+VINCRISTINE SULFATE,139291782,NSC-67574
+LEUROCRISTINE,5978,NSC-67574
+LEUROCRISTINE,5388993,NSC-67574
+LEUROCRISTINE,3717450,NSC-67574
+VINCRISTINE,5978,NSC-67574
+VINCRISTINE,5388993,NSC-67574
+VINCRISTINE,45358158,NSC-67574
+VINCRISTINE,3717450,NSC-67574
+VINCRISTINE,6324671,NSC-67574
+VINCRISTINE,71296921,NSC-67574
+VINCRISTINE,62313,NSC-67574
+VINCRISTINE,122172881,NSC-67574
+VINCRISTINE,134755071,NSC-67574
+Megestrol acetate,11683,NSC-71423
+Megestrol,19090,NSC-71423
+Megace,11683,NSC-71423
+Progesterone,5994,NSC-71423
+"17-Acetoxy-6-methylpregna-4,6-diene-3,20-dione",11683,NSC-71423
+Megestryl acetate,11683,NSC-71423
+Megestryl acetate,4048,NSC-71423
+Megestryl acetate,73707408,NSC-71423
+Megestryl acetate,126963489,NSC-71423
+6-Methyl-6-dehydro-17.alpha.-acetylprogesterone,4048,NSC-71423
+6-Methyl-6-dehydro-17.alpha.-acetylprogesterone,11683,NSC-71423
+6-Methyl-6-dehydro-17.alpha.-acetoxyprogesterone,4048,NSC-71423
+6-Methyl-6-dehydro-17.alpha.-acetoxyprogesterone,11683,NSC-71423
+17.alpha.-Acetoxy-6-dehydro-6-methylprogesterone,4048,NSC-71423
+17.alpha.-Acetoxy-6-dehydro-6-methylprogesterone,11683,NSC-71423
+6-Dehydro-6-methyl-17.alpha.-acetoxyprogesterone,4048,NSC-71423
+6-Dehydro-6-methyl-17.alpha.-acetoxyprogesterone,11683,NSC-71423
+"17.alpha.-Acetoxy-6-methyl-4,6-pregnadiene-3,20-dione",4048,NSC-71423
+"17.alpha.-Acetoxy-6-methylpregna-4,6-diene-3,20-dione",4048,NSC-71423
+"17-Hydroxy-6-methylpregna-4,6-diene-3,20-dione acetate",11683,NSC-71423
+"17-Hydroxy-6-methylpregna-4,6-diene-3,20-dione acetate",4048,NSC-71423
+6-Methyl-17.alpha.-hydroxy-.delta.(sup 6)-progesterone acetate,11683,NSC-71423
+Niagestin,11683,NSC-71423
+Magestin,11683,NSC-71423
+Magestin,4048,NSC-71423
+SC-10363,11683,NSC-71423
+BDH 1298,11683,NSC-71423
+Ovaban,11683,NSC-71423
+Ovarid,11683,NSC-71423
+Volidan,11683,NSC-71423
+Megeron,11683,NSC-71423
+S4,53342705,NSC-71423
+Nia,4048,NSC-71423
+Nia,11683,NSC-71423
+DMAP,14284,NSC-71423
+SC 10363,11683,NSC-71423
+WLN: L E5 B666 OV KU MUTJ A1 E1 FV1 FOV1 L1,11683,NSC-71423
+"Pregna-4,6-diene-3,20-dione",101994,NSC-71423
+"Pregna-4,6-diene-3,20-dione",101994,NSC-71423
+Procarbazine hydrochloride,9703,NSC-77213
+Procarbazine,4915,NSC-77213
+Matulane,9703,NSC-77213
+PCB hydrochloride,9703,NSC-77213
+Ibenzmethyzine hydrochloride,9703,NSC-77213
+p-(N'-methylhydrazinomethyl)-N-isopropylbenzamide hydrochloride,9703,NSC-77213
+MBH,9703,NSC-77213
+Natulan,4915,NSC-77213
+Natulan,9703,NSC-77213
+Nathulane,9703,NSC-77213
+Natunalar,9703,NSC-77213
+MIH hydrochloride,9703,NSC-77213
+NCI-C01810,9703,NSC-77213
+WLN: 1Y1&MVR D1MM1 &GH,9703,NSC-77213
+Benzamide,2331,NSC-77213
+Benzamide,2331,NSC-747599
+p-Toluamide,69274,NSC-77213
+Procarbazin,4915,NSC-77213
+Lomustine,3950,NSC-79037
+CeeNU,3950,NSC-79037
+CCNU,3950,NSC-79037
+CCNU,3950,NSC-79037
+N-(2-Chloroethyl)-N'-cyclohexyl-N-nitrosourea,3950,NSC-79037
+Belustine,3950,NSC-79037
+1-(2-Chloroethyl)-3-cyclohexylnitrosourea,3950,NSC-79037
+1-(2-Chloroethyl)-3-cyclohexyl-1-nitrosourea,3950,NSC-79037
+SRI 2200,3950,NSC-79037
+ICIG 1109,3950,NSC-79037
+Chloroethylcyclohexylnitrosourea,3950,NSC-79037
+CiNu,3950,NSC-79037
+Cecenu,3950,NSC-79037
+LOMUSTINE,3950,NSC-79037
+NSC 79037,3950,NSC-79037
+NCI-C04740,3950,NSC-79037
+WLN: L6TJ AMVNNO&2G,3950,NSC-79037
+Daunorubicin hydrochloride,62770,NSC-82151
+Daunorubicin hydrochloride,3085106,NSC-82151
+Daunorubicin hydrochloride,21864425,NSC-82151
+Daunorubicin hydrochloride,129317882,NSC-82151
+Daunorubicin hydrochloride,16211935,NSC-82151
+Daunorubicin hydrochloride,131750290,NSC-82151
+Daunorubicin hydrochloride,133611884,NSC-82151
+Daunorubicin hydrochloride,155885350,NSC-82151
+Daunorubicin,30323,NSC-82151
+Daunomycin,30323,NSC-82151
+Daunomycin,30323,NSC-82151
+Daunomycin,30323,NSC-82151
+Daunomycin,30323,NSC-256439
+Daunomycin hydrochloride,62770,NSC-82151
+Daunoblastin,62770,NSC-82151
+Daunoblastin,3085106,NSC-82151
+Antibiotics from Streptomyces coeruleorubidus,3085106,NSC-82151
+Rubidomycin hydrochloride,62770,NSC-82151
+"5,12-Naphthacenedione",14160,NSC-82151
+"5,12-Naphthacenedione",14160,NSC-82151
+"5,12-Naphthacenedione",14160,NSC-123127
+"5,12-Naphthacenedione",14160,NSC-256439
+"5,12-Naphthacenedione",14160,NSC-256942
+"5,12-Naphthacenedione",14160,NSC-256942
+Ondena,62770,NSC-82151
+Ondena,3085106,NSC-82151
+Cerubidine,30323,NSC-82151
+NDC 0082-4155,62770,NSC-82151
+NDC 0082-4155,30323,NSC-82151
+DAUNOMYCIN,30323,NSC-82151
+CERUBIDINE,30323,NSC-82151
+RUBIDOMYCIN,30323,NSC-82151
+RUBIDOMYCIN,7067174,NSC-82151
+RUBOMYCIN C,30323,NSC-82151
+RUBOMYCIN C,2958,NSC-82151
+DAUNORUBICIN HCL,62770,NSC-82151
+RP 13057 hydrochloride,62770,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,62770,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,62770,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,3085106,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,3085106,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,21864425,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,21864425,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,129317882,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,129317882,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,16211935,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,16211935,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,131750290,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,131750290,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,133611884,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,133611884,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,155885350,NSC-82151
+DAUNORUBICIN HYDROCHLORIDE,155885350,NSC-82151
+Streptozocin,29327,NSC-85998
+Streptozocin,2733335,NSC-85998
+Streptozocin,5300,NSC-85998
+Streptozocin,6713972,NSC-85998
+Streptozocin,7067772,NSC-85998
+Streptozocin,134695375,NSC-85998
+Streptozocin,138403271,NSC-85998
+Zanosar,29327,NSC-85998
+STZ,29327,NSC-85998
+STZ,2733335,NSC-85998
+STZ,7067772,NSC-85998
+Streptozoticin,5299,NSC-85998
+Streptozoticin,23615975,NSC-85998
+2-Deoxy-2-(3-methyl-3-nitrosoureido)-D-glucopyranose,29327,NSC-85998
+D-Glucose,5793,NSC-85998
+D-Glucose,5793,NSC-85998
+D-Glucopyranose,5793,NSC-85998
+2-Deoxy-2-(3-methyl-3-nitrosoureido)-.alpha.(and.beta.)-D-glucopyranose,5299,NSC-85998
+2-Deoxy-2-(3-methyl-3-nitrosoureido)-.alpha.(and.beta.)-D-glucopyranose,23615975,NSC-85998
+U-9889,23615975,NSC-85998
+U-9889,5299,NSC-85998
+U 9889,23615975,NSC-85998
+U 9889,5299,NSC-85998
+NSC 85998,23615975,NSC-85998
+STREPTOZOCIN,29327,NSC-85998
+STREPTOZOCIN,2733335,NSC-85998
+STREPTOZOCIN,5300,NSC-85998
+STREPTOZOCIN,6713972,NSC-85998
+STREPTOZOCIN,7067772,NSC-85998
+STREPTOZOCIN,134695375,NSC-85998
+STREPTOZOCIN,138403271,NSC-85998
+STREPTOZOTOCIN,29327,NSC-85998
+STREPTOZOTOCIN,5300,NSC-85998
+STREPTOZOTOCIN,2733335,NSC-85998
+STREPTOZOTOCIN,45357367,NSC-85998
+STREPTOZOTOCIN,6420074,NSC-85998
+STREPTOZOTOCIN,7067772,NSC-85998
+STREPTOZOTOCIN,6713972,NSC-85998
+Glucopyranose,5793,NSC-85998
+Streptozotocin,29327,NSC-85998
+Streptozotocin,5300,NSC-85998
+Streptozotocin,2733335,NSC-85998
+Streptozotocin,45357367,NSC-85998
+Streptozotocin,6420074,NSC-85998
+Streptozotocin,7067772,NSC-85998
+Streptozotocin,6713972,NSC-85998
+Arsenic trioxide,14888,NSC-92859
+Trisenox,14888,NSC-92859
+Azacitidine,9444,NSC-102816
+Mylosar,9444,NSC-102816
+Vidaza,9444,NSC-102816
+Ladakamycin,9444,NSC-102816
+5-Azacytidine,9444,NSC-102816
+Anitibiotic U 18496,1805,NSC-102816
+5-AC,1805,NSC-102816
+5 AZC,1805,NSC-102816
+5-AZCR,1805,NSC-102816
+Azacytidine,9444,NSC-102816
+NCI-C01569,1805,NSC-102816
+AZACITIDINE,9444,NSC-102816
+WLN: T6NVN ENJ DZ A- BT5OTJ CQ DQ E1Q,1805,NSC-102816
+"1,3,5-Triazin-2(1H)-one",13907883,NSC-102816
+"1,3,5-Triazin-2(1H)-one",13907883,NSC-127716
+Cladribine,20279,NSC-105014
+Leustatin,20279,NSC-105014
+Leustat,20279,NSC-105014
+Leustat,1546,NSC-105014
+Adenosine,60961,NSC-105014
+Adenosine,60961,NSC-606869
+RWJ-26251,20279,NSC-105014
+Ifosfamide,3690,NSC-109724
+Mitoxana,3690,NSC-109724
+Ifex,3690,NSC-109724
+Isoendoxan,3690,NSC-109724
+Asta Z 4942,3690,NSC-109724
+Iphosphamid,3690,NSC-109724
+Holoxan 1000,3690,NSC-109724
+Iphosphamide,3690,NSC-109724
+Isofosfamide,3690,NSC-109724
+I-Phosphamide,3690,NSC-109724
+Isophosphamide,3690,NSC-109724
+"N-(2-Chloroethyl)-N'-(2-chloroethyl)-N',O-propylenephosphoric acid diamide",3690,NSC-109724
+"N-(2-Chloroethyl)-N'-(2-chloroethyl)-N',O-propylene phosphoric acid ester diamide",3690,NSC-109724
+"3-(2-Chloroethyl)-2-[(2-chloroethyl)amino]perhydro-2H-1,3,2-oxazaphosphorineoxide",3690,NSC-109724
+Cyfos,3690,NSC-109724
+Z4942,3690,NSC-109724
+Z 4942,3690,NSC-109724
+A 4942,3690,NSC-109724
+Naxamide,3690,NSC-109724
+MJF 9325,3690,NSC-109724
+Ifosfamid,3690,NSC-109724
+NSC 109724,3690,NSC-109724
+NCI-C01638,3690,NSC-109724
+NSC-109724,3690,NSC-109724
+WLN: T6NPOTJ AM2G BO B2G,3690,NSC-109724
+IFOSFAMIDE,3690,NSC-109724
+2-Fluoro Ara-A,657237,NSC-118218
+2-Fluoro Ara-A,3367,NSC-118218
+2-Fluoroadenine arabinoside,3367,NSC-118218
+9H-Purin-6-amine,190,NSC-118218
+Adenine,190,NSC-118218
+Adenine,190,NSC-606869
+Cisplatin,5702198,NSC-119875
+Cis-DDP,441203,NSC-119875
+cis-Diaminedichloroplatinum,2767,NSC-119875
+CACP,5702198,NSC-119875
+CISPLATIN,5702198,NSC-119875
+CISPLATIN,5702198,NSC-119875
+Platinum,23939,NSC-119875
+Platinum,23939,NSC-119875
+Platinum,23939,NSC-241240
+Platinum,23939,NSC-241240
+Platinum,23939,NSC-266046
+Tretinoin,444795,NSC-122758
+Tretinoin,444795,NSC-122758
+Vesanoid,444795,NSC-122758
+ATRA,444795,NSC-122758
+all trans-Retinoic acid,444795,NSC-122758
+Retinoic acid,444795,NSC-122758
+Retinoic acid,444795,NSC-122758
+Retinoic acid,444795,NSC-122758
+Vitamin A acid,444795,NSC-122758
+Vitamin A acid,444795,NSC-122758
+Retin-A,444795,NSC-122758
+all-trans-Retinoic acid,444795,NSC-122758
+all-trans-Vitamin A acid,444795,NSC-122758
+"3,7-Dimethyl-9-(2,6,6-trimethyl-1-cyclohexen-1-yl)-2,4,6,8-nonatetraenoic acid",444795,NSC-122758
+"2,4,6,8-Nonatetraenoic acid",9920425,NSC-122758
+Airol,444795,NSC-122758
+Eudyna,444795,NSC-122758
+Aberel,444795,NSC-122758
+Aknoten,444795,NSC-122758
+Aknefug,444795,NSC-122758
+Dermairol,444795,NSC-122758
+trans-Retinoic acid,444795,NSC-122758
+.beta.-Retinoic acid,444795,NSC-122758
+Alltrans-retinoic acid,444795,NSC-122758
+RETINOIC ACID,444795,NSC-122758
+WLN: L6UTJ A1 B1U1Y1&U2U1Y1&U1VQ C1 C1,444795,NSC-122758
+WLN: L6UTJ A1 B1U1Y1 & U2U1Y1 & U1VQ C1 C1,444795,NSC-122758
+Teniposide,452548,NSC-122819
+Vumon,452548,NSC-122819
+Vee M-26,452548,NSC-122819
+VM 26,452548,NSC-122819
+VM 26,5396,NSC-122819
+VM 26,54610154,NSC-122819
+4'-Demethylepipodophyllotoxin thenylidene glucoside,54610154,NSC-122819
+4-Demethylepipodophyllotoxin-.beta.-D-thenylideneglucoside,54610154,NSC-122819
+PTG,54610154,NSC-122819
+Vehem,452548,NSC-122819
+Veham-Sandoz,5396,NSC-122819
+Veham-Sandoz,54610154,NSC-122819
+NSC122819,452548,NSC-122819
+NSC122819,275784,NSC-122819
+NSC122819,54610154,NSC-122819
+NSC122819,126961564,NSC-122819
+TENIPOSIDE,452548,NSC-122819
+Epipodophyllotoxin,105111,NSC-122819
+Epipodophyllotoxin,105111,NSC-122819
+Epipodophyllotoxin,105111,NSC-141540
+Epipodophyllotoxin,105111,NSC-141540
+Doxorubicin hydrochloride,443939,NSC-123127
+Doxorubicin hydrochloride,31703,NSC-123127
+Adriamycin,31703,NSC-123127
+Adriamycin,31703,NSC-123127
+Adriamycin,31703,NSC-246131
+Rubex,443939,NSC-123127
+Doxorubicin,31703,NSC-123127
+ADM hydrochloride,32874,NSC-123127
+ADM hydrochloride,443939,NSC-123127
+Adriamycin hydrochloride,443939,NSC-123127
+ADR,31703,NSC-123127
+ADR,32874,NSC-123127
+DOX HCl,32874,NSC-123127
+DOX HCl,134694701,NSC-123127
+Adriacin,443939,NSC-123127
+Adriblastin,31703,NSC-123127
+Adriblastin,32874,NSC-123127
+Adriblastin,443939,NSC-123127
+Adriblastin,1691,NSC-123127
+Adriblastin,15558383,NSC-123127
+Adriblastina,31703,NSC-123127
+Adriblastina,443939,NSC-123127
+FI 106,31703,NSC-123127
+FI 106,1691,NSC-123127
+FI 6804,32874,NSC-123127
+FI 6804,443939,NSC-123127
+Hydroxydaunorubicin hydrochloride,443939,NSC-123127
+Hydroxydaunorubicin hydrochloride,32874,NSC-123127
+Hydroxydaunorubicin hydrochloride,134990956,NSC-123127
+ADRIAMYCIN HYDROCHLORIDE,443939,NSC-123127
+ADRIAMYCIN,31703,NSC-123127
+Bleomycin sulfate,72466,NSC-125066
+Bleomycin sulfate,46930981,NSC-125066
+Bleomycin sulfate,21864427,NSC-125066
+Bleomycin sulfate,5360373,NSC-125066
+Bleomycin sulfate,84068,NSC-125066
+Bleomycin sulfate,9812642,NSC-125066
+Bleomycin sulfate,46930982,NSC-125066
+Bleomycin sulfate,54608728,NSC-125066
+Bleomycin sulfate,57336513,NSC-125066
+Bleomycin sulfate,71587153,NSC-125066
+Bleomycin sulfate,122172957,NSC-125066
+Bleomycin sulfate,156597109,NSC-125066
+Bleomycin,5360373,NSC-125066
+Bleomycin,84068,NSC-125066
+Bleomycin,5460769,NSC-125066
+Bleomycin,456190,NSC-125066
+Bleomycin,155903698,NSC-125066
+Blenoxane,72466,NSC-125066
+Blenoxane,46930981,NSC-125066
+Blenoxane,9812642,NSC-125066
+Blenoxane,57336513,NSC-125066
+BLM,5360373,NSC-125066
+BLM,5460769,NSC-125066
+Bleo,5460769,NSC-125066
+Bleo,54608728,NSC-125066
+Bleocin,5360373,NSC-125066
+Bleocin,5460769,NSC-125066
+Bleocin,456190,NSC-125066
+Paclitaxel,36314,NSC-125973
+Anzatax,36314,NSC-125973
+Taxol,36314,NSC-125973
+Benzenepropanoic acid,107,NSC-125973
+Decitabine,451668,NSC-127716
+Dacogen,451668,NSC-127716
+5-Aza-2'-deoxycytidine,451668,NSC-127716
+bendamustine hydrochloride,77082,NSC-138783
+Ribomustin,77082,NSC-138783
+Treanda,77082,NSC-138783
+IMET 3393,77082,NSC-138783
+Cytostasan,77082,NSC-138783
+SDX-105,77082,NSC-138783
+WLN: T56 BN DNJ B1 C3VQ GN2G2G &GH,77082,NSC-138783
+Etoposide,36462,NSC-141540
+Toposar,36462,NSC-141540
+VePesid,36462,NSC-141540
+VP-16,36462,NSC-141540
+Epipodophyllotoxin VP-16213,36462,NSC-141540
+Epipodophyllotoxin VP-16213,3310,NSC-141540
+Epipodophyllotoxin VP-16213,439525,NSC-141540
+4-Demethylepipodophyllotoxin-.beta.-D-ethylideneglucoside,439525,NSC-141540
+4'-Demethylepipodophyllotoxin ethylidene-.beta.-D-glucoside,36462,NSC-141540
+4'-Demethylepipodophyllotoxin ethylidene-.beta.-D-glucoside,3310,NSC-141540
+4'-Demethylepipodophyllotoxin ethylidene-.beta.-D-glucoside,439525,NSC-141540
+Vepesid,36462,NSC-141540
+Vepesid J,36462,NSC-141540
+Vepesid J,3310,NSC-141540
+Vepesid J,439525,NSC-141540
+VP 16-213,36462,NSC-141540
+ETOPOSIDE,36462,NSC-141540
+NSC141540,36462,NSC-141540
+NSC141540,284997,NSC-141540
+NSC141540,439525,NSC-141540
+NSC 141540,36462,NSC-141540
+NSC 141540,3310,NSC-141540
+Dexrazoxane,71384,NSC-169780
+Zinecard,71384,NSC-169780
+Zinecard,6918223,NSC-169780
+Zinecard,24883460,NSC-169780
+Totect,6918223,NSC-169780
+ICRF-187,71384,NSC-169780
+ICRF-187,6918223,NSC-169780
+"(+)-1,2-Bis(3,5-dioxopiperazin-1-yl)propane",30623,NSC-169780
+Soluble ICRF (L-isosomer),71384,NSC-169780
+"(S)-(+)-1,2-Bis(3,5-dioxopiperazin-1-yl)propane",71384,NSC-169780
+ADR 529,71384,NSC-169780
+"2,6-Piperazinedione",338690,NSC-169780
+Tamoxifen citrate,2733525,NSC-180973
+Tamoxifen,2733526,NSC-180973
+ICI 46474 citrate,2733525,NSC-180973
+Pentostatin,439693,NSC-218321
+Nipent,439693,NSC-218321
+2'-Deoxycoformycin,439693,NSC-218321
+2'-Deoxycoformycin,4739,NSC-218321
+2'-Deoxycoformycin,40926,NSC-218321
+2'-Deoxycoformycin,472202,NSC-218321
+2'-DCF,439693,NSC-218321
+CI-825,439693,NSC-218321
+Covidarabine,439693,NSC-218321
+Co-Vidarabine,439693,NSC-218321
+Co-Vidarabine,4739,NSC-218321
+Co-Vidarabine,40926,NSC-218321
+Deaminase inhibitor,4739,NSC-218321
+Deaminase inhibitor,40926,NSC-218321
+Vira A deaminase inhibitor,439693,NSC-218321
+Vira A deaminase inhibitor,4739,NSC-218321
+Vira A deaminase inhibitor,40926,NSC-218321
+Co-V,439693,NSC-218321
+Co-V,40926,NSC-218321
+Co-V,4739,NSC-218321
+PD-ADI,439693,NSC-218321
+PD-ADI,4739,NSC-218321
+PD-ADI,40926,NSC-218321
+CL 67310465,4739,NSC-218321
+CL 67310465,40926,NSC-218321
+CL 67310465,439693,NSC-218321
+Sirolimus,5284616,NSC-226080
+Rapamune,5284616,NSC-226080
+Rapamycin,5284616,NSC-226080
+Rapamycin,5284616,NSC-226080
+(-)-Rapamycin,5284616,NSC-226080
+Antibiotic AY 22989,5284616,NSC-226080
+Antibiotic AY 22989,5374464,NSC-226080
+Antibiotic AY 22989,5497196,NSC-226080
+Antibiotic AY 22989,54600319,NSC-226080
+SIIA 9268A,5284616,NSC-226080
+AY 22989,5284616,NSC-226080
+Wy 090217,5284616,NSC-226080
+Carboplatin,426756,NSC-241240
+Paraplatin,426756,NSC-241240
+Paraplatin,10339178,NSC-241240
+Paraplatin,38904,NSC-241240
+Paraplatin,6603770,NSC-241240
+Paraplatin,5352133,NSC-241240
+Paraplatin,56840877,NSC-241240
+CBDCA,426756,NSC-241240
+CBDCA,5352133,NSC-241240
+CBDCA,10339178,NSC-241240
+CBDCA,38904,NSC-241240
+CBDCA,5237030,NSC-241240
+CBDCA,498142,NSC-241240
+CBDCA,56840877,NSC-241240
+CBDCA,25199580,NSC-241240
+"1,1-Cyclobutanedicarboxylate diammine platinum(II)",426756,NSC-241240
+"1,1-Cyclobutanedicarboxylate diammine platinum(II)",498142,NSC-241240
+"1,1-Cyclobutanedicarboxylate diammine platinum(II)",56840877,NSC-241240
+"cis-Diammine(1,1-cyclobutanedicarboxylato)platinum(II)",38904,NSC-241240
+"cis-Diammine(1,1-cyclobutanedicarboxylato)platinum(II)",426756,NSC-241240
+"cis-Diammine(1,1-cyclobutanedicarboxylato)platinum(II)",5352133,NSC-241240
+"cis-Diammine(1,1-cyclobutanedicarboxylato)platinum(II)",498142,NSC-241240
+"cis-Diammine(1,1-cyclobutanedicarboxylato)platinum(II)",6603770,NSC-241240
+"cis-Diammine(1,1-cyclobutanedicarboxylato)platinum(II)",56840877,NSC-241240
+"cis-(1,1-Cyclobutanedicarboxylato)diammineplatinum(II)",426756,NSC-241240
+"cis-(1,1-Cyclobutanedicarboxylato)diammineplatinum(II)",5352133,NSC-241240
+"cis-(1,1-Cyclobutanedicarboxylato)diammineplatinum(II)",498142,NSC-241240
+"cis-(1,1-Cyclobutanedicarboxylato)diammineplatinum(II)",56840877,NSC-241240
+Valrubicin,454216,NSC-246131
+Valtaxin,454216,NSC-246131
+Valstar,454216,NSC-246131
+Trifluoroacetyladriamycin-14-valerate,41744,NSC-246131
+Trifluoroacetyladriamycin-14-valerate,454216,NSC-246131
+AD 32,41744,NSC-246131
+AD 32,454216,NSC-246131
+AD 32,3794430,NSC-246131
+Antibiotic AD 32,454216,NSC-246131
+N-Trifluoroacetyladriamycin-14-valerate,41744,NSC-246131
+N-Trifluoroacetyladriamycin-14-valerate,454216,NSC-246131
+NSC-246131,454216,NSC-246131
+4-DMD HCl,3685,NSC-256439
+IDARUBICIN HYDROCHLORIDE,636362,NSC-256439
+Idarubicin hydrochloride,636362,NSC-256439
+4-Demethoxydaunorubicin hydrochloride,636362,NSC-256439
+4-Demethoxydaunorubicin hydrochloride,137704618,NSC-256439
+4-Demethoxydaunorubicin hydrochloride,15573185,NSC-256439
+4'-Epiadriamycin,41867,NSC-256942
+Pidorubicin hydrochloride,32874,NSC-256942
+4'-epi-Adriamycin hydrochloride,65348,NSC-256942
+4'-epi-Adriamycin hydrochloride,32874,NSC-256942
+Epirubicin,41867,NSC-256942
+Oxaliplatin,9887053,NSC-266046
+"1,2-Cyclohexanediamine",4610,NSC-266046
+Mitoxantrone,4212,NSC-279836
+Mitozantrone,4212,NSC-279836
+Mitozantrone,51082,NSC-279836
+Novantrone,51082,NSC-279836
+Novantrone,4212,NSC-279836
+DHAQ,4212,NSC-279836
+Mitoxantrone (free base),4212,NSC-279836
+"9,10-Anthracenedione",6780,NSC-279836
+Mitoxantrone hydrochloride,51082,NSC-279836
+Amifostine,2141,NSC-296961
+Ethyol,2141,NSC-296961
+Ethiofos,2141,NSC-296961
+Aminopropylaminoethyl thiophosphate,2141,NSC-296961
+2-(3-Aminopropylamino)ethyl thiophosphate,2141,NSC-296961
+S-(2-(3-Aminopropylamino)ethyl) phosphorothioate,2141,NSC-296961
+S-[2-(3-Aminopropylamino)ethyl] phosphorothioate,2141,NSC-296961
+S-[2-[(3-Aminopropyl)amino]ethyl] dihydrogen phosphorothioate,2141,NSC-296961
+SAPEP,2141,NSC-296961
+WR 2721C,2141,NSC-296961
+WR 2721,2141,NSC-296961
+AU-95722,2141,NSC-296961
+Gammaphos,2141,NSC-296961
+Ethanethiol,6343,NSC-296961
+Ethanethiol,6343,NSC-296961
+Phosphorothioic acid,167254,NSC-296961
+Phosphorothioic acid,167254,NSC-296961
+Temozolomide,5394,NSC-362856
+Methazolastone,5394,NSC-362856
+Temodar,5394,NSC-362856
+Temodal,5394,NSC-362856
+TMZ,5394,NSC-362856
+"Imidazo[5,1-d]-1,2,3,5-tetrazine-8-carboxamide",69791807,NSC-362856
+Imiquimod,57469,NSC-369100
+Aldara,57469,NSC-369100
+"1H-Imidazo[4,5-c]quinolin-4-amine",14896613,NSC-369100
+Carmustine,2578,NSC-409962
+Bi CNU,2578,NSC-409962
+BCNU,2578,NSC-409962
+Bis(chloroethyl)nitrosourea,2578,NSC-409962
+"1,3-Bis(2-chloroethyl)nitrosourea",2578,NSC-409962
+"N,N'-Bis(2-chloroethyl)-N-nitrosourea",2578,NSC-409962
+Nitrumon,2578,NSC-409962
+Carmustin,2578,NSC-409962
+Carmubris,2578,NSC-409962
+Bis(2-chloroethyl)nitrosourea,2578,NSC-409962
+"1,3-Bis(2-chloroethyl)-1-nitrosourea",2578,NSC-409962
+"1,3-Bis(.beta.-chloroethyl)-1-nitrosourea",2578,NSC-409962
+SRI 1720,2578,NSC-409962
+SK 27702,2578,NSC-409962
+FDA 0345,2578,NSC-409962
+NSC 409962,2578,NSC-409962
+NSC-409962,2578,NSC-409962
+NCI-C04773,2578,NSC-409962
+WLN: ONN2GVM2G,2578,NSC-409962
+Clofarabine,119182,NSC-606869
+Clolar,119182,NSC-606869
+Clofarex,119182,NSC-606869
+CAFdA,119182,NSC-606869
+Vinorelbine tartrate,45055483,NSC-608210
+Vinorelbine tartrate,11607738,NSC-608210
+Vinorelbine tartrate,60779,NSC-608210
+Vinorelbine tartrate,16051941,NSC-608210
+Vinorelbine tartrate,45358014,NSC-608210
+Vinorelbine tartrate,21584522,NSC-608210
+Vinorelbine tartrate,44558883,NSC-608210
+Vinorelbine tartrate,53262279,NSC-608210
+Vinorelbine tartrate,135391153,NSC-608210
+Vinorelbine tartrate,138112574,NSC-608210
+Vinorelbine,5311497,NSC-608210
+Vinorelbine,60780,NSC-608210
+Vinorelbine,13200033,NSC-608210
+Vinorelbine,5672,NSC-608210
+Vinorelbine,44424639,NSC-608210
+Vinorelbine,71296871,NSC-608210
+Vinorelbine,73265388,NSC-608210
+Navelbine,5311497,NSC-608210
+Navelbine,11607738,NSC-608210
+Navelbine,16051941,NSC-608210
+Navelbine,87083539,NSC-608210
+Vinorelbine ditartrate,45055483,NSC-608210
+Vinorelbine ditartrate,11607738,NSC-608210
+Vinorelbine ditartrate,16051941,NSC-608210
+Vinorelbine ditartrate,45358014,NSC-608210
+Vinorelbine ditartrate,44558883,NSC-608210
+Vinorelbine ditartrate,53262279,NSC-608210
+Vinorelbine ditartrate,124080885,NSC-608210
+Topotecan hydrochloride,60699,NSC-609699
+Topotecan,60700,NSC-609699
+Hycamtin,60699,NSC-609699
+Hycamtin,60700,NSC-609699
+Hycamptamine,60700,NSC-609699
+9-Dimethylaminomethyl-10-hydroxycamptothecin,60700,NSC-609699
+SKF 104864A,60699,NSC-609699
+SKF-S 104864-A,60699,NSC-609699
+Gemcitabine hydrochloride,60749,NSC-613327
+Gemcitabine hydrochloride,60750,NSC-613327
+Gemcitabine hydrochloride,44558863,NSC-613327
+Gemcitabine,60750,NSC-613327
+Gemzar,60749,NSC-613327
+Difluorodeoxycytidine hydrochloride,129848168,NSC-613327
+dFdC,60750,NSC-613327
+dFdC,60749,NSC-613327
+LY-188011,60749,NSC-613327
+Docetaxel,148124,NSC-628503
+Taxotere,148124,NSC-628503
+RP 56976,148124,NSC-628503
+SN-38,104842,NSC-673596
+SN 38,104842,NSC-673596
+7-Ethyl-10-hydroxycamptothecin,104842,NSC-673596
+7-Ethyl-10-hydroxy-20(S)-camptothecin,104842,NSC-673596
+Bortezomib,387447,NSC-681239
+Velcade,387447,NSC-681239
+PS-341,387447,NSC-681239
+PROSCRIPT Boronic acid,387447,NSC-681239
+Nelarabine,3011155,NSC-686673
+Arranon,3011155,NSC-686673
+2-Amino-6-methoxypurine arabinoside,3011155,NSC-686673
+2-Amino-6-methoxypurine arabinoside,248862,NSC-686673
+GW 506U78,3011155,NSC-686673
+506U78,3011155,NSC-686673
+Pemetrexed Disodium,135413520,NSC-698037
+Pemetrexed Disodium,135410875,NSC-698037
+Pemetrexed Disodium,135564751,NSC-698037
+Pemetrexed Disodium,136253316,NSC-698037
+Pemetrexed Disodium,135544142,NSC-698037
+Pemetrexed Disodium,135564527,NSC-698037
+Pemetrexed,135410875,NSC-698037
+Alimta,135410875,NSC-698037
+Alimta,135413520,NSC-698037
+Alimta,135564751,NSC-698037
+Alimta,101068009,NSC-698037
+Alimta,135916113,NSC-698037
+Rolazar,135413520,NSC-698037
+Tifolar,135413520,NSC-698037
+MTA,439176,NSC-698037
+LY231514,135410875,NSC-698037
+Vorinostat,5311,NSC-701852
+Zolinza,5311,NSC-701852
+SAHA,5311,NSC-701852
+Suberoylanilide hydroxamic acid,5311,NSC-701852
+"N-hydroxy-N'-phenyl-octane-1,8-diotic acid diamide",5311,NSC-701852
+SKI390,5311,NSC-701852
+WIN64652,5311,NSC-701852
+Octanediamide,258342,NSC-701852
+Estramustine phosphate sodium,444000,NSC-702294
+Estracyt,259329,NSC-702294
+Estracyt,444000,NSC-702294
+Estramustine sodium phosphate,444000,NSC-702294
+Capecitabine,60953,NSC-712807
+Xeloda,60953,NSC-712807
+CAPE,5281787,NSC-712807
+Exemestane,60198,NSC-713563
+Aromasin,60198,NSC-713563
+PNU 155971,60198,NSC-713563
+"6-Methylenandrosta-1,4-diene-3,17-dione",16667705,NSC-713563
+FCE-24304,60198,NSC-713563
+Gefitinib,123631,NSC-715055
+Iressa,123631,NSC-715055
+ZD1839,123631,NSC-715055
+N-(3-Chloro-4-fluorophenyl)-7-methoxy-6-(3-morpholinopropoxy)quinazolin-4-amine,123631,NSC-715055
+Erlotinib hydrochloride,176871,NSC-718781
+Tarceva,176871,NSC-718781
+OSI-744,176870,NSC-718781
+OSI-744,176871,NSC-718781
+Erlotinib,176870,NSC-718781
+"CP-358,774",176870,NSC-718781
+"CP-358,774",44263854,NSC-718781
+"[6,7-Bis(2-methoxy-ethoxy)-quinazolin-4-yl]-(3-ethynyl- phenyl)amine hydrochloride",176871,NSC-718781
+Fulvestrant,104741,NSC-719276
+Faslodex,104741,NSC-719276
+"ICI 182,780",104741,NSC-719276
+"ICI 182,780",3478439,NSC-719276
+"ICI 182,780",17756771,NSC-719276
+"ICI 182,780",133688403,NSC-719276
+Arimidex,2187,NSC-719344
+ZD1033,2187,NSC-719344
+ICI D1033,2187,NSC-719344
+Anastrozole,2187,NSC-719344
+Letrozole,3902,NSC-719345
+Femara,3902,NSC-719345
+LT2,44176357,NSC-719345
+CGS 20267,3902,NSC-719345
+"4,4'-(1H-1,2,4-Triazol-1-ylmethylene)dibenzonitrile",3902,NSC-719345
+Celecoxib,2662,NSC-719627
+Celebrex,2662,NSC-719627
+SC-58635,2662,NSC-719627
+YM177,2662,NSC-719627
+Benzenesulfonamide,7370,NSC-719627
+Zoledronic acid,68740,NSC-721517
+Zometa,68740,NSC-721517
+Zoledronate,68740,NSC-721517
+(1-Hydroxy-2-imidazol-1-ylethylidene)diphosphonic acid,68740,NSC-721517
+Dasatinib,3062316,NSC-732517
+Sprycel,3062316,NSC-732517
+BMS-354825,3062316,NSC-732517
+N-(2-Chloro-6-methylphenyl)-2-[[6-[4-(2-hydroxyethyl)-1-piperazinyl]-2-methyl-4-pyrimidinyl]amino]-5-thiazolecarboxamide,3062316,NSC-732517
+Everolimus,6442177,NSC-733504
+Afinitor,6442177,NSC-733504
+Imatinib mesylate,123596,NSC-743414
+Gleevec,123596,NSC-743414
+Glivec,5291,NSC-743414
+Glivec,123596,NSC-743414
+Imatinib,5291,NSC-743414
+STI571,5291,NSC-743414
+CGP 57148,5291,NSC-743414
+4-[(4-Methyl-1-piperazinyl)methyl]-N-[4-methyl-3-[[4-(3-pyridinyl)-2-pyrimidinyl]amino]-phenyl]benzamide,5291,NSC-743414
+Lapatinib ditosylate,9941095,NSC-745750
+Lapatinib ditosylate,208908,NSC-745750
+Lapatinib ditosylate,208909,NSC-745750
+Lapatinib ditosylate,11557040,NSC-745750
+Lapatinib ditosylate,11679357,NSC-745750
+Lapatinib ditosylate,91798457,NSC-745750
+Lapatinib ditosylate,139061731,NSC-745750
+Tykerb,208908,NSC-745750
+Tykerb,9941095,NSC-745750
+Tykerb,11557040,NSC-745750
+Tykerb,11679357,NSC-745750
+Lapatinib,208908,NSC-745750
+GW 572016,208908,NSC-745750
+N-(3-Chloro-4-{[(3-fluorophenyl)methyl]oxy}phenyl)-6-[5-({[2-(methylsulfonyl)ethyl]amino}methyl)-2-furanyl]-4-quinazolinamine,208908,NSC-745750
+Nilotinib,644241,NSC-747599
+Tasigna,644241,NSC-747599
+AMN107,644241,NSC-747599
+Sorafenib tosylate,406563,NSC-747971
+Nexavar,216239,NSC-747971
+Nexavar,406563,NSC-747971
+Sorafenib,216239,NSC-747971
+N-(4-chloro-3-(trifluoromethyl)phenyl)-N'-(4-(2-(N-methylcar bamoyl)-4-pyridyloxy)phenyl)urea,216239,NSC-747971
+4(4-{3-[4-Chloro-3-(trifluoromethyl)phenyl]ureido}phenoxy)-N(sup 2)-methylpyridine-2-carboxamide,216239,NSC-747971
+SFN,5350,NSC-747971
+Lenalidomide,216326,NSC-747972
+Revlimid,216326,NSC-747972
+CC-5013,216326,NSC-747972
+"3-(7-Amino-3-oxo-1H-isoindol-2-yl)-piperidine-2,6-dione",216326,NSC-747972
+"2,6-Piperidinedione",70726,NSC-747972
+Ixabepilone,6445540,NSC-747973
+Ixempra,6445540,NSC-747973
+Azaepothilone B,6445540,NSC-747973
+BMS-247550,6445540,NSC-747973
+Raloxifene hydrochloride,54900,NSC-747974
+Evista,54900,NSC-747974
+Evista,5035,NSC-747974
+Raloxifene,5035,NSC-747974
+LY 139481,5035,NSC-747974
+Keoxifene,5035,NSC-747974
+Keoxifene,54900,NSC-747974
+Keoxifene,15940170,NSC-747974
+[2-(4-Hydroxyphenyl)-6-hydroxybenzo[b]thien-3-yl][4-(2-(1-piperidinyl)ethoxy)phenyl]methanone,5035,NSC-747974
+Methanone,11966310,NSC-747974
+Abiraterone,132971,NSC-749226
+"17-(3-Pyridyl)androsta-5,16-dien-3.beta.-ol",132971,NSC-749226
+Sunitinib (free base),5329102,NSC-750690
+Sunitinib (free base),5329102,NSC-750690
+Sutent (free base),5329102,NSC-750690
+1H-Pyrrole-3-carboxamide,19067979,NSC-750690
+"1H-Pyrrole-3-carboxamide,2-dihydro-2-oxo-3H-indol-3-ylidene)methyl]-2,4-dimethyl-",5329102,NSC-750690
+Depsipeptide,5352062,NSC-754143
+Antibiotic FR 901228,5352062,NSC-754143
+ROMIDEPSIN,5352062,NSC-754143
+ROMIDEPSIN,57515973,NSC-754143
+ROMIDEPSIN,3425,NSC-754143
+ROMIDEPSIN,56840936,NSC-754143
+ROMIDEPSIN,58708317,NSC-754143
+ROMIDEPSIN,91110640,NSC-754143
+ROMIDEPSIN,123135747,NSC-754143
+ROMIDEPSIN,129905275,NSC-754143
+ROMIDEPSIN,154574495,NSC-754143
+Romidepsin,5352062,NSC-754143
+Romidepsin,57515973,NSC-754143
+Romidepsin,3425,NSC-754143
+Romidepsin,56840936,NSC-754143
+Romidepsin,58708317,NSC-754143
+Romidepsin,91110640,NSC-754143
+Romidepsin,123135747,NSC-754143
+Romidepsin,129905275,NSC-754143
+Romidepsin,154574495,NSC-754143
+API0005301,5352062,NSC-754143
+FK228,5352062,NSC-754143
+pralatrexate,148121,NSC-754230
+Folotyn,148121,NSC-754230
+Vismodegib,24776445,NSC-755986
+Vismodegib,24776445,NSC-755986
+GDC-0449,24776445,NSC-755986
+V-4050,24776445,NSC-755986
+2-Chloro-N-(4-chloro-3-(2-pyridl)phenyl)-4-(methylsulfonyl)benzamide,24776445,NSC-755986
+PF-2341066,11626560,NSC-756645
+Crizotinib,11626560,NSC-756645
+Xalkori,11626560,NSC-756645
+AG-013736,6450551,NSC-757441
+Axitinib,6450551,NSC-757441
+S1005,6450551,NSC-757441
+Vandetanib,3081361,NSC-760766
+V-9402,3081361,NSC-760766
+vemurafenib,42611257,NSC-761431
+vemurafenib,42611257,NSC-753082
+Zelboraf,42611257,NSC-761431
+PLX4032,42611257,NSC-761431
+RG7204,42611257,NSC-761431
+Cabazitaxel,9854073,NSC-761432
+JEVTANA,9854073,NSC-761432
+XRP6258,9854073,NSC-761432
+Eribulin mesylate,17755248,NSC-707389
+Eribulin mesylate,74891361,NSC-707389
+Eribulin mesylate,22525136,NSC-707389
+Eribulin mesylate,146158903,NSC-707389
+Eribulin mesylate,117590636,NSC-707389
+Eribulin mesylate,122362420,NSC-707389
+Eribulin mesylate,155885389,NSC-707389
+Pazopanib hydrochloride,11525740,NSC-737754
+Ruxolitinib,25126798,NSC-763371

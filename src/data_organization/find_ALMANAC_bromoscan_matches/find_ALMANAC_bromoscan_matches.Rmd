@@ -47,7 +47,8 @@ bromoscan_cids_full = bromoscan_cids_from_smiles %>%
   bind_rows(bromoscan_cids_from_name) %>% 
   select(-smiles) %>% 
   unique() %>% 
-	filter(!is.na(cid))
+	filter(!is.na(cid)) %>% 
+  write_csv(here('results/matching/all_bromomoscan_cids.csv'))
 ```
 
 ```{r}

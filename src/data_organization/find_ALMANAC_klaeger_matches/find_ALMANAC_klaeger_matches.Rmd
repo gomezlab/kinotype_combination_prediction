@@ -17,35 +17,32 @@ library(webchem)
 klaeger_cids = read_csv(here('results/matching/klaeger_cids.csv')) %>% 
 	mutate(cid = as.character(cid))
 
-ALMANAC_druglist = read_tsv(here('data/ALMANAC/ComboCompoundNames.txt'), col_names = FALSE)
+ALMANAC_druglist = read_tsv(here('data/ALMANAC/ComboCompoundNames_all.txt'), col_names = FALSE)
 ```
 
 ```{r}
 #DATA PROCESSING
 ALMANAC_matchlist = ALMANAC_druglist %>% 
 	rename("ALMANAC_name" = X2, 'NSC' = X1) %>% 
-	mutate(NSC = paste0("NSC-", NSC))
+  separate(NSC, into = c('NSC', "weird_name"), sep = "  ") %>% 
+  mutate(ALMANAC_name = 
+           if_else(!is.na(weird_name),
+                   weird_name, 
+                   ALMANAC_name)) %>% 
+	mutate(NSC = paste0("NSC-", NSC)) %>% 
+  separate(ALMANAC_name, into = c('ALMANAC_name', "post"), sep = ", ") %>% 
+  select(-post, -weird_name)
 ```
 
 ```{r}
 #CREATING MATCH SETS
-
-ALMANAC_cid = get_cid(unique(ALMANAC_matchlist$NSC), from = "name", domain = "compound", match = "all", verbose = T)
-
-ALMANAC_missing = ALMANAC_cid %>% 
-	rename(NSC = query) %>% 
-	filter(is.na(cid)) %>% 
-	left_join(ALMANAC_matchlist)
-
-ALMANAC_missing_cids = get_cid(unique(ALMANAC_missing$ALMANAC_name), from = "name", domain = "compound", match = "all", verbose = T) 
+ALMANAC_cid = get_cid(unique(ALMANAC_matchlist$ALMANAC_name), from = "name", domain = "compound", match = "all", verbose = T) 
 
 ALMANAC_full_cids = ALMANAC_cid %>% 
-	rename(NSC = query) %>% 
+	rename(ALMANAC_name = query) %>% 
 	left_join(ALMANAC_matchlist) %>% 
-	bind_rows(ALMANAC_missing_cids %>% 
-							rename(ALMANAC_name = query) %>% 
-							left_join(ALMANAC_matchlist)) %>% 
 	filter(!is.na(cid)) %>% 
+  filter(!is.na(ALMANAC_name)) %>% 
 	write_csv(here('results/matching/ALMANAC_all_cids.csv'))
 	
 matches = klaeger_cids %>% 
