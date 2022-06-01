@@ -1,0 +1,147 @@
+---
+title: "prep L100 data for ml"
+output: html_document
+date: '2022-05-31'
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(cmapR)
+library(here)
+```
+
+```{r}
+#read in data 
+L1000_ALMANAC_match_list = read_csv(here('results/matching/L1000_ALMANAC_matches.csv'))
+L1000_raw = read_tsv(here('data/LINCS/L1000/gene_attribute_matrix.txt'))
+```
+
+```{r}
+#data pre-processing
+
+L1000_pre_processed = L1000_raw %>% 
+  slice(3:8349) %>% 
+  rename(gene_name = `#...1`,
+         gene_id = `Perturbation ID_Perturbagen_Cell Line_Time_Time Unit_Dose_Dose Unit`) %>% 
+  select(-`#...2`) %>% 
+  pivot_longer(-c(gene_name, gene_id), names_to = "perturbation", values_to = "association") %>%
+  select(-gene_id) %>% 
+  pivot_wider(names_from = gene_name, values_from = association) %>% 
+  separate(perturbation, 
+           into = c("broad_id",
+                    "L1000_name",
+                    "name_buffer_1",
+                    "name_buffer_2",
+                    "cell_line_name",
+                    "time",
+                    "time_unit",
+                    "dose",
+                    "dose_unit"),
+           sep = "_") %>% 
+  select(-L1000_name)
+
+ids = L1000_pre_processed %>% 
+  select(broad_id, name_buffer_1, name_buffer_2, cell_line_name, time, time_unit, dose, dose_unit)
+
+data = L1000_pre_processed %>% 
+  select(-any_of(names(ids)))
+
+dose_unit = ids %>% 
+  mutate(
+    dose_unit = case_when(
+      is.na(dose_unit) & is.na(dose) ~ time_unit,
+      is.na(dose_unit) & !is.na(dose) ~ dose,
+      T ~ dose_unit
+    )
+  ) %>% 
+  select(dose_unit)
+
+dose = ids %>% 
+  mutate(
+    dose = case_when(
+      is.na(dose_unit) & is.na(dose) ~ time,
+      is.na(dose_unit) & !is.na(dose) ~ time_unit,
+      T ~ dose
+    )
+  ) %>% 
+  select(dose)
+
+time_unit = ids %>% 
+  mutate(
+    time_unit = case_when(
+      is.na(dose_unit) & is.na(dose) ~ cell_line_name,
+      is.na(dose_unit) & !is.na(dose) ~ time,
+      T ~ time_unit
+    )
+  ) %>% 
+  select(time_unit)
+
+time = ids %>% 
+  mutate(
+    time = case_when(
+      is.na(dose_unit) & is.na(dose) ~ name_buffer_2,
+      is.na(dose_unit) & !is.na(dose) ~ cell_line_name,
+      T ~ time
+    )
+  ) %>% 
+  select(time)
+    
+cell_line_name = ids %>% 
+  mutate(
+    cell_line_name = case_when(
+      is.na(dose_unit) & is.na(dose) ~ name_buffer_1,
+      is.na(dose_unit) & !is.na(dose) ~ name_buffer_2,
+      T ~ cell_line_name
+    )
+  ) %>% 
+  select(cell_line_name)
+
+ids_processed = bind_cols(ids %>% 
+                            select(broad_id),
+                          cell_line_name,
+                          time,
+                          time_unit,
+                          dose,
+                          dose_unit)
+
+L1000_processed = bind_cols(ids_processed, data) %>%
+  mutate(time = as.numeric(time),
+         dose = as.numeric(dose)) %>%
+  mutate(across(7:8353, ~as.factor(.))) %>% 
+  write_rds(here('results/L1000/L1000_for_ML_long.rds.gz'), compress = "gz")
+```
+
+```{r}
+#EDA
+
+times = L1000_processed %>%
+  group_by(time) %>% 
+  summarise(n = n())
+
+drugs_with_multiple_times = L1000_processed %>% 
+  group_by(broad_id, cell_line_name, dose) %>% 
+  summarise(n = n())
+
+temp = L1000_processed %>% 
+  filter(broad_id == "BRD-K21680192" & cell_line_name == "MCF7" & dose == 10)
+
+doses = L1000_processed %>%
+  group_by(dose) %>% 
+  summarise(n = n())
+```
+
+```{r}
+#read in data 
+L1000_raw_meta = read_gctx_meta(here('data/LINCS/L1000/cp_coeff_mat.gctx'), dim = "col")
+
+afatinib_meta = L1000_raw_meta %>% 
+  filter(str_detect(id, "afatinib_10uM"))
+
+afatinib_data = parse_gctx(here('data/LINCS/L1000/cp_coeff_mat.gctx'), cid=afatinib_meta$id)
+afatinib_data_melted = melt_gct(afatinib_data)
+
+L1000_raw = read_tsv(here('data/LINCS/L1000/cp_mean_coeff_mat.tsv'))
+
+
+```
+

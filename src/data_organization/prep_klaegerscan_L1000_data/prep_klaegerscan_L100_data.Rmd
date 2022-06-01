@@ -1,0 +1,18 @@
+---
+title: "Prep Klaegerscan L1000 data"
+output: html_document
+date: '2022-05-31'
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+```
+
+```{r}
+#read in data 
+klaegerscan_ALMANAC_match_list = read_csv(here('results/matching/klaegerscan_ALMANAC_matches.csv'))
+L1000_ALMANAC_match_list = read_csv(here('results/matching/L1000_ALMANAC_matches.csv'))
+
+LINCS_klaeger_data_wide = read_csv(here('results/all_klaeger_LINCS_data_for_ml_wide.csv'))
+```

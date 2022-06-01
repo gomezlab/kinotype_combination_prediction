@@ -1,17 +1,54 @@
-drug_name,cid,origin,smiles_1,ALMANAC_name,smiles_2
-PFE-PKIS 37,11626560,LINCS,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N,Crizotinib,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N
-PFE-PKIS 37,11626560,LINCS,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N,Crizotinib,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N
-PFE-PKIS 6,6450551,LINCS,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4,Axitinib,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4
-PFE-PKIS 6,6450551,LINCS,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4,Axitinib,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4
-Axitinib,6450551,klaeger,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4,Axitinib,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4
-Axitinib,6450551,klaeger,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4,Axitinib,CNC(=O)C1=CC=CC=C1SC2=CC3=C(C=C2)C(=NN3)/C=C/C4=CC=CC=N4
-Crizotinib,11626560,klaeger,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N,Crizotinib,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N
-Crizotinib,11626560,klaeger,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N,Crizotinib,C[C@H](C1=C(C=CC(=C1Cl)F)Cl)OC2=C(N=CC(=C2)C3=CN(N=C3)C4CCNCC4)N
-Dasatinib,3062316,klaeger,CC1=C(C(=CC=C1)Cl)NC(=O)C2=CN=C(S2)NC3=CC(=NC(=N3)C)N4CCN(CC4)CCO,Dasatinib,CC1=C(C(=CC=C1)Cl)NC(=O)C2=CN=C(S2)NC3=CC(=NC(=N3)C)N4CCN(CC4)CCO
-Gefitinib,123631,klaeger,COC1=C(C=C2C(=C1)N=CN=C2NC3=CC(=C(C=C3)F)Cl)OCCCN4CCOCC4,Gefitinib,COC1=C(C=C2C(=C1)N=CN=C2NC3=CC(=C(C=C3)F)Cl)OCCCN4CCOCC4
-Lapatinib,208908,klaeger,CS(=O)(=O)CCNCC1=CC=C(O1)C2=CC3=C(C=C2)N=CN=C3NC4=CC(=C(C=C4)OCC5=CC(=CC=C5)F)Cl,Lapatinib ditosylate,CS(=O)(=O)CCNCC1=CC=C(O1)C2=CC3=C(C=C2)N=CN=C3NC4=CC(=C(C=C4)OCC5=CC(=CC=C5)F)Cl
-Nilotinib,644241,klaeger,CC1=C(C=C(C=C1)C(=O)NC2=CC(=CC(=C2)C(F)(F)F)N3C=C(N=C3)C)NC4=NC=CC(=N4)C5=CN=CC=C5,Nilotinib,CC1=C(C=C(C=C1)C(=O)NC2=CC(=CC(=C2)C(F)(F)F)N3C=C(N=C3)C)NC4=NC=CC(=N4)C5=CN=CC=C5
-Ruxolitinib,25126798,klaeger,C1CCC(C1)[C@@H](CC#N)N2C=C(C=N2)C3=C4C=CNC4=NC=N3,Ruxolitinib,C1CCC(C1)[C@@H](CC#N)N2C=C(C=N2)C3=C4C=CNC4=NC=N3
-Sunitinib,5329102,klaeger,CCN(CC)CCNC(=O)C1=C(NC(=C1C)/C=C\2/C3=C(C=CC(=C3)F)NC2=O)C,Sunitinib (free base),CCN(CC)CCNC(=O)C1=C(NC(=C1C)/C=C\2/C3=C(C=CC(=C3)F)NC2=O)C
-Vandetanib,3081361,klaeger,CN1CCC(CC1)COC2=C(C=C3C(=C2)N=CN=C3NC4=C(C=C(C=C4)Br)F)OC,Vandetanib,CN1CCC(CC1)COC2=C(C=C3C(=C2)N=CN=C3NC4=C(C=C(C=C4)Br)F)OC
-Vemurafenib,42611257,klaeger,CCCS(=O)(=O)NC1=C(C(=C(C=C1)F)C(=O)C2=CNC3=C2C=C(C=N3)C4=CC=C(C=C4)Cl)F,vemurafenib,CCCS(=O)(=O)NC1=C(C(=C(C=C1)F)C(=O)C2=CNC3=C2C=C(C=N3)C4=CC=C(C=C4)Cl)F
+klaegerscan_name,cid,origin,ALMANAC_name,NSC
+PFE-PKIS 37,11626560,KINOMEscan,PF-2341066,756645
+PFE-PKIS 37,11626560,KINOMEscan,Crizotinib,756645
+PFE-PKIS 37,11626560,KINOMEscan,Xalkori,756645
+PFE-PKIS 6,6450551,KINOMEscan,AG-013736,757441
+PFE-PKIS 6,6450551,KINOMEscan,Axitinib,757441
+PFE-PKIS 6,6450551,KINOMEscan,S1005,757441
+Axitinib,6450551,Kinobeads,AG-013736,757441
+Axitinib,6450551,Kinobeads,Axitinib,757441
+Axitinib,6450551,Kinobeads,S1005,757441
+Crizotinib,11626560,Kinobeads,PF-2341066,756645
+Crizotinib,11626560,Kinobeads,Crizotinib,756645
+Crizotinib,11626560,Kinobeads,Xalkori,756645
+Dasatinib,3062316,Kinobeads,Dasatinib,732517
+Dasatinib,3062316,Kinobeads,Sprycel,732517
+Dasatinib,3062316,Kinobeads,BMS-354825,732517
+Dasatinib,3062316,Kinobeads,N-(2-Chloro-6-methylphenyl)-2-[[6-[4-(2-hydroxyethyl)-1-piperazinyl]-2-methyl-4-pyrimidinyl]amino]-5-thiazolecarboxamide,732517
+Erlotinib,176870,Kinobeads,OSI-744,718781
+Erlotinib,176870,Kinobeads,Erlotinib,718781
+Erlotinib,176870,Kinobeads,"CP-358,774",718781
+Gefitinib,123631,Kinobeads,Gefitinib,715055
+Gefitinib,123631,Kinobeads,Iressa,715055
+Gefitinib,123631,Kinobeads,ZD1839,715055
+Gefitinib,123631,Kinobeads,N-(3-Chloro-4-fluorophenyl)-7-methoxy-6-(3-morpholinopropoxy)quinazolin-4-amine,715055
+Imatinib,5291,Kinobeads,Glivec,743414
+Imatinib,5291,Kinobeads,Imatinib,743414
+Imatinib,5291,Kinobeads,STI571,743414
+Imatinib,5291,Kinobeads,CGP 57148,743414
+Imatinib,5291,Kinobeads,4-[(4-Methyl-1-piperazinyl)methyl]-N-[4-methyl-3-[[4-(3-pyridinyl)-2-pyrimidinyl]amino]-phenyl]benzamide,743414
+Lapatinib,208908,Kinobeads,Lapatinib ditosylate,745750
+Lapatinib,208908,Kinobeads,Tykerb,745750
+Lapatinib,208908,Kinobeads,Lapatinib,745750
+Lapatinib,208908,Kinobeads,GW 572016,745750
+Lapatinib,208908,Kinobeads,N-(3-Chloro-4-{[(3-fluorophenyl)methyl]oxy}phenyl)-6-[5-({[2-(methylsulfonyl)ethyl]amino}methyl)-2-furanyl]-4-quinazolinamine,745750
+Nilotinib,644241,Kinobeads,Nilotinib,747599
+Nilotinib,644241,Kinobeads,Tasigna,747599
+Nilotinib,644241,Kinobeads,AMN107,747599
+Ruxolitinib,25126798,Kinobeads,Ruxolitinib,763371
+Sorafenib,216239,Kinobeads,Nexavar,747971
+Sorafenib,216239,Kinobeads,Sorafenib,747971
+Sorafenib,216239,Kinobeads,N-(4-chloro-3-(trifluoromethyl)phenyl)-N'-(4-(2-(N-methylcar bamoyl)-4-pyridyloxy)phenyl)urea,747971
+Sorafenib,216239,Kinobeads,4(4-{3-[4-Chloro-3-(trifluoromethyl)phenyl]ureido}phenoxy)-N(sup 2)-methylpyridine-2-carboxamide,747971
+Sunitinib,5329102,Kinobeads,Sunitinib (free base),750690
+Sunitinib,5329102,Kinobeads,Sunitinib (free base),750690
+Sunitinib,5329102,Kinobeads,Sutent (free base),750690
+Sunitinib,5329102,Kinobeads,"1H-Pyrrole-3-carboxamide,2-dihydro-2-oxo-3H-indol-3-ylidene)methyl]-2,4-dimethyl-",750690
+Vandetanib,3081361,Kinobeads,Vandetanib,760766
+Vandetanib,3081361,Kinobeads,V-9402,760766
+Vemurafenib,42611257,Kinobeads,vemurafenib,761431
+Vemurafenib,42611257,Kinobeads,vemurafenib,753082
+Vemurafenib,42611257,Kinobeads,Zelboraf,761431
+Vemurafenib,42611257,Kinobeads,PLX4032,761431
+Vemurafenib,42611257,Kinobeads,RG7204,761431
+Pazopanib,10113978,Kinobeads,Pazopanib hydrochloride,737754
