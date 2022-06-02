@@ -17,9 +17,21 @@ klaegerscan_cids = read_csv(here('results/matching/kinomescan_klaeger_cids.csv')
 
 ALMANAC_cids = read_csv(here('results/matching/ALMANAC_all_cids.csv'))
 
-L1000_cids = read_csv(here('data/LINCS/L1000/meta_SMILES.csv')) %>% 
-	rename("smiles" = SMILES, "cid" = "pubchem_cid") %>% 
-  filter(!is.na(cid))
+L1000_meta = read_tsv(here('data/LINCS/L1000/LINCS_small_molecules.tsv'))
+```
+
+
+```{r}
+#get pubchem cid's for L1000
+
+L1000_cids = get_cid(unique(L1000_meta$pert_name), from = "name", domain = "compound", match = "all", verbose = T)
+
+L1000_missing_cids = L1000_cids %>% 
+  rename(pert_name = query) %>% 
+  filter(is.na(cid)) %>% 
+  left_join(L1000_meta)
+
+L1000_cids_from_smiles = get_cid(unique(L1000_missing_cids$canonical_smiles), from = "smiles", domain = "compound", match = "all", verbose = T)
 ```
 
 ```{r}
