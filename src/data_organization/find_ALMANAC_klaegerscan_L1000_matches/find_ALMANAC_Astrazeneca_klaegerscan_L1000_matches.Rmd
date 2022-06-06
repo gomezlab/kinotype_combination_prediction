@@ -32,6 +32,22 @@ L1000_missing_cids = L1000_cids %>%
   left_join(L1000_meta)
 
 L1000_cids_from_smiles = get_cid(unique(L1000_missing_cids$canonical_smiles), from = "smiles", domain = "compound", match = "all", verbose = T)
+
+all_L1000_cids = L1000_cids %>% 
+  rename(pert_name = query) %>% 
+  filter(!is.na(cid)) %>%
+  bind_rows(
+    L1000_cids_from_smiles %>% 
+      rename(canonical_smiles = query) %>%
+      filter(!is.na(cid)) %>% 
+      left_join(L1000_meta) %>% 
+      select(canonical_smiles, pert_name, cid)
+  ) %>% 
+  select(-canonical_smiles) %>% 
+  left_join(L1000_meta) %>% 
+  rename(broad_id = `...1`) %>% 
+  mutate(cid = as.numeric(cid)) %>% 
+  write_csv(here('results/matching/all_L1000_cids.csv'))
 ```
 
 ```{r}
@@ -49,12 +65,11 @@ klaegerscan_ALMANAC_matches = klaegerscan_cids %>%
   separate(NSC, into = c("prefix", "NSC"), sep = "-") %>% 
   select(-prefix)
 
-L1000_ALMANAC_matches = L1000_cids %>%
+L1000_ALMANAC_matches = all_L1000_cids %>%
 	left_join(ALMANAC_cids) %>% 
 	filter(!is.na(ALMANAC_name)) %>% 
-	rename("broad_id" = pert_id, 
-				 "L1000_name" = pert_iname) %>%
-	select(broad_id, L1000_name, ALMANAC_name, NSC,cid) %>% 
+	rename("L1000_name" = pert_name) %>%
+	select(broad_id, L1000_name, ALMANAC_name, NSC,cid, target, canonical_smiles) %>% 
   unique() %>% 
   separate(NSC, into = c("prefix", "NSC"), sep = "-") %>% 
   select(-prefix)

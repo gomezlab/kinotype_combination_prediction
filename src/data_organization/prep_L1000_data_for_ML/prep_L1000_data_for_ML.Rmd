@@ -140,8 +140,8 @@ afatinib_meta = L1000_raw_meta %>%
 afatinib_data = parse_gctx(here('data/LINCS/L1000/cp_coeff_mat.gctx'), cid=afatinib_meta$id)
 afatinib_data_melted = melt_gct(afatinib_data)
 
-L1000_raw = read_tsv(here('data/LINCS/L1000/cp_mean_coeff_mat.tsv'))
-
-
+afatinib_wide = afatinib_data_melted %>% 
+  rename(id = 1, gene_name = 2) %>% 
+  pivot_wider(names_from = gene_name, values_from = value)
 ```
 
