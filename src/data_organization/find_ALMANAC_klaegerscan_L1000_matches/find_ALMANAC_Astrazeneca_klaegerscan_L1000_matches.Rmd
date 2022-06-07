@@ -24,30 +24,31 @@ L1000_meta = read_tsv(here('data/LINCS/L1000/LINCS_small_molecules.tsv'))
 ```{r}
 #get pubchem cid's for L1000
 
-L1000_cids = get_cid(unique(L1000_meta$pert_name), from = "name", domain = "compound", match = "all", verbose = T)
-
-L1000_missing_cids = L1000_cids %>% 
-  rename(pert_name = query) %>% 
-  filter(is.na(cid)) %>% 
-  left_join(L1000_meta)
-
-L1000_cids_from_smiles = get_cid(unique(L1000_missing_cids$canonical_smiles), from = "smiles", domain = "compound", match = "all", verbose = T)
-
-all_L1000_cids = L1000_cids %>% 
-  rename(pert_name = query) %>% 
-  filter(!is.na(cid)) %>%
-  bind_rows(
-    L1000_cids_from_smiles %>% 
-      rename(canonical_smiles = query) %>%
-      filter(!is.na(cid)) %>% 
-      left_join(L1000_meta) %>% 
-      select(canonical_smiles, pert_name, cid)
-  ) %>% 
-  select(-canonical_smiles) %>% 
-  left_join(L1000_meta) %>% 
-  rename(broad_id = `...1`) %>% 
-  mutate(cid = as.numeric(cid)) %>% 
-  write_csv(here('results/matching/all_L1000_cids.csv'))
+all_L1000_cids = read_csv(here('results/matching/all_L1000_cids.csv'))
+# L1000_cids = get_cid(unique(L1000_meta$pert_name), from = "name", domain = "compound", match = "all", verbose = T)
+# 
+# L1000_missing_cids = L1000_cids %>% 
+#   rename(pert_name = query) %>% 
+#   filter(is.na(cid)) %>% 
+#   left_join(L1000_meta)
+# 
+# L1000_cids_from_smiles = get_cid(unique(L1000_missing_cids$canonical_smiles), from = "smiles", domain = "compound", match = "all", verbose = T)
+# 
+# all_L1000_cids = L1000_cids %>% 
+#   rename(pert_name = query) %>% 
+#   filter(!is.na(cid)) %>%
+#   bind_rows(
+#     L1000_cids_from_smiles %>% 
+#       rename(canonical_smiles = query) %>%
+#       filter(!is.na(cid)) %>% 
+#       left_join(L1000_meta) %>% 
+#       select(canonical_smiles, pert_name, cid)
+#   ) %>% 
+#   select(-canonical_smiles) %>% 
+#   left_join(L1000_meta) %>% 
+#   rename(broad_id = `...1`) %>% 
+#   mutate(cid = as.numeric(cid)) %>% 
+#   write_csv(here('results/matching/all_L1000_cids.csv'))
 ```
 
 ```{r}
