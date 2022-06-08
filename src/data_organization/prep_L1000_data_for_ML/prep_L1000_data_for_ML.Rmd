@@ -33,6 +33,7 @@ L1000_extracted_data_melted = melt_gct(L1000_extracted_data)
 L1000_extracted_data_wide = L1000_extracted_data_melted %>%
   rename(id = 1, gene_name = 2) %>% 
   mutate(gene_name = paste0("pert_", gene_name)) %>% 
+  mutate(gene_name = str_replace(gene_name, "[-;]", "_")) %>%
   pivot_wider(names_from = gene_name, values_from = value) %>% 
   separate(id, 
            into = c("batch_id",

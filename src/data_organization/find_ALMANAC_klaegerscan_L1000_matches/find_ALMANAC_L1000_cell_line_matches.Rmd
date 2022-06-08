@@ -1,0 +1,58 @@
+---
+title: "find ALMANAC L1000 cell line matches"
+output: html_document
+date: '2022-06-08'
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#read in data
+ALMANAC = read_csv(here('data/ALMANAC/ComboDrugGrowth_Nov2017.csv'))
+L1000 = read_rds(here('results/L1000/L1000_for_ml.rds.gz'))
+```
+
+```{r}
+#make matchlists 
+ALMANAC_cell_lines = ALMANAC %>% 
+	select(CELLNAME, 
+				 CELLNBR) %>% 
+  drop_na() %>% 
+  unique()
+
+L1000_cell_lines = L1000 %>%
+  ungroup() %>% 
+  select(cell_line_name) %>% 
+  unique()
+
+cell_line_naive_matches = L1000_cell_lines %>% 
+	left_join(ALMANAC_cell_lines, by = c('cell_line_name' = 'CELLNAME')) %>% 
+	filter(!is.na(CELLNBR))
+
+cell_line_matches = tribble(
+  ~"ALMANAC_cell_name", ~"L1000_cell_name",
+  "A549/ATCC", "A549",
+  "DU-145", "DU145",
+  "HCT-116", "HCT116",
+  "HL-60(TB)", "HL60",
+  "HT29", "HT29",
+  "K-562", "K562",
+  "MCF7", "MCF7",
+  "OVCAR-8", "OVCAR8",
+  "SW-620", "SW620",
+  "U251", "U251MG",
+  "MDA-MB-468", "MDAMB468",
+  "T-47D", "T47D",
+  "SK-MEL-5", "SKMEL5",
+  "PC-3", "PC3",
+  "HS 578T", "HS578T",
+  "MDA-MB-231/ATCC", "MDAMB231",
+  "SK-MEL-28", "SKMEL28"
+) %>% 
+  write_csv(here('results/matching/ALMANAC_L1000_cell_line_matches.csv'))
+```
+

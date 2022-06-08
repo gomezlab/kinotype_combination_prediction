@@ -1,5 +1,5 @@
 ---
-title: "Find ALMANAC-Astrazeneca-klaegerscan-L1000 Drug Matches"
+title: "Find ALMANAC-Astrazeneca-klaeger-L1000 Drug Matches"
 author: "Chinmaya Joisa"
 date: "`r Sys.Date()`"
 output: github_document
@@ -53,14 +53,15 @@ all_L1000_cids = read_csv(here('results/matching/all_L1000_cids.csv'))
 
 ```{r}
 #CREATING MATCH SETS
-klaegerscan_ALMANAC_matches = klaegerscan_cids %>% 
-	left_join(ALMANAC_cids, by = 'cid') %>%
+klaeger_ALMANAC_matches = klaegerscan_cids %>%
+  filter(origin == "Kinobeads") %>% 
+  left_join(ALMANAC_cids, by = 'cid') %>%
 	filter(!is.na(ALMANAC_name)) %>% 
-	rename(klaegerscan_name = drug) %>% 
+	rename(klaeger_name = drug) %>% 
   #add manual matches
   bind_rows(
     tribble(
-    ~klaegerscan_name, ~ALMANAC_name, ~NSC, ~cid, ~origin,
+    ~klaeger_name, ~ALMANAC_name, ~NSC, ~cid, ~origin,
     "Pazopanib", "Pazopanib hydrochloride", "NSC-737754", 10113978, "Kinobeads"
     )) %>% 
   separate(NSC, into = c("prefix", "NSC"), sep = "-") %>% 
@@ -73,11 +74,12 @@ L1000_ALMANAC_matches = all_L1000_cids %>%
 	select(broad_id, L1000_name, ALMANAC_name, NSC,cid, target, canonical_smiles) %>% 
   unique() %>% 
   separate(NSC, into = c("prefix", "NSC"), sep = "-") %>% 
-  select(-prefix)
+  select(-prefix) %>% 
+  mutate(NSC = as.numeric(NSC))
 ```
 
 ```{r}
 #Write Output Files
-write_csv(klaegerscan_ALMANAC_matches, here('results/matching/klaegerscan_ALMANAC_matches.csv'))
+write_csv(klaeger_ALMANAC_matches, here('results/matching/klaeger_ALMANAC_matches.csv'))
 write_csv(L1000_ALMANAC_matches, here('results/matching/L1000_ALMANAC_matches.csv'))
 ```
