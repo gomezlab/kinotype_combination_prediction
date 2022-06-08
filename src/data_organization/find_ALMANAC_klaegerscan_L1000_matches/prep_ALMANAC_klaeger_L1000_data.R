@@ -1,17 +1,8 @@
----
-title: "prep Klaeger ALMANAC L1000 data"
-output: html_document
-date: '2022-06-07'
----
 
-```{r setup, include=FALSE}
 library(tidyverse)
 library(here)
 library(webchem)
-knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r}
 #read in data 
 klaeger_ALMANAC_matches = read_csv(here('results/matching/klaeger_ALMANAC_matches.csv'))
 L1000_ALMANAC_matches = read_csv(here('results/matching/L1000_ALMANAC_matches.csv'))
@@ -22,94 +13,94 @@ ALMANAC = read_csv(here('data/ALMANAC/ComboDrugGrowth_Nov2017.csv'))
 klaeger = read_rds(here('data/klaeger_full_tidy.rds')) 
 L1000 = read_rds(here('results/L1000/L1000_for_ml.rds.gz'))
 CCLE = read_rds(here('data/full_CCLE_expression_set_for_ML.rds'))
-```
 
-```{r}
+
+
 #preprocessing
 
 klaeger_wide = klaeger %>% 
   mutate(gene_name = str_replace(gene_name, "[-;]", "_")) %>% 
-	mutate(gene_name = if_else(
-		gene_name == 'HIST2H2BE_HIST1H2BB;HIST1H2BO;HIST1H2BJ;HIST3H2BB;HIST1H2BA',
-		'HIST2H2BE_HIST1H2BB_HIST1H2BO_HIST1H2BJ_HIST3H2BB_HIST1H2BA',
-		gene_name
-	)) %>% 
+  mutate(gene_name = if_else(
+    gene_name == 'HIST2H2BE_HIST1H2BB;HIST1H2BO;HIST1H2BJ;HIST3H2BB;HIST1H2BA',
+    'HIST2H2BE_HIST1H2BB_HIST1H2BO_HIST1H2BJ_HIST3H2BB_HIST1H2BA',
+    gene_name
+  )) %>% 
   mutate(gene_name = paste0("act_", gene_name)) %>% 
   pivot_wider(names_from = gene_name, values_from = relative_intensity)
 
 L1000_processed = L1000 %>% 
   rename_with(~str_replace(., "[-;]", "_"), .cols = starts_with("pert_")) %>% 
   rename_with(~str_replace(., "[-;]", "_"), .cols = starts_with("pert_"))
-```
 
 
-```{r}
+
+
 #pre-process ALMANAC
 ALMANAC_processed = ALMANAC %>% 
-	select(COMBODRUGSEQ, 
-				 CELLNAME, 
-				 CELLNBR, 
-				 PANEL, 
-				 NSC1, 
-				 NSC2, 
-				 CONC1,
-				 CONC2,
-				 TESTVALUE,
-				 CONTROLVALUE) %>% 
+  select(COMBODRUGSEQ, 
+         CELLNAME, 
+         CELLNBR, 
+         PANEL, 
+         NSC1, 
+         NSC2, 
+         CONC1,
+         CONC2,
+         TESTVALUE,
+         CONTROLVALUE) %>% 
   drop_na() %>%  
   #filter cell lines in L1000
   filter(CELLNAME %in% ALMANAC_L1000_cell_line_matches$ALMANAC_cell_name)
-```
 
-```{r}
+
+
 #match concentrations between klaeger and ALMANAC
 ALMANAC_doses = ALMANAC_processed %>% 
-	group_by(CONC1, CONC2) %>% 
-	summarise(n = n())
+  group_by(CONC1, CONC2) %>% 
+  summarise(n = n())
 
 ALMANAC_unique_doses_1 = ALMANAC_doses %>%
-	ungroup() %>% 
-	select(CONC1) %>%
-	rename(conc = CONC1) %>% 
-	unique()
+  ungroup() %>% 
+  select(CONC1) %>%
+  rename(conc = CONC1) %>% 
+  unique()
 ALMANAC_unique_doses_2 = ALMANAC_doses %>%
-	ungroup() %>% 
-	select(CONC2) %>% 
-	rename(conc = CONC2) %>% 
-	unique()
+  ungroup() %>% 
+  select(CONC2) %>% 
+  rename(conc = CONC2) %>% 
+  unique()
 ALMANAC_unique_doses = bind_rows(
-	ALMANAC_unique_doses_1, ALMANAC_unique_doses_2
+  ALMANAC_unique_doses_1, ALMANAC_unique_doses_2
 ) %>% 
-	unique()
+  unique()
 
 klaeger_unique_doses = klaeger %>%
   select(concentration_M) %>% 
   unique() %>% 
-	rename(conc = concentration_M)
+  rename(conc = concentration_M)
 
 matched_doses = ALMANAC_unique_doses %>% 
-	filter(conc %in% klaeger_unique_doses$conc) %>% 
-	mutate(klaeger_conc = conc)
+  filter(conc %in% klaeger_unique_doses$conc) %>% 
+  mutate(klaeger_conc = conc)
 
 ALMANAC_unmatched_doses = ALMANAC_unique_doses %>% 
-	filter(!conc %in% matched_doses$conc)
+  filter(!conc %in% matched_doses$conc)
 
 nearest_klaeger_concentration = function(concentration, all_klaeger_concentrations) {
-differences = all_klaeger_concentrations %>% 
-	filter(conc != 0) %>% 
-	mutate('difference' = abs(conc - concentration)) %>%  
-	arrange(difference) 
-min_difference = differences$conc[1]
-return(min_difference)
+  differences = all_klaeger_concentrations %>% 
+    filter(conc != 0) %>% 
+    mutate('difference' = abs(conc - concentration)) %>%  
+    arrange(difference) 
+  min_difference = differences$conc[1]
+  return(min_difference)
 }
 
 ALMANAC_nearest_klaeger_doses = ALMANAC_unmatched_doses %>% 
-	mutate(nearest_klaeger_dose = map(conc, ~nearest_klaeger_concentration(., klaeger_unique_doses))) %>% 
-	as.data.frame() %>% 
-	unnest(cols = c(nearest_klaeger_dose))
-```
+  mutate(nearest_klaeger_dose = map(conc, ~nearest_klaeger_concentration(., klaeger_unique_doses))) %>% 
+  as.data.frame() %>% 
+  unnest(cols = c(nearest_klaeger_dose))
 
-```{r}
+
+
 #get list of possible klaeger and L1000 combinations
 
 possible_klaeger_L1000_combos = crossing(
@@ -135,10 +126,10 @@ ALMANAC_klaeger_L1000_data = klaeger_L1000_combos_processed %>%
   left_join(ALMANAC_processed %>% 
               select(-CELLNBR)) %>%
   bind_rows(
-  klaeger_L1000_combos_processed %>% 
-  left_join(ALMANAC_processed %>% 
-              select(-CELLNBR),
-            by = c("NSC1" = "NSC2", "NSC2" = "NSC1"))
+    klaeger_L1000_combos_processed %>% 
+      left_join(ALMANAC_processed %>% 
+                  select(-CELLNBR),
+                by = c("NSC1" = "NSC2", "NSC2" = "NSC1"))
   ) %>% 
   unique() %>% 
   drop_na() %>% 
@@ -155,13 +146,13 @@ ALMANAC_klaeger_L1000_data = klaeger_L1000_combos_processed %>%
   ) %>% 
   #join nearest klaeger doses for each ALMANAC dose
   left_join(ALMANAC_nearest_klaeger_doses, by = c('CONC1' = 'conc')) %>% 
-	left_join(matched_doses, by = c('CONC1' = 'conc')) %>% 
-	mutate(nearest_klaeger_dose= if_else(
-		is.na(nearest_klaeger_dose), 
-		klaeger_conc, 
-		nearest_klaeger_dose
-	)) %>% 
-	select(-klaeger_conc) %>% 
+  left_join(matched_doses, by = c('CONC1' = 'conc')) %>% 
+  mutate(nearest_klaeger_dose= if_else(
+    is.na(nearest_klaeger_dose), 
+    klaeger_conc, 
+    nearest_klaeger_dose
+  )) %>% 
+  select(-klaeger_conc) %>% 
   #join in klaeger data 
   left_join(klaeger_wide, 
             by = c('klaeger_name' = "drug", "nearest_klaeger_dose" = "concentration_M")) %>% 
@@ -178,5 +169,3 @@ ALMANAC_klaeger_L1000_data = klaeger_L1000_combos_processed %>%
     disease = PANEL
   ) %>% 
   write_rds(here('results/ALMANAC_klaeger_L1000_data_for_ml.rds.gz'), compress = "gz")
-```
-
