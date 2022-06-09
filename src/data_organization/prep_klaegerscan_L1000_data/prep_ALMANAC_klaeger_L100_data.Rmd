@@ -42,6 +42,14 @@ L1000_processed = L1000 %>%
   rename_with(~str_replace(., "[-;]", "_"), .cols = starts_with("pert_"))
 ```
 
+```{r}
+# temp = L1000_ALMANAC_matches %>% 
+#   select(L1000_name, NSC) %>% 
+#   unique() %>% 
+#   drop_na() %>% 
+#   left_join(L1000_processed)
+```
+
 
 ```{r}
 #pre-process ALMANAC
@@ -166,9 +174,14 @@ ALMANAC_klaeger_L1000_data = klaeger_L1000_combos_processed %>%
   left_join(klaeger_wide, 
             by = c('klaeger_name' = "drug", "nearest_klaeger_dose" = "concentration_M")) %>% 
   drop_na() %>% 
-  left_join(L1000,
+  semi_join(L1000_processed %>%
+              ungroup(),
             by = c("L1000_name", "L1000_cell_name" = "cell_line_name")) %>% 
-  unique() %>% 
+  unique()
+
+  temp = ALMANAC_klaeger_L1000_data %>% 
+    filter(is.na(pert_A1CF)) 
+  
   drop_na() %>%
   mutate(viability = TESTVALUE/CONTROLVALUE) %>% 
   select(-COMBODRUGSEQ, -L1000_cell_name, -nearest_klaeger_dose, -CONTROLVALUE, -TESTVALUE) %>% 

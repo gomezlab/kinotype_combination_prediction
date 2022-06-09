@@ -156,7 +156,7 @@ ALMANAC_klaeger_L1000_data = klaeger_L1000_combos_processed %>%
   left_join(klaeger_wide, 
             by = c('klaeger_name' = "drug", "nearest_klaeger_dose" = "concentration_M")) %>% 
   drop_na() %>% 
-  left_join(L1000,
+  semi_join(L1000,
             by = c("L1000_name", "L1000_cell_name" = "cell_line_name")) %>% 
   unique() %>% 
   drop_na() %>%
