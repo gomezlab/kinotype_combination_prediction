@@ -39,7 +39,8 @@ klaeger_wide = klaeger %>%
 
 L1000_processed = L1000 %>% 
   rename_with(~str_replace(., "[-;]", "_"), .cols = starts_with("pert_")) %>% 
-  rename_with(~str_replace(., "[-;]", "_"), .cols = starts_with("pert_"))
+  rename_with(~str_replace(., "[-;]", "_"), .cols = starts_with("pert_")) %>% 
+  ungroup()
 ```
 
 ```{r}
@@ -174,14 +175,8 @@ ALMANAC_klaeger_L1000_data = klaeger_L1000_combos_processed %>%
   left_join(klaeger_wide, 
             by = c('klaeger_name' = "drug", "nearest_klaeger_dose" = "concentration_M")) %>% 
   drop_na() %>% 
-  semi_join(L1000_processed %>%
-              ungroup(),
+  inner_join(L1000_processed,
             by = c("L1000_name", "L1000_cell_name" = "cell_line_name")) %>% 
-  unique()
-
-  temp = ALMANAC_klaeger_L1000_data %>% 
-    filter(is.na(pert_A1CF)) 
-  
   drop_na() %>%
   mutate(viability = TESTVALUE/CONTROLVALUE) %>% 
   select(-COMBODRUGSEQ, -L1000_cell_name, -nearest_klaeger_dose, -CONTROLVALUE, -TESTVALUE) %>% 
@@ -190,6 +185,21 @@ ALMANAC_klaeger_L1000_data = klaeger_L1000_combos_processed %>%
     L1000_perturbation = L1000_name,
     disease = PANEL
   ) %>% 
+  #truncate viability at 1
+  mutate(viability = if_else(
+    viability >= 1,
+    1,
+    viability
+  )) %>% 
   write_rds(here('results/ALMANAC_klaeger_L1000_data_for_ml.rds.gz'), compress = "gz")
+```
+
+```{r}
+#EDA
+
+ALMANAC_klaeger_L1000_data %>% 
+  filter(viability <= 1) %>% 
+  ggplot(aes(x = viability)) +
+  geom_histogram()
 ```
 
