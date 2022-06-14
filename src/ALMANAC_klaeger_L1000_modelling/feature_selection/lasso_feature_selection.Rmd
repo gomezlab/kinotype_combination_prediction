@@ -93,6 +93,8 @@ all_importance = vi(final_results %>% extract_fit_parsnip()) %>%
 ```{r}
 #lasso feature selection EDA
 
+all_importance = read_csv(here('results/ALMANAC_klaeger_L1000_models/feature_selection/lasso_selected_features.csv'))
+
 #preprocessing
 all_importance_medians = all_importance %>% 
 	group_by(feature_type) %>% 
@@ -136,14 +138,14 @@ activation_hex = ggplot(ALMANAC_klaeger_samples, aes(x=activation,y=viability)) 
 	# geom_hex(fill = log10(..count..)) +
 	stat_binhex(aes(fill=log10(..count..))) +
 	geom_smooth(method = lm, color = 'red', lwd=1) +
-	labs(x="Kinase Inhibition State",y="LogIC50",fill="Log10\nData Points") +
+	labs(x="Kinase Inhibition State",y="Cell Viability",fill="Log10\nData Points") +
 	BerginskiRMisc::theme_berginski() +
 	theme(aspect.ratio = 1:1, legend.text = element_text(size=8), legend.title = element_text(size=8)) +
 	scale_x_continuous(breaks = c(0,.3,.6,1)) +
 	scale_fill_viridis_c() +
 	facet_wrap(~gene, scales = "free_x")
 
-ggsave(here('figures/sample_activation_cor.png'),width=10.5,height=6, units = "cm")
+ggsave(here('figures/ALMANAC_klaeger_L1000/lasso_sample_activation_cor.png'),width=10.5,height=6, units = "cm")
 ```
 
 ```{r}
@@ -154,9 +156,9 @@ sample_expressions = all_importance_summary %>%
 
 ALMANAC_klaeger_samples = this_dataset %>%
 	select(viability, sample_expressions$feature[1], sample_expressions$feature[2], sample_expressions$feature[3]) %>%
-	pivot_longer(contains("act_"), names_to = "act_gene",values_to = "expression") %>%
+	pivot_longer(contains("pert_"), names_to = "act_gene",values_to = "expression") %>%
 	separate(act_gene, into = c("prefix","gene"),sep="_") %>% 
-	mutate(gene = fct_relevel(gene, "TWF2", "KLHL6", "EPHA5"))
+	mutate(gene = fct_relevel(gene, "TWF2", "DMTF1", "PAFAH2"))
 
 # PRISM_klaeger_samples %>%
 # 	ggplot(aes(x=activation,y=ic50)) +
@@ -167,24 +169,24 @@ ALMANAC_klaeger_samples = this_dataset %>%
 # 	theme(aspect.ratio = 1:1) +
 # 	facet_wrap(~gene, scales = "free_x")
 
-activation_hex = ggplot(PRISM_klaeger_samples, aes(x=expression,y=ic50)) +
+activation_hex = ggplot(PRISM_klaeger_samples, aes(x=expression,y=viability)) +
 	# geom_hex(fill = log10(..count..)) +
 	stat_binhex(aes(fill=log10(..count..))) +
 	geom_smooth(method = lm, color = 'red', lwd=1) +
-	labs(x="Gene Expression (Log 2 TPM)",y="LogIC50",fill="Log10\nData Points") +
+	labs(x="L1000 Characteristic Direction",y="Cell Viability",fill="Log10\nData Points") +
 	BerginskiRMisc::theme_berginski() +
 	theme(aspect.ratio = 1:1, legend.text = element_text(size=8), legend.title = element_text(size=8)) +
 	#scale_y_continuous(breaks = seq(0,1,by=0.25)) +
 	scale_fill_viridis_c() +
 	facet_wrap(~gene, scales = "free_x")
 
-ggsave(here('figures/sample_expression_cor.png'),width=10.5,height=6, units = "cm")
+ggsave(here('figures/ALMANAC_klaeger_L1000/lasso_sample_perturbation_cor.png'),width=10.5,height=6, units = "cm")
 ```
 
 ```{r}
 #ic50 plot
 
-a = all_importance_summary %>% 
+all_importance_summary %>% 
 	ggplot(aes(x = Importance, y = feature_type, fill = factor(stat(quantile)))) +
 	 stat_density_ridges(
     geom = "density_ridges_gradient", calc_ecdf = TRUE,
@@ -192,21 +194,10 @@ a = all_importance_summary %>%
   ) +
   scale_fill_viridis_d(name = "Quartiles") +
 	theme_ridges(center_axis_labels = TRUE) + 
-	labs(title = " ",x = "Absolute Correlation Value", y = "Data Type")
+	labs(title = " ",x = "Lasso Coefficient Size", y = "Data Type") +
+  coord_cartesian(clip = "off")
 	
-ggsave(here('figures/IC50_feature_correlations.png'), height = 6, width = 21, units = "cm")
-
-auc_correlations_summary %>% 
-	ggplot(aes(x = Importance, y = feature_type, fill = factor(stat(quantile)))) +
-	 stat_density_ridges(
-    geom = "density_ridges_gradient", calc_ecdf = TRUE,
-    quantiles = 4, quantile_lines = TRUE
-  ) +
-  scale_fill_viridis_d(name = "Quartiles") +
-	theme_ridges(center_axis_labels = TRUE) + 
-	labs(title = " ",x = "Absolute Correlation Value", y = "Data Type")
-	
-ggsave(here('figures/auc_feature_correlations.png'), height = 6, width = 21, units = "cm")
+ggsave(here('figures/ALMANAC_klaeger_L1000/lasso_correlations.png'), height = 6, width = 21, units = "cm")
 ```
 
 
