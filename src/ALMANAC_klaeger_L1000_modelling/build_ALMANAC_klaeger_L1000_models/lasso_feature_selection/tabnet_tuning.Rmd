@@ -1,0 +1,94 @@
+---
+title: "local python tuning"
+output: html_document
+date: '2022-05-05'
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(patchwork)
+library(keras)
+library(vroom)
+library(tidymodels)
+library(tfdatasets)
+library(tictoc)
+library(Metrics)
+library(conflicted)
+library(reticulate)
+conflict_prefer("fit", "keras")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("all_numeric", "tfdatasets")
+conflict_prefer("rmse", "Metrics")
+```
+
+```{r}
+#read in data
+full_dataset = read_rds(here('results/ALMANAC_klaeger_L1000_data_for_ml.rds.gz'))
+feats =  vroom(here('results/ALMANAC_klaeger_L1000_models/feature_selection/lasso_selected_features.csv'))
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+from pytorch_tabnet.tab_model import TabNetRegressor
+from sklearn.model_selection import KFold
+import torch
+import optuna
+from optuna import Trial, visualization
+```
+
+```{python}
+data = r.full_dataset
+feats = r.feats
+
+feats_list = feats['feature'].tolist()
+feats_list.append('viability')
+data = data[feats_list]
+
+exclude = ['viability']
+y = data['viability']
+X = data.drop(exclude, axis=1)
+```
+
+```{python}
+def Objective(trial):
+    mask_type = trial.suggest_categorical("mask_type", ["entmax", "sparsemax"])
+    n_da = trial.suggest_int("n_da", 56, 64, step=4)
+    n_steps = trial.suggest_int("n_steps", 1, 3, step=1)
+    gamma = trial.suggest_float("gamma", 1., 1.4, step=0.2)
+    n_shared = trial.suggest_int("n_shared", 1, 3)
+    lambda_sparse = trial.suggest_float("lambda_sparse", 1e-6, 1e-3, log=True)
+    tabnet_params = dict(n_d=n_da, n_a=n_da, n_steps=n_steps, gamma=gamma,
+                     lambda_sparse=lambda_sparse, optimizer_fn=torch.optim.Adam,
+                     optimizer_params=dict(lr=2e-2, weight_decay=1e-5),
+                     mask_type=mask_type, n_shared=n_shared,
+                     scheduler_params=dict(mode="min",
+                                           patience=trial.suggest_int("patienceScheduler",low=3,high=10), # changing sheduler patience to be lower than early stopping patience 
+                                           min_lr=1e-5,
+                                           factor=0.5,),
+                     scheduler_fn=torch.optim.lr_scheduler.ReduceLROnPlateau,
+                     verbose=0,
+                     ) #early stopping
+    kf = KFold(n_splits=5, random_state=2222, shuffle=True)
+    CV_score_array    =[]
+    for train_index, test_index in kf.split(X):
+        X_train, X_valid = X[train_index], X[test_index]
+        y_train, y_valid = y[train_index], y[test_index]
+        regressor = TabNetRegressor(**tabnet_params)
+        regressor.fit(X_train=X_train, y_train=y_train,
+                  eval_set=[(X_valid, y_valid)],
+                  patience=trial.suggest_int("patience",low=15,high=30), max_epochs=trial.suggest_int('epochs', 1, 100),
+                  eval_metric=['rmse'])
+        CV_score_array.append(regressor.best_cost)
+    avg = np.mean(CV_score_array)
+    return avg
+
+```
+
+```{python}
+study = optuna.create_study(direction="minimize", study_name='TabNet optimization')
+study.optimize(Objective, timeout=30*60)
+```
+
+
