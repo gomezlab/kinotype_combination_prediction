@@ -8,7 +8,7 @@ library(doParallel)
 library(patchwork)
 library(ROCR)
 library(argparse)
-library(random_forest)
+library(ranger)
 library(conflicted)
 conflict_prefer("slice", "dplyr")
 

@@ -8,7 +8,6 @@ library(doParallel)
 library(patchwork)
 library(ROCR)
 library(argparse)
-library(lasso)
 library(conflicted)
 conflict_prefer("slice", "dplyr")
 
