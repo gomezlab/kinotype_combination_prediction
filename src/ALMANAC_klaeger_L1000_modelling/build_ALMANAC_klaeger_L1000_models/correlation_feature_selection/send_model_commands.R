@@ -23,7 +23,7 @@ for (feature_num in c(100,200,300,400,500,1000,1500,2000,3000,4000,5000)) {
 
 }
 
-for (feature_num in c(400)) {
+for (feature_num in c(400,500,1000,1500,2000,3000,4000,5000)) {
   
   job_name = sprintf('cxg%d',feature_num)
   
