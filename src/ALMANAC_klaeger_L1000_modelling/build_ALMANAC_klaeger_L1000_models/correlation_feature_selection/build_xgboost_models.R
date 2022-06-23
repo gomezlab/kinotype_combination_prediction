@@ -26,7 +26,7 @@ dir.create(here('results/ALMANAC_klaeger_L1000_models/activation_expression/regr
 full_output_file = here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/xgboost/results', 
                         sprintf('%dfeat.rds.gz',args$feature_num))
 
-full_dataset = read_rds(here('results/ALMANAC_klaeger_L1000_models/ALMANAC_klaeger_L1000_data_for_ml_ml_5000feat.rds.gz'))
+full_dataset = read_rds(here('results/ALMANAC_klaeger_L1000_models/ALMANAC_klaeger_L1000_data_for_ml_5000feat.rds.gz'))
 feats =  vroom(here('results/ALMANAC_klaeger_L1000_models/feature_selection/correlation_selected_features.csv'))
 folds = read_rds(here('results/cv_folds/ALMANAC_klaeger_L1000_folds.rds.gz'))
 xgb_grid = read_rds(here('results/hyperparameter_grids/xgb_grid.rds'))
