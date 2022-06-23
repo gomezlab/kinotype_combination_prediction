@@ -16,7 +16,7 @@ for (feature_num in c(100,200,300,400,500,1000,1500,2000,3000,4000,5000)) {
 
 	job_name = sprintf('clr%d',feature_num)
 
-	command = sprintf('sbatch --job-name=%s --mem=99G -c 16 --time=40:00:00 --wrap "src/ALMANAC_klaeger_L1000_modelling/build_ALMANAC_klaeger_L1000_models/correlation_feature_selection/build_lasso_models.R --feature_num %d"', job_name, feature_num)
+	command = sprintf('sbatch --job-name=%s --mem=99G -c 16 --time=40:00:00 --wrap "Rscript src/ALMANAC_klaeger_L1000_modelling/build_ALMANAC_klaeger_L1000_models/correlation_feature_selection/build_lasso_models.R --feature_num %d"', job_name, feature_num)
 
 	# print(command)
 	system(command)
