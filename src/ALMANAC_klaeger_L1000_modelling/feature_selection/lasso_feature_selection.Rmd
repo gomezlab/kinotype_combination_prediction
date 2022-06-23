@@ -52,6 +52,7 @@ results = tune_grid(
   collect_metrics() %>% 
 	write_csv(here('results/ALMANAC_klaeger_L1000_models/feature_selection/lasso_tuning_results.csv'))
 
+temp = read_csv(here('results/ALMANAC_klaeger_L1000_models/feature_selection/lasso_tuning_results.csv'))
 ```
 
 ```{r}
