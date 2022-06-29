@@ -1,0 +1,206 @@
+---
+	title: "Assess regression Models"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+	
+```{r}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(ROCR)
+library(patchwork)
+library(tictoc)
+library(broom)
+library(gghighlight)
+library(Metrics)
+library(vroom)
+library(conflicted)
+library(vip)
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("vi", "vip")
+conflict_prefer("rmse", "Metrics")
+```
+
+#Assess Correlation Feature Selection
+
+```{r}
+tic()
+all_rf_metrics = data.frame()
+for (feature_number in c(100,200,300,400,500,1000,1500,2000,3000,4000,5000)) {
+	this_model_results = read_rds(
+		here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/random_forest/results',
+				 sprintf('%dfeat.rds.gz',feature_number)))
+
+	this_model_metrics = this_model_results %>%
+		arrange(desc(mean)) %>%
+		slice(1) %>%
+		mutate(num_features = feature_number)
+	all_rf_metrics = bind_rows(all_rf_metrics, this_model_metrics)
+}
+
+all_xgb_metrics = data.frame()
+for (feature_number in c(100,200,300,400,500,1000,1500,2000,3000,4000,5000)) {
+	this_model_results = read_rds(
+		here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/xgboost/results',
+				 sprintf('%dfeat.rds.gz',feature_number)))
+
+	this_model_metrics = this_model_results %>%
+		arrange(desc(mean)) %>%
+		slice(1) %>%
+		mutate(num_features = feature_number)
+	all_xgb_metrics = bind_rows(all_xgb_metrics, this_model_metrics)
+}
+
+all_lr_metrics = data.frame()
+for (feature_number in c(100,200,300,400,500,1000,1500,2000,3000,4000,5000,6000,7000,8000,9000)) {
+	this_model_results = read_rds(
+		here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/lasso/results',
+				 sprintf('%dfeat.rds.gz',feature_number)))
+
+	this_model_metrics = this_model_results %>%
+		filter(.metric == "rsq") %>% 
+		arrange(desc(mean)) %>%
+		slice(1) %>%
+		mutate(num_features = feature_number)
+	all_lr_metrics = bind_rows(all_lr_metrics, this_model_metrics)
+}
+
+feat4000_bayes_results = read_rds(here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/xgboost/results/4000feat_bayes.rds.gz')) %>% 
+  filter(.iter > 0) %>% 
+  select(-.iter) %>% 
+  filter(.metric == "rsq") %>% 
+	arrange(desc(mean)) %>%
+	slice(1) %>%
+	mutate(num_features = 4000)
+
+
+all_model_metrics = all_rf_metrics %>% 
+	pivot_longer(trees, names_to = 'hyperparameter', values_to = 'value') %>%
+	mutate(model_type = 'random forest') %>%
+  mutate(tuning_type = "initial") %>% 
+	bind_rows(
+		all_xgb_metrics %>%
+			pivot_longer(c(trees, tree_depth), names_to = 'hyperparameter', values_to = 'value') %>%
+			mutate(model_type = 'xgboost') %>% 
+		  mutate(tuning_type = "initial")
+	) %>%
+	bind_rows(
+		all_lr_metrics %>%
+			pivot_longer(penalty, names_to = 'hyperparameter', values_to = 'value') %>% 
+			mutate(model_type = 'lasso') %>% 
+		  mutate(tuning_type = "initial")
+	) %>% 
+	mutate(.config = paste0(.config, '_',model_type)) %>% 
+	rename('model_id' = .config) %>% 
+	mutate(feature_selection_type = "Correlation-based feature selection")
+
+write_csv(all_model_metrics, here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/all_model_metrics.csv'))
+toc()
+```
+
+#Assess Lasso Feature Selection
+```{r}
+initial_xgboost_results = read_rds(here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/xgboost/results/lasso_feature_results_inital.rds.gz')) %>% 
+    collect_metrics() %>% 
+  	arrange(desc(mean)) %>%
+		slice(1)
+
+bayes_xgboost_results = read_rds(here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/xgboost/results/lasso_feature_results.rds.gz')) %>% 
+    arrange(desc(mean)) %>%
+		slice(1)
+
+lasso_results = read_csv(here('results/ALMANAC_klaeger_L1000_models/feature_selection/lasso_tuning_results.csv')) %>% 
+    arrange(desc(mean)) %>%
+		slice(1)
+
+rf_results = read_rds(here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/random_forest/results/lasso_feature_results_rf.rds.gz')) %>% 
+    arrange(desc(mean)) %>%
+		slice(1)
+
+
+all_model_metrics_lasso =  rf_results %>%
+	pivot_longer(trees, names_to = 'hyperparameter', values_to = 'value') %>%
+	mutate(model_type = 'random forest') %>%
+  mutate(tuning_type = "initial") %>%
+	bind_rows(
+		initial_xgboost_results %>%
+			pivot_longer(c(trees, tree_depth), names_to = 'hyperparameter', values_to = 'value') %>%
+			mutate(model_type = 'xgboost') %>% 
+		  mutate(tuning_type = "initial")
+	) %>%
+	bind_rows(
+		lasso_results %>%
+			pivot_longer(penalty, names_to = 'hyperparameter', values_to = 'value') %>% 
+			mutate(model_type = 'lasso') %>% 
+		  mutate(tuning_type = "initial")
+	) %>% 
+	mutate(.config = paste0(.config, '_',model_type)) %>% 
+	rename('model_id' = .config) %>% 
+	mutate(feature_selection_type = "LASSO-based feature selection") %>% 
+  mutate(num_features = 1174)
+write_csv(all_model_metrics_lasso, here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/all_model_metrics_lasso.csv'))
+
+```
+
+```{r}
+all_model_metrics = read_csv(here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/all_model_metrics.csv'))
+all_model_metrics_lasso = read_csv(here('results/ALMANAC_klaeger_L1000_models/activation_expression/regression/all_model_metrics_lasso.csv'))
+
+model_metrics_combined = all_model_metrics %>% 
+  bind_rows(all_model_metrics_lasso)
+```
+
+
+```{r}
+# metrics figure
+model_metrics_combined %>%
+	ggplot(aes(x = num_features, y = mean, colour = model_type, shape = model_type)) +
+	geom_point() + 
+  # geom_errorbar(aes(ymin=mean-std_err, ymax=mean+std_err), width=.2,
+  #                position=position_dodge(.9)) +
+	coord_cartesian(ylim= c(0.2,0.6)) +
+	facet_wrap(vars(feature_selection_type)) +
+	labs(title = "Combination Cell Viability Models", x = "number of features", y = "R-squared") +
+		theme(
+		legend.position = "right",
+		legend.text = element_text(size = 9),
+		legend.background = element_rect(fill = "transparent",colour = NA),
+		panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+      )
+
+ggsave(here('figures/ALMANAC_klaeger_L1000/regression_model_metrics.png'), width = 15, height = 7.5, units = "cm")
+
+#final metrics figure
+# model_metrics_combined %>% 
+# 	ggplot(aes(x = num_features, y = mean, colour = data_type, shape = data_type)) +
+# 	geom_point() + 
+#   geom_errorbar(aes(ymin=mean-std_err, ymax=mean+std_err), width=.2,
+#                  position=position_dodge(.9)) +
+# 	coord_cartesian(ylim= c(0.2,0.68)) +
+# 	labs(title = "AUC Models", x = "number of features", y = "R-squared") +
+# 	facet_wrap(vars(model_type)) +
+# 		theme(
+# 		legend.position = "top",
+# 		legend.text = element_text(size = 9),
+# 		legend.background = element_rect(fill = "transparent",colour = NA),
+# 		panel.background = element_rect(fill = "transparent",colour = NA),
+#     panel.grid.minor = element_blank(), 
+#     panel.grid.major = element_blank(),
+#     plot.background = element_rect(fill = "transparent",colour = NA)
+#       )
+# 
+# ggsave(here('figures/PRISM_LINCS_klaeger/all_regression_models_auc_metrics.png'), width = 10.5, height = 10.5, units = "cm")
+```
+
+
+
+
+
+
+
