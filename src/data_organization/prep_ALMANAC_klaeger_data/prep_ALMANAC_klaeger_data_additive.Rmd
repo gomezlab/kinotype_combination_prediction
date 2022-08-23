@@ -1,5 +1,5 @@
 ---
-title: "prep_ALMANAC_klaeger_data_additive"
+title: "prep_ALMANAC_klaeger_data"
 output: html_document
 ---
 
@@ -12,11 +12,11 @@ library(purrr)
 ```{r}
 #read in data 
 
-ALMANAC = read_csv(here('results/synergy_predictions/ALMANAC_processed.csv'))
+ALMANAC = read_csv(here('results/ALMANAC_klaeger_models/ALMANAC_processed.csv'))
 matched_ALMANAC_drugs = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_klaeger_matchlist.csv'))
-CCLE_data = read_rds(here('results/full_CCLE_expression_set_for_ML.rds'))
+CCLE_data = read_rds(here('data/full_CCLE_expression_set_for_ML.rds'))
 ALMANAC_PRISM_cell_line_matches = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/manual_matched_cell_lines.csv'))
-klaeger_combinations = read_rds(here('results/synergy_pred/ALMANAC_klaeger_synergy_combos_additive.rds')) %>% 
+klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/ALMANAC_klaeger_synergy_combos_additive.rds')) %>% 
 	filter(drug_1 %in% matched_ALMANAC_drugs$klaeger_name | drug_2 %in% matched_ALMANAC_drugs$klaeger_name)
 
 ```
@@ -40,7 +40,7 @@ ALMANAC_doses = ALMANAC_cell_line_matched %>%
 dose_matches = ALMANAC_doses %>% 
 	inner_join(klaeger_doses, by = c('CONC1' = 'concentration_M_d2', 'CONC2' = 'concentration_M_d1'))
 	
-write_csv(dose_matches, here('results/synergy_predictions/ALMANAC_klaeger_dose_matches.csv'))
+write_csv(dose_matches, here('results/matching/ALMANAC_klaeger_dose_matches.csv'))
 ```
 
 ```{r}
@@ -87,7 +87,7 @@ ALMANAC_nearest_klaeger_doses = ALMANAC_unmatched_doses %>%
 	as.data.frame() %>% 
 	unnest(cols = c(nearest_klaeger_dose))
 
-write_csv(ALMANAC_nearest_klaeger_doses, here('results/synergy_predictions/ALMANAC_nearest_klaeger_doses.csv'))
+write_csv(ALMANAC_nearest_klaeger_doses, here('results/matching/ALMANAC_nearest_klaeger_doses.csv'))
 
 ```
 
@@ -148,7 +148,25 @@ ALMANAC_klaeger_data =  ALMANAC_cell_line_matched_unique %>%
 
 ```{r}
 
-write_csv(ALMANAC_klaeger_data, here('results/ALMANAC_klaeger_data_for_ml_additive.csv'))
+#join in CCLE data 
+
+ALMANAC_klaeger_CCLE_data = ALMANAC_klaeger_data %>% 
+	left_join(CCLE_data, by = 'DepMap_ID') %>% 
+	drop_na()
+
+```
+
+
+```{r}
+set.seed(2222)
+#excluding viability > 1
+this_dataset = ALMANAC_klaeger_CCLE_data %>% 
+	filter(viability <=1)
+```
+
+```{r}
+
+write_csv(this_dataset, here('results/ALMANAC_klaeger_data_for_ml_additive.csv'))
 
 ```
 

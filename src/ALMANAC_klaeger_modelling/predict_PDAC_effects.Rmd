@@ -1,0 +1,290 @@
+```{r}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(conflicted)
+library(BerginskiRMisc)
+library(dr4pl)
+library(PharmacoGx)
+library(Metrics)
+library(wesanderson)
+library(keras)
+conflict_prefer("fit", "keras")
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rename", "dplyr")
+conflict_prefer("rmse", "Metrics")
+conflict_prefer("rsq", "Metrics")
+```
+
+```{r}
+PDAC_exp_data = read_rds(here('results/validation_results/PDAC_validation/PDAC_RNAseq_data_for_model.rds'))
+
+PDAC_inital_screen_data = read_rds(here('data/PDAC_data/screen_combined.rds')) 
+
+klaeger_PDAC_matches = read_csv(here('results/matching/PDAC_ALMANAC_klaeger_drug_matches.csv'))
+
+klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/ALMANAC_klaeger_synergy_combos_truncated.rds')) %>% 
+	filter(drug_1 %in% klaeger_PDAC_matches$klaeger_name | drug_2 %in% klaeger_PDAC_matches$klaeger_name)
+
+model_vars = read_rds(here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_model_dataset_truncated.rds.gz')) %>% 
+	slice(1)
+
+final_xgboost_model = read_rds(here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_lasso_xgboost_truncated_final_model.rds.gz'))
+```
+
+```{r}
+#summarising PDAC screen data 
+
+all_PDAC_viability_data = bind_rows(
+	PDAC_inital_screen_data %>%
+		filter(compound %in% klaeger_PDAC_matches$PDAC_compound_name, anchor %in% klaeger_PDAC_matches$PDAC_compound_name, dose_anchor_m != 0, dose_compound_m != 0),
+	PDAC_inital_screen_data %>%
+		filter(anchor %in% klaeger_PDAC_matches$PDAC_compound_name, compound %in% klaeger_PDAC_matches$PDAC_compound_name, dose_compound_m != 0, dose_anchor_m != 0)
+) %>% 
+  unique() %>% 
+  rename(drug_1 = compound,
+         drug_2 = anchor,
+         concentration_M_d1 = dose_compound_m,
+         concentration_M_d2 = dose_anchor_m) %>% 
+	select(drug_1, drug_2, concentration_M_d1, concentration_M_d2, cell_line, viability) %>%
+	mutate(cell_line = case_when(
+		cell_line == "P1004" ~ "P0422_T1",
+		cell_line == "P1304" ~ "P0411_T1",
+		cell_line == "CAF" ~ "P0119_T1"
+	)) %>% 
+  group_by(drug_1, drug_2, concentration_M_d1, concentration_M_d2, cell_line) %>% 
+  summarise(viability = mean(viability)) %>% 
+	left_join(klaeger_PDAC_matches %>% 
+	            select(klaeger_name, PDAC_compound_name),
+	          by = c("drug_1" = "PDAC_compound_name")) %>% 
+  rename(klaeger_name_1 = klaeger_name) %>% 
+  left_join(klaeger_PDAC_matches %>% 
+	            select(klaeger_name, PDAC_compound_name),
+	          by = c("drug_2" = "PDAC_compound_name")) %>%
+  rename(klaeger_name_2 = klaeger_name) %>%
+  ungroup() %>% 
+  select(klaeger_name_1, klaeger_name_2, concentration_M_d1, concentration_M_d2, cell_line, viability) %>% 
+  rename(drug_1 = klaeger_name_1, drug_2 = klaeger_name_2)
+	
+cell_line_drug_combos = all_PDAC_viability_data %>%
+	ungroup() %>% 
+	select(drug_1, drug_2, concentration_M_d1, concentration_M_d2, cell_line, viability) %>% 
+	unique() %>% 
+	filter(!drug_1 == "DMSO" | !drug_2 == "DMSO")
+
+PDAC_dataset_for_model = cell_line_drug_combos %>% 
+	left_join(klaeger_combinations) %>%
+	select(drug_1, drug_2, concentration_M_d1, concentration_M_d2, cell_line, viability, any_of(names(model_vars))) %>% 
+	left_join(PDAC_exp_data) %>% 
+  drop_na() %>% 
+	write_rds(here('results/validation_results/PDAC_validation/PDAC_combo_data_for_model_predictions.rds'))
+```
+
+```{r}
+#make predictions for in-house tested cell line compound combinations
+
+model_predictions = augment(final_xgboost_model,
+														PDAC_dataset_for_model %>%
+														  mutate('exp_MT-ND4L' = 0,
+														         'exp_NME1-NME2' = 0,
+														         'exp_AC013470.2' = 0,
+														         'CELLNAME' = NA, 
+														         'DepMap_ID' = NA,
+														         'drug1' = NA,
+														         'drug2' = NA,
+														         'CONC1' = NA, 
+														         'CONC2' = NA,
+														         'nearest_klaeger_dose_1' = NA,
+														         'nearest_klaeger_dose_2' = NA)) %>% 
+	select(-starts_with("act_"), -starts_with("exp_"))
+
+model_predictions_tidy = model_predictions %>%
+	mutate(predicted_viability = signif(.pred,3)) %>% 
+	select(-.pred, -CELLNAME, -DepMap_ID, -drug1, -drug2, -CONC1, -CONC2, -nearest_klaeger_dose_1, -nearest_klaeger_dose_2) %>% 
+  mutate(viability = viability/100)
+```
+
+```{r}
+#assessment of validation
+combos_validated = model_predictions_tidy %>% 
+  select(drug_1, drug_2) %>% 
+  unique()
+
+all_individual_metrics = data.frame()
+for(this_drug in combos_validated$drug_1) {
+
+this_model_predictions = model_predictions_tidy %>% 
+  filter(drug_1 == this_drug)
+
+this_rsq = cor(this_model_predictions$viability, this_model_predictions$predicted_viability)^2
+
+this_rmse = rmse(this_model_predictions$viability, this_model_predictions$predicted_viability)
+
+this_metrics = data.frame(this_rsq, this_rmse, this_drug)
+
+all_individual_metrics = bind_rows(all_individual_metrics, this_metrics)
+
+}
+```
+
+```{r}
+label_facet <- function(original_var, custom_name){
+  lev <- levels(as.factor(original_var))
+  lab <- paste0(lev, " + ", custom_name)
+  names(lab) <- lev
+  return(lab)  
+}
+
+model_predictions_tidy %>% 
+  left_join(all_individual_metrics %>% 
+              rename(drug_1 = this_drug)) %>% 
+  mutate(this_rsq = paste0("R\u00B2 = ", round(this_rsq, 2), " / RMSE = ", round(this_rmse, 2))) %>% 
+	ggplot(aes(x = predicted_viability, y = viability)) +
+	geom_point() +
+	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
+	labs(
+	  x = "Predicted Combination Viability",
+	  y = "Experimental Combination Viability") +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+		panel.grid.minor = element_blank(), 
+		panel.grid.major = element_blank(),
+		plot.background = element_rect(fill = "transparent",colour = NA)
+	) +
+  facet_wrap(~ drug_1 + this_rsq, labeller = labeller(drug_1 = label_facet(model_predictions_tidy$drug_1, "Dasatinib")))
+
+ggsave(here('figures/ALMANAC_klaeger/preliminary_combo_PDAC_validation_assessment.png'), height = 10, width = 12, units = "cm")
+```
+
+
+
+```{r}
+#EDA of CAF lines vs Tumour lines
+validation_assessment_line_split = validation_assessment %>% 
+	mutate(PDAC_type = if_else(
+		cell_line == "P0119_T1",
+		"CAF Activated Stroma",
+		"Primary Tumour"
+	)) %>% 
+	group_by(drug, PDAC_type) %>% 
+	summarise(mean_exp_auc = mean(exp_auc),
+					 mean_predicted_auc = mean(predicted_auc)) 
+
+PDAC_type_diffs_experimental = validation_assessment_line_split %>% 
+	ungroup() %>%
+	select(-mean_predicted_auc)
+	group_by(drug)
+	
+```
+
+
+```{r}
+#splitting validation by drug origin 
+
+drug_origins = LINCS_klaeger_data_wide %>% 
+	select(drug, origin) %>%  
+	unique()
+
+validation_assessment_split = validation_assessment %>% 
+	left_join(drug_origins)
+
+kinomescan_rsq = cor(
+	validation_assessment_split %>% 
+	filter(origin == "KINOMEscan") %>% 
+		pull(predicted_auc),
+		validation_assessment_split %>% 
+	filter(origin == "KINOMEscan") %>% 
+		pull(exp_auc)
+)
+
+klaeger_rsq = cor(
+	validation_assessment_split %>% 
+	filter(origin == "Kinobeads") %>% 
+		pull(predicted_auc),
+		validation_assessment_split %>% 
+	filter(origin == "Kinobeads") %>% 
+		pull(exp_auc)
+)
+
+kinomescan_rmse = rmse(
+	validation_assessment_split %>% 
+	filter(origin == "KINOMEscan") %>% 
+		pull(predicted_auc),
+		validation_assessment_split %>% 
+	filter(origin == "KINOMEscan") %>% 
+		pull(exp_auc)
+)
+
+klaeger_rmse = rmse(
+	validation_assessment_split %>% 
+	filter(origin == "Kinobeads") %>% 
+		pull(predicted_auc),
+		validation_assessment_split %>% 
+	filter(origin == "Kinobeads") %>% 
+		pull(exp_auc)
+)
+
+relative_rsq = kinomescan_rsq/klaeger_rsq
+
+validation_assessment_split %>%
+	filter(origin == "Kinobeads") %>% 
+	mutate(origin = "Novel PDAC-line Tested Kinobead Drugs") %>% 
+	ggplot(aes(x = predicted_auc, y = exp_auc)) +
+	geom_point() +
+	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[4]) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
+	labs(
+		title =
+  paste0('R = ',
+			 				 round(
+			 				 	klaeger_rsq,
+			 				 	1),
+			 				 '/ RMSE = ',
+			 				 round(
+			 				 	klaeger_rmse,
+			 				 	2)
+			 	),
+  x = "Predicted AUC",
+  y = "Actual AUC") +
+	facet_wrap(~origin) +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+		panel.grid.minor = element_blank(), 
+		panel.grid.major = element_blank(),
+		plot.background = element_rect(fill = "transparent",colour = NA)
+	)
+ggsave(here('figures/PRISM_LINCS_klaeger/validation/preliminary_PDAC_validation_assessment_kinobeads.png'), height = 10, width = 9.5, units = "cm")
+	
+validation_assessment_split %>%
+	filter(origin == "KINOMEscan") %>%
+	mutate(origin = "Novel PDAC-Line Tested KINOMEscan Drugs") %>%
+	ggplot(aes(x = predicted_auc, y = exp_auc)) +
+	geom_point() +
+	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[4]) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
+	labs(
+		title =
+  paste0('R = ',
+			 				 round(
+			 				 	kinomescan_rsq,
+			 				 	2),
+			 				 '/ RMSE = ',
+			 				 round(
+			 				 	kinomescan_rmse,
+			 				 	2)
+			 	),
+  x = "Predicted AUC",
+  y = "Actual AUC") +
+	facet_wrap(~origin) +
+	coord_cartesian(ylim = c(0.4,1)) +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+		panel.grid.minor = element_blank(), 
+		panel.grid.major = element_blank(),
+		plot.background = element_rect(fill = "transparent",colour = NA)
+	)	
+ggsave(here('figures/PRISM_LINCS_klaeger/validation/preliminary_PDAC_validation_assessment_kinomescan.png'), height = 10, width = 9.5, units = "cm")
+```
+

@@ -16,7 +16,7 @@ ALMANAC = read_csv(here('results/synergy_predictions/ALMANAC_processed.csv'))
 matched_ALMANAC_drugs = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_klaeger_matchlist.csv'))
 CCLE_data = read_rds(here('results/full_CCLE_expression_set_for_ML.rds'))
 ALMANAC_PRISM_cell_line_matches = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/manual_matched_cell_lines.csv'))
-klaeger_combinations = read_rds(here('results/synergy_predictions/klaeger_synergy_combos.rds')) %>% 
+klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/klaeger_synergy_combos.rds')) %>% 
 	filter(drug_1 %in% matched_ALMANAC_drugs$klaeger_name | drug_2 %in% matched_ALMANAC_drugs$klaeger_name)
 
 ```

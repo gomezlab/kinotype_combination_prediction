@@ -1,0 +1,106 @@
+```{r}
+library(tidyverse)
+library(here)
+library(geneSynonym)
+```
+
+```{r}
+#read in data
+PDAC_exp_raw = read_rds(here('data/PDAC_data/in_vitro_exp_df.rds'))
+
+model_data = read_rds(here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_model_dataset_truncated.rds.gz')) 
+```
+
+```{r}
+PDAC_exp_processed = PDAC_exp_raw %>% 
+	as.data.frame() %>% 
+	select(Human_P170119T1_CAF_S4_eaton78, 
+				 P100422T1_CL_PDX_control_S6_eaton49, 
+				 P100422T1_CL_PDX_control_S6_eaton50,
+				 P130411T1_CL_PDX_control_S2_manocha10) %>% 
+	rename(P0119_T1 = Human_P170119T1_CAF_S4_eaton78,
+				 P0411_T1 = P130411T1_CL_PDX_control_S2_manocha10) %>% 
+	mutate(P0422_T1 = (P100422T1_CL_PDX_control_S6_eaton49 + P100422T1_CL_PDX_control_S6_eaton50)/2) %>% 
+	select(P0119_T1, P0411_T1, P0422_T1) %>% 
+	rownames_to_column(var = "gene_name") %>% 
+	mutate(gene_name = str_replace(gene_name, "[.]", "_")) %>% 
+	write_rds(here('results/validation_results/PDAC_validation/PDAC_RNAseq_data.rds'))
+```
+
+```{r}
+#matching gene names
+
+exp_feature_names = model_data %>% 
+	slice(1) %>% 
+	select(starts_with("exp_")) %>% 
+	names() %>% 
+	as.data.frame() %>% 
+	rename(gene_name = 1) %>% 
+	separate(gene_name, into = c("prefix", "name1", "name2")) %>% 
+	mutate(gene_name = if_else(
+		!is.na(name2),
+		paste0(name1, "_", name2),
+		name1
+	)) %>% 
+	select(gene_name)
+
+PDAC_exp_names = PDAC_exp_processed %>% 
+	select(gene_name) %>% 
+	unique()
+
+model_genes_in_PDAC_data = exp_feature_names %>% 
+	filter(gene_name %in% PDAC_exp_names$gene_name)
+
+model_genes_not_in_PDAC_data = exp_feature_names %>% 
+	filter(!gene_name %in% PDAC_exp_names$gene_name)
+
+PDAC_genes_not_in_model = PDAC_exp_names %>% 
+	filter(!gene_name %in% model_genes_in_PDAC_data$gene_name)
+
+#using geneSynonym package to get aliases
+unmatched_model_genes_synonyms_raw = humanSyno(model_genes_not_in_PDAC_data$gene_name)
+
+unmatched_model_genes_synonyms_list_cols = as.data.frame(do.call(rbind, unmatched_model_genes_synonyms_raw)) %>% 
+	select(`3018`)
+
+unmatched_model_genes_synonyms = unmatched_model_genes_synonyms_list_cols %>% 
+	rownames_to_column(var = "model_gene_name") %>% 
+	unnest_longer(col = `3018`,
+								values_to = "alias")
+
+#matching by alias names
+
+alias_matches = unmatched_model_genes_synonyms %>% 
+	filter(alias %in% PDAC_genes_not_in_model$gene_name) %>% 
+	rename(PDAC_gene_name = alias)
+
+#combining direct and alias matches 
+all_model_genes_in_PDAC_data = model_genes_in_PDAC_data %>% 
+	mutate(PDAC_gene_name = gene_name) %>% 
+	rename(model_gene_name = gene_name) %>% 
+	bind_rows(alias_matches)
+
+final_no_match_model_genes = model_genes_not_in_PDAC_data %>% 
+	filter(!gene_name %in% alias_matches$model_gene_name)
+```
+
+```{r}
+no_match_imputed_data = final_no_match_model_genes %>% 
+	mutate(P0119_T1 = 0,
+				 P0411_T1= 0,
+				 P0422_T1= 0)
+
+PDAC_exp_processed_matched = PDAC_exp_processed %>% 
+	inner_join(all_model_genes_in_PDAC_data, by = c("gene_name" = "PDAC_gene_name")) %>%
+	select(-gene_name) %>% 
+	bind_rows(no_match_imputed_data %>% rename(model_gene_name = gene_name)) %>% 
+	pivot_longer(-model_gene_name, names_to = "cell_line", values_to = "value") %>% 
+	group_by(model_gene_name, cell_line) %>% 
+	summarise(value = mean(value))
+
+PDAC_exp_data_for_model = PDAC_exp_processed_matched %>% 
+	pivot_wider(names_from = model_gene_name, values_from = value) %>% 
+	rename_with(~paste0("exp_",.), .cols = -cell_line) %>% 
+	write_rds(here('results/validation_results/PDAC_validation/PDAC_RNAseq_data_for_model.rds'))
+```
+
