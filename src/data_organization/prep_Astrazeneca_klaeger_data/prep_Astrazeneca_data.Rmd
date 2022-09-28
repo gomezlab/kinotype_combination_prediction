@@ -1,0 +1,75 @@
+---
+title: "prep Astrazeneca data"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(readxl)
+```
+
+```{r}
+#read in data 
+data_file_names_raw = read_csv(here('data/Astrazeneca/DREAM_OI_matrices_corrected/data_file_names.csv'), col_names = FALSE)
+klaeger_astrazeneca_matches_cid = read_csv(here('results/matching/klaeger_astrazeneca_matches.csv'))
+
+```
+
+```{r}
+#clean up file names
+data_file_names = data_file_names_raw %>% 
+  mutate(X1 = str_squish(X1)) %>% 
+  separate(X1, into = c('name1', 'name2', 'name3', 'name4'), sep = " ") %>% 
+  pivot_longer(starts_with("name"), names_to = "name_number", values_to = "file_name") %>% 
+  mutate(file_name = str_trim(file_name)) %>% 
+  mutate(file_name = str_replace(file_name, "'", "")) %>% 
+  mutate(file_name = str_replace(file_name, "'", "")) %>% 
+  select(-name_number) %>% 
+  unique() %>% 
+  drop_na() %>% 
+  filter(str_detect(file_name, klaeger_astrazeneca_matches_cid$astrazeneca_name))
+
+#read in all data into one dataset
+
+full_data = data.frame()
+for(this_file in data_file_names$file_name) {
+
+this_data = read_xlsx(here('data/Astrazeneca/DREAM_OI_matrices_corrected/', this_file), col_names = FALSE)
+
+this_drug_1 = this_data$...2[9]
+this_drug_2 = this_data$...2[10]
+this_unit_1 = this_data$...2[11]
+this_unit_2 = this_data$...2[12]
+this_cell_line = this_data$...2[13]
+
+this_data_processed = read_xlsx(here('data/Astrazeneca/DREAM_OI_matrices_corrected/ADAM17&AKT_1&BT20&Exp1.xlsx')) %>% 
+  rename(dose_1 = 1) %>% 
+  slice(1:6) %>% 
+  select(1:7) %>% 
+  mutate(`0` = as.numeric(`0`)) %>% 
+  pivot_longer(-dose_1, names_to = "dose_2", values_to = "viability") %>% 
+  mutate(drug_1 = this_drug_1,
+         drug_2 = this_drug_2,
+         dose_1_unit = this_unit_1,
+         dose_2_unit = this_unit_2,
+         cell_line = this_cell_line)
+
+full_data = bind_rows(full_data, this_data_processed)
+
+}
+```
+
+```{r}
+possible_astrazeneca_klaeger_combos = crossing(klaeger_astrazeneca_matches_cid$astrazeneca_name, klaeger_astrazeneca_matches_cid$astrazeneca_name) %>% 
+  rename(drug_1 = 1, drug_2 = 2)
+
+test = full_data %>% 
+  filter(drug_2 == 'MAP2K1')
+
+full_filtered_data = possible_astrazeneca_klaeger_combos %>% 
+  left_join(full_data, by = c("drug_1" = "drug_2", "drug_2" = "drug_1")) 
+```
+

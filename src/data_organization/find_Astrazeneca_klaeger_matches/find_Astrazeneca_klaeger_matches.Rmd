@@ -1,0 +1,44 @@
+---
+title: "Find Astrazeneca-klaeger Drug Matches"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#read in data
+klaeger_matchlist = read_csv(here('results/matching/kinomescan_klaeger_cid_smiles.csv'))
+astrazeneca_druglist = read_csv(here('data/Astrazeneca/Drug_info_release.csv'))
+```
+
+```{r}
+#Matching
+astrazeneca_matchlist = astrazeneca_druglist %>% 
+  rename("smiles_or_cid" = `SMILES or PubChem ID`) %>% 
+	filter(!is.na(smiles_or_cid)) %>% 
+	rename("astrazeneca_name" = ChallengeName) %>% 
+	select(astrazeneca_name, smiles_or_cid)
+
+klaeger_astrazeneca_matches_cid = klaeger_matchlist %>% 
+	mutate(cid = as.character(cid)) %>% 
+  select(-smiles) %>% 
+	left_join(astrazeneca_matchlist, by = c('cid' = "smiles_or_cid")) %>% 
+	filter(!is.na(astrazeneca_name))
+
+klaeger_astrazeneca_matches_smiles = klaeger_matchlist %>% 
+  select(-cid) %>% 
+	left_join(astrazeneca_matchlist, by = c('smiles' = "smiles_or_cid")) %>% 
+	filter(!is.na(astrazeneca_name)) 
+```
+
+```{r}
+#Write Output Files
+write_csv(klaeger_astrazeneca_matches_cid, here('results/matching/klaeger_astrazeneca_matches.csv'))
+```
+

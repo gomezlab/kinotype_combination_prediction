@@ -1,0 +1,60 @@
+---
+title: "Find Astrazeneca-depmap cell line matches"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#read in data
+sample_info = read_csv(here("data/CCLE_data/sample_info.csv")) %>%
+  rename("depmap_id" = DepMap_ID) %>% 
+	mutate(cell_line_name_extra = paste0(cell_line_name, "\n",lineage_subtype, "\n",lineage_sub_subtype))
+
+
+
+```
+
+```{r}
+#Matching
+
+ALMANAC_cell_lines = ALMANAC %>% 
+	select(CELLNAME, 
+				 CELLNBR) %>% 
+  drop_na() %>% 
+  unique()
+
+L1000_cell_lines = L1000 %>%
+  ungroup() %>% 
+  select(cell_line_name) %>% 
+  unique()
+
+astrazeneca_matchlist = astrazeneca_druglist %>% 
+  rename("smiles_or_cid" = `SMILES or PubChem ID`) %>% 
+	filter(!is.na(smiles_or_cid)) %>% 
+	rename("astrazeneca_name" = ChallengeName) %>% 
+	select(astrazeneca_name, smiles_or_cid)
+
+klaeger_astrazeneca_matches_cid = klaeger_matchlist %>% 
+	mutate(cid = as.character(cid)) %>% 
+  select(-smiles) %>% 
+	left_join(astrazeneca_matchlist, by = c('cid' = "smiles_or_cid")) %>% 
+	filter(!is.na(astrazeneca_name))
+
+klaeger_astrazeneca_matches_smiles = klaeger_matchlist %>% 
+  select(-cid) %>% 
+	left_join(astrazeneca_matchlist, by = c('smiles' = "smiles_or_cid")) %>% 
+	filter(!is.na(astrazeneca_name)) 
+```
+
+```{r}
+#Write Output Files
+write_csv(klaeger_astrazeneca_matches_cid, here('results/matching/klaeger_astrazeneca_matches.csv'))
+```
+
