@@ -26,6 +26,9 @@ knitr::opts_knit$set(root.dir = here())
 ```{r}
 #read in data 
 ALMANAC_klaeger_CCLE_data = read_csv(here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_data_for_ml.csv'))
+
+ALMANAC_klaeger_CCLE_data %>% 
+  count(drug1, drug2)
 ```
 
 
