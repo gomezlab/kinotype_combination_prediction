@@ -1,0 +1,83 @@
+```{r}
+library(tidyverse)
+library(here)
+library(purrr)
+```
+
+```{r}
+#read in data 
+
+ALMANAC = read_csv(here('data/ALMANAC/ComboDrugGrowth_Nov2017.csv'))
+matched_ALMANAC_drugs = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_klaeger_matchlist.csv'))
+PRISM_cell_lines = read_csv(here('data/CCLE_data/sample_info.csv'))
+CCLE_data = read_rds(here('data/full_CCLE_expression_set_for_ML.rds'))
+
+```
+
+```{r}
+ALMANAC_processed = ALMANAC %>% 
+	select(COMBODRUGSEQ,
+	       PANEL,
+				 CELLNAME, 
+				 CELLNBR, 
+				 PANEL, 
+				 NSC1, 
+				 NSC2, 
+				 CONC1,
+				 CONC2,
+				 TESTVALUE,
+				 CONTROLVALUE) %>% 
+	filter(NSC1 %in% matched_ALMANAC_drugs$ALMANAC_id & NSC2 %in% matched_ALMANAC_drugs$ALMANAC_id) %>% 
+	left_join(matched_ALMANAC_drugs, by = c('NSC1' = 'ALMANAC_id')) %>% 
+	rename('drug1' = klaeger_name) %>% 
+	select(-ALMANAC_name) %>% 
+	left_join(matched_ALMANAC_drugs, by = c('NSC2' = 'ALMANAC_id')) %>% 
+	rename('drug2' = klaeger_name) %>% 
+	select(-ALMANAC_name) %>% 
+	select(-NSC1, -NSC2) %>% 
+	mutate(viability = TESTVALUE/CONTROLVALUE)
+	
+	
+
+write_csv(ALMANAC_processed, here('results/ALMANAC_klaeger_models/ALMANAC_processed.csv'))
+```
+
+```{r}
+#find cell line matches
+
+ALMANAC_cell_line_matchlist = ALMANAC_processed %>% 
+	select(CELLNAME, CELLNBR) %>% 
+	unique()
+	
+PRISM_cell_line_matchlist = PRISM_cell_lines %>% 
+	select(cell_line_name, stripped_cell_line_name, DepMap_ID) %>% 
+	unique()
+
+cell_line_naive_matches = ALMANAC_cell_line_matchlist %>% 
+	left_join(PRISM_cell_line_matchlist, by = c('CELLNAME' = 'cell_line_name')) %>% 
+	filter(!is.na(DepMap_ID))
+
+ALMANAC_no_matches = ALMANAC_cell_line_matchlist %>% 
+	filter(!CELLNAME %in% cell_line_naive_matches$CELLNAME)
+
+PRISM_cell_lines_no_matches = PRISM_cell_line_matchlist %>% 
+	filter(!cell_line_name %in% cell_line_naive_matches$CELLNAME)
+
+write_csv(cell_line_naive_matches, here('src/data_organization/find_ALMANAC_klaeger_matches/naive_cell_line_matchlist.csv'))
+
+write_csv(ALMANAC_no_matches, here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_no_matches.csv'))
+
+write_csv(PRISM_cell_lines_no_matches, here('src/data_organization/find_ALMANAC_klaeger_matches/PRISM_no_matches.csv'))
+
+ALMANAC_PRISM_cell_line_matches = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/manual_matched_cell_lines.csv'))
+
+ALMANAC_PRISM_CCLE_cell_lines = ALMANAC_PRISM_cell_line_matches %>% 
+	filter(DepMap_ID %in% CCLE_data$DepMap_ID)
+
+ALMANAC_processed_cell_line_matched = ALMANAC_processed %>%
+	left_join(ALMANAC_PRISM_cell_line_matches, by = c('CELLNAME' = 'ALMANAC_NAME')) %>% 
+	select(-PRISM_NAME) %>% 
+	filter(DepMap_ID %in% CCLE_data$DepMap_ID) %>% 
+	select(PANEL, CELLNAME, CONC1, CONC2, viability, drug1, drug2, DepMap_ID)
+```
+
