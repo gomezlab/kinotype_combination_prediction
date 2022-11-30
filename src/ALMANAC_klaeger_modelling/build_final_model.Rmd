@@ -1,0 +1,87 @@
+---
+title: "Build final model on full dataset"
+output: html_document
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(patchwork)
+library(ROCR)
+library(reticulate)
+library(vip)
+library(recipeselectors)
+library(conflicted)
+library(Metrics)
+
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rmse", "Metrics")
+conflict_prefer("vi", "vip")
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+#read in data 
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
+
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv')) %>% 
+  #filter out zero coefficient features
+  filter(Importance > 0)
+```
+
+```{r}
+#Get best model from results
+results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+
+best_model = results %>% 
+	filter(.metric == "rsq") %>% 
+	arrange(desc(mean)) %>% 
+	slice(1)
+```
+
+```{r}
+#fit final model on full dataset 
+id_vars = ALMANAC_klaeger_CCLE_data %>% 
+  select(-starts_with("act_"),
+         -starts_with("exp_"),
+         -starts_with("viability")) %>% 
+  names()
+
+model_dataset = ALMANAC_klaeger_CCLE_data %>% 
+  select(any_of(c(id_vars, lasso_selected_features$feature, "viability"))) %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model_dataset.rds.gz'))
+
+tic()	
+
+this_recipe = recipe(model_dataset) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+	update_role(viability, new_role = "outcome")
+  
+  
+xgb_spec <- boost_tree(
+  trees = best_model$trees, 
+  tree_depth = best_model$tree_depth
+) %>% 
+  set_engine("xgboost", tree_method = "gpu_hist") %>% 
+  set_mode("regression")
+
+final_wflow <-
+  workflow() %>%
+  add_model(xgb_spec) %>%
+  add_recipe(this_recipe)
+
+set.seed(2222)
+final_fit = 
+	final_wflow %>% 
+	fit(model_dataset) %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model.rds.gz'), compress = "gz")
+
+```
+

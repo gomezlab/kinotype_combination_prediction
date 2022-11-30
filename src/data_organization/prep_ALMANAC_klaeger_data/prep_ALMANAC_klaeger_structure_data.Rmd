@@ -1,5 +1,5 @@
 ---
-title: "prep_ALMANAC_klaeger_data"
+title: "prep_ALMANAC_klaeger_structure_data"
 output: html_document
 ---
 
@@ -13,12 +13,15 @@ library(purrr)
 #read in data 
 
 ALMANAC = read_csv(here('results/ALMANAC_klaeger_models/ALMANAC_processed.csv'))
-matched_ALMANAC_drugs = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_klaeger_matchlist.csv'))
+matched_ALMANAC_drugs = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_klaeger_matches.csv'))
 CCLE_data = read_rds(here('data/full_CCLE_expression_set_for_ML.rds'))
 ALMANAC_PRISM_cell_line_matches = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/manual_matched_cell_lines.csv'))
 klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/klaeger_synergy_combos_simple.rds')) %>% 
 	filter(drug_1 %in% matched_ALMANAC_drugs$klaeger_name | drug_2 %in% matched_ALMANAC_drugs$klaeger_name)
 
+klaeger_structure_features = read_csv(here('data/klaeger_physiochem_feats.csv')) %>% 
+	rename(cid = CID) %>% 
+	rename_with(~paste0("str_",.), -starts_with("cid"))
 ```
 
 ```{r}
@@ -180,24 +183,9 @@ disease_count = this_dataset %>%
 ```
 
 ```{r}
-#write out individual cancer data
+#write out lung cancer data
 lung_cancer_data = this_dataset %>% 
   filter(PANEL == "Non-Small Cell Lung Cancer") %>% 
   write_rds(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_data_for_ml_lung.rds.gz'), compress = "gz")
-
-breast_cancer_data = this_dataset %>% 
-  filter(PANEL == "Breast Cancer") %>% 
-  write_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'), compress = "gz")
-```
-
-```{r}
-#cell line eda
-lung_cell_lines = lung_cancer_data %>% 
-  group_by(CELLNAME) %>% 
-  summarise(n = n())
-
-breast_cell_lines = breast_cancer_data %>% 
-  group_by(CELLNAME) %>% 
-  summarise(n = n())
 ```
 

@@ -1,0 +1,68 @@
+---
+title: "ALMANAC_modelling"
+output: html_document
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(patchwork)
+library(ROCR)
+library(reticulate)
+library(vip)
+library(recipeselectors)
+library(conflicted)
+library(Metrics)
+
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rmse", "Metrics")
+conflict_prefer("vi", "vip")
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+#read in data 
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
+
+klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/klaeger_synergy_combos_simple.rds'))
+
+CCLE_data = read_rds(here('data/full_CCLE_expression_set_for_ML.rds'))
+
+model_dataset = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model_dataset.rds.gz'))
+```
+
+```{r}
+possible_drug_CCLE_combos = crossing(
+	drug1 = unique(klaeger_combinations$drug_1),
+	drug2 = unique(klaeger_combinations$drug_2),
+	CONC1 = unique(klaeger_combinations$concentration_M_d1),
+	CONC2 = unique(klaeger_combinations$concentration_M_d2),
+	DepMap_ID = unique(model_dataset$DepMap_ID)
+)
+
+already_tested_combos = model_dataset %>%
+	select(drug1, drug2, CONC1, CONC2, DepMap_ID) %>%
+	unique()
+
+non_tested_combos = possible_drug_CCLE_combos %>%
+	anti_join(already_tested_combos)
+
+not_tested_data = non_tested_combos %>%
+	left_join(klaeger_combinations %>% 
+							select(drug_1, drug_2, concentration_M_d1, concentration_M_d2,
+										 any_of(names(model_dataset))),
+																								 by = c('drug1' = 'drug_1',
+																								        'drug2' = 'drug_2',
+																								        'CONC1' = 'concentration_M_d1',
+																								        'CONC2' = 'concentration_M_d2'
+																								        )) %>% 
+	left_join(CCLE_data %>% 
+							select(DepMap_ID,
+										 any_of(names(model_dataset)))) %>% 
+  drop_na() %>% 
+	write_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/not_tested_data.rds.gz'), compress = "gz")
+```
+

@@ -71,7 +71,7 @@ full_matches = manual_matches %>%
 klaeger_no_matches = klaeger_cids %>%
 	filter(!cid %in% full_matches$cid)
 
-ALMANAC_no_matches = ALMANAC_cids_full %>%
+ALMANAC_no_matches = ALMANAC_full_cids %>%
 	filter(!cid %in% full_matches$cid)
 ```
 
