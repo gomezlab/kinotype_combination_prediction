@@ -1,0 +1,205 @@
+---
+title: "Naive Synergy Scores"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(broom)
+library(rstatix)
+library(patchwork)
+library(conflicted)
+library(metR)
+library(attempt)
+conflict_prefer("filter", "dplyr")
+conflict_prefer("slice", "dplyr")
+conflict_prefer("if_else", "dplyr")
+# SUM159 = ACH-001391
+# HCC1806 = ACH-000624
+```
+
+
+```{r}
+#read in data
+All_preds = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model_predictions.csv'))
+```
+
+```{r}
+#extract single drug predictions 
+
+single_predictions_drug_1 = All_preds %>%
+  filter(CONC1 != 0 & CONC2 == 0) %>% 
+  select(drug1, CONC1, DepMap_ID, CELLNAME, predicted_viability) %>% 
+  group_by(drug1, CONC1, DepMap_ID, CELLNAME) %>% 
+  summarise(mean_predicted_viability = mean(predicted_viability)) %>% 
+  ungroup() %>% 
+  #impute zeros
+  bind_rows(
+  All_preds %>% 
+	select(drug1, DepMap_ID, CELLNAME) %>% 
+	unique() %>% 
+	mutate(CONC1 = 0) %>% 
+	mutate(mean_predicted_viability = 1)
+  )
+
+single_predictions_drug_2 = All_preds %>%
+  filter(CONC2 != 0 & CONC1 == 0) %>% 
+  select(drug2, CONC2, DepMap_ID, CELLNAME, predicted_viability) %>% 
+  group_by(drug2, CONC2, DepMap_ID, CELLNAME) %>% 
+  summarise(mean_predicted_viability = mean(predicted_viability)) %>% 
+  ungroup() %>% 
+  #impute zeros
+  bind_rows(
+  All_preds %>% 
+	select(drug2, DepMap_ID, CELLNAME) %>% 
+	unique() %>% 
+	mutate(CONC2 = 0) %>% 
+	mutate(mean_predicted_viability = 1)
+  )
+
+#join single drug data with combo predictions
+
+full_predictions = All_preds %>% 
+  select(-.pred, -nearest_klaeger_dose_1, -nearest_klaeger_dose_2, -PANEL) %>% 
+    #join in single predictions
+	inner_join(rename(single_predictions_drug_1, 'single_1_pred_via' = mean_predicted_viability)) %>% 
+	inner_join(rename(single_predictions_drug_2, 'single_2_pred_via' = mean_predicted_viability))
+```
+
+
+
+```{r}
+full_predictions_summary = full_predictions %>%
+	#impute double zeros
+	mutate(predicted_viability = case_when(
+		(CONC1 == 0 & CONC2 == 0) ~ 1,
+		TRUE ~ predicted_viability
+	)) %>% 
+  mutate(least_value  = if_else(
+    single_1_pred_via >= single_2_pred_via,
+    single_2_pred_via,
+    single_1_pred_via)) %>% 
+  mutate(ALMANAC_Expected_Growth = if_else(
+    (single_1_pred_via > 1 | single_2_pred_via > 1), 
+    least_value,
+    single_1_pred_via*single_2_pred_via
+  )) %>% 
+  select(-least_value) %>% 
+  mutate(ALMANAC_score = ALMANAC_Expected_Growth - predicted_viability) %>% 
+  write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/processed_model_predictions.csv'))
+
+```
+
+```{r}
+#plotting
+
+# query_combo_index = 112059
+# all_synergy_summary_dataset = All_TNBC_synergy_scores_summary
+# 
+# get_dose_response_plots_for_query_drugs = function(query_combo_index, all_synergy_summary_dataset) {
+# 
+# 	this_summary = all_synergy_summary_dataset %>%
+# 		filter(combo_index == query_combo_index) %>% 
+# 		mutate(concentration_M_d1 = log10(concentration_M_d1),
+# 					 concentration_M_d2 = log10(concentration_M_d2))
+# 	
+# 	this_summary %>% 
+# 	ggplot() +
+# 		geom_line(aes(concentration_M_d1, pred_via, colour = as.factor(concentration_M_d2))) +   scale_color_viridis_d() 
+# 	labs(x = paste0('[M] ',this_summary$drug_1[1]), y = paste0('[M] ',this_summary$drug_2[1]), title = paste0(this_summary$drug_1[1],"+",this_summary$drug_2[1],' ALMANAC Score Heatmap'))
+# }
+
+
+get_score_heatmap = function(query_combo_index, all_synergy_summary_dataset) {
+
+	this_summary = all_synergy_summary_dataset %>%
+		filter(combo_index == query_combo_index)
+	
+	this_summary %>% 
+	ggplot(aes(as.factor(concentration_M_d1), as.factor(concentration_M_d2), fill = ALMANAC_score)) +
+	geom_raster() +
+	scale_fill_divergent() +
+	labs(x = paste0('[M] ',this_summary$drug_1[1]), y = paste0('[M] ',this_summary$drug_2[1]), title = paste0(this_summary$drug_1[1],"+",this_summary$drug_2[1],' ALMANAC Scores'))
+
+}
+
+get_dose_response_heatmap = function(query_combo_index, all_synergy_summary_dataset) {
+
+	this_summary = all_synergy_summary_dataset %>%
+		filter(combo_index == query_combo_index)
+	
+	this_summary %>% 
+	ggplot(aes(as.factor(concentration_M_d1), as.factor(concentration_M_d2), fill = pred_via)) +
+	geom_raster() +
+	scale_fill_gradient(name = 'Predicted Viability') +
+	labs(x = paste0('[M] ',this_summary$drug_1[1]), y = paste0('[M] ',this_summary$drug_2[1]), title = paste0(this_summary$drug_1[1],"+",this_summary$drug_2[1],' Dose Responses'))
+
+}
+
+
+get_synergy_heatmaps = function(combo_index, synergy_summary_dataset) {
+	
+	a = get_score_heatmap(query_combo_index = combo_index, all_synergy_summary_dataset = synergy_summary_dataset)
+	b = get_dose_response_heatmap(query_combo_index = combo_index, all_synergy_summary_dataset = synergy_summary_dataset)
+	
+	return(a + b)
+	
+}
+```
+
+```{r}
+
+All_TNBC_synergy_scores_summary = read_csv(here('results/All_complete_TNBC_lines_synergy_scores.csv'))
+
+get_synergy_heatmaps(combo_index = 112059, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
+
+ggsave(here('figures/synergy_preds/SUM229PE_top_synergy_zeros.png'), height = 5, width = 15)
+
+get_synergy_heatmaps(combo_index = 34345, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
+
+ggsave(here('figures/synergy_preds/MDAMB231_top_synergy_zeros.png'), height = 5, width = 15)
+
+get_synergy_heatmaps(combo_index = 5456, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
+
+ggsave(here('figures/synergy_preds/SKBR3_top_synergy.png'), height = 5, width = 15)
+
+get_synergy_heatmaps(combo_index = 74226, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
+
+ggsave(here('figures/synergy_preds/SUM159_top_synergy.png'), height = 5, width = 15)
+
+```
+
+```{r}
+get_top_4_synergy_heatmaps = function(depmap_id_to_search, synergy_scores_dataset) {
+
+this_synergy_scores = synergy_scores_dataset %>% 
+	filter(depmap_id == depmap_id_to_search) %>% 
+	arrange(desc(ALMANAC_score)) %>% 
+	slice(1:4)
+
+for (i in 1:dim(this_synergy_scores)[1]) {
+	dir.create(here('figures/synergy_preds', paste0(this_synergy_scores$stripped_cell_line_name[i])), showWarnings = F)
+	get_synergy_heatmaps(combo_index = this_synergy_scores$combo_index[i], 
+											 synergy_summary_dataset = All_TNBC_synergy_scores_summary)
+	ggsave(here('figures/synergy_preds/',paste0(this_synergy_scores$stripped_cell_line_name[i],"/"), paste0('top_',i,'_',this_synergy_scores$stripped_cell_line_name[i],'_synergy.png')), height = 5, width = 15)
+}
+}
+
+
+avail_lines = sample_info %>% 
+	filter(cell_line_name %in% c("SK-BR-3","MCF7","MDA-MB-436","HCC1806",
+															 "MDA-MB-231","BT-474","SUM-149PT","SUM-159PT",
+															 "SUM-229PE"))
+
+for (i in 1:dim(avail_lines)[1]) {
+get_top_4_synergy_heatmaps(depmap_id_to_search = avail_lines$DepMap_ID[i], 
+													 synergy_scores_dataset = All_TNBC_synergy_scores_summary)
+}
+```
+
+
+
+
