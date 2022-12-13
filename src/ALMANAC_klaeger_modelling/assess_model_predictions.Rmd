@@ -94,6 +94,21 @@ full_predictions_summary = full_predictions %>%
 ```
 
 ```{r}
+#read in processed predictions
+full_predictions_summary = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/processed_model_predictions.csv'))
+
+#add combo indicies 
+
+combo_indicies = full_predictions_summary %>% 
+  select(drug1, drug2, CELLNAME) %>% 
+  unique() %>% 
+  mutate(combo_index = 1:n())
+
+processed_predictions = full_predictions_summary %>% 
+  left_join(combo_indicies)
+```
+
+```{r}
 #plotting
 
 # query_combo_index = 112059
@@ -112,38 +127,38 @@ full_predictions_summary = full_predictions %>%
 # 	labs(x = paste0('[M] ',this_summary$drug_1[1]), y = paste0('[M] ',this_summary$drug_2[1]), title = paste0(this_summary$drug_1[1],"+",this_summary$drug_2[1],' ALMANAC Score Heatmap'))
 # }
 
+#make functions for plotting combination viability with ALMANAC combo scores
+get_score_heatmap = function(query_combo_index, prediction_summary_dataset) {
 
-get_score_heatmap = function(query_combo_index, all_synergy_summary_dataset) {
-
-	this_summary = all_synergy_summary_dataset %>%
+	this_summary = prediction_summary_dataset %>%
 		filter(combo_index == query_combo_index)
 	
 	this_summary %>% 
-	ggplot(aes(as.factor(concentration_M_d1), as.factor(concentration_M_d2), fill = ALMANAC_score)) +
+	ggplot(aes(as.factor(CONC1), as.factor(CONC2), fill = ALMANAC_score)) +
 	geom_raster() +
 	scale_fill_divergent() +
-	labs(x = paste0('[M] ',this_summary$drug_1[1]), y = paste0('[M] ',this_summary$drug_2[1]), title = paste0(this_summary$drug_1[1],"+",this_summary$drug_2[1],' ALMANAC Scores'))
+	labs(x = paste0('[M] ',this_summary$drug1[1]), y = paste0('[M] ',this_summary$drug2[1]), title = paste0(this_summary$drug1[1],"+",this_summary$drug2[1],' ALMANAC Scores'))
 
 }
 
-get_dose_response_heatmap = function(query_combo_index, all_synergy_summary_dataset) {
+get_dose_response_heatmap = function(query_combo_index, prediction_summary_dataset) {
 
-	this_summary = all_synergy_summary_dataset %>%
+	this_summary = prediction_summary_dataset %>%
 		filter(combo_index == query_combo_index)
 	
 	this_summary %>% 
-	ggplot(aes(as.factor(concentration_M_d1), as.factor(concentration_M_d2), fill = pred_via)) +
+	ggplot(aes(as.factor(CONC1), as.factor(CONC2), fill = predicted_viability)) +
 	geom_raster() +
 	scale_fill_gradient(name = 'Predicted Viability') +
-	labs(x = paste0('[M] ',this_summary$drug_1[1]), y = paste0('[M] ',this_summary$drug_2[1]), title = paste0(this_summary$drug_1[1],"+",this_summary$drug_2[1],' Dose Responses'))
+	labs(x = paste0('[M] ',this_summary$drug1[1]), y = paste0('[M] ',this_summary$drug2[1]), title = paste0(this_summary$drug1[1],"+",this_summary$drug2[1],' Dose Responses'))
 
 }
 
 
-get_synergy_heatmaps = function(combo_index, synergy_summary_dataset) {
+get_synergy_heatmaps = function(combo_index, all_prediction_summary_dataset) {
 	
-	a = get_score_heatmap(query_combo_index = combo_index, all_synergy_summary_dataset = synergy_summary_dataset)
-	b = get_dose_response_heatmap(query_combo_index = combo_index, all_synergy_summary_dataset = synergy_summary_dataset)
+	a = get_score_heatmap(query_combo_index = combo_index, prediction_summary_dataset = all_prediction_summary_dataset)
+	b = get_dose_response_heatmap(query_combo_index = combo_index, prediction_summary_dataset = all_prediction_summary_dataset)
 	
 	return(a + b)
 	
@@ -152,19 +167,17 @@ get_synergy_heatmaps = function(combo_index, synergy_summary_dataset) {
 
 ```{r}
 
-All_TNBC_synergy_scores_summary = read_csv(here('results/All_complete_TNBC_lines_synergy_scores.csv'))
+get_synergy_heatmaps(combo_index = 445, all_prediction_summary_dataset = processed_predictions)
 
-get_synergy_heatmaps(combo_index = 112059, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
+ggsave(here('figures/ALMANAC_klaeger/model_predictions/breast/MCF7_top_combo.png'), height = 5, width = 15)
 
-ggsave(here('figures/synergy_preds/SUM229PE_top_synergy_zeros.png'), height = 5, width = 15)
+get_synergy_heatmaps(combo_index = 395, all_prediction_summary_dataset = processed_predictions)
 
-get_synergy_heatmaps(combo_index = 34345, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
+ggsave(here('figures/ALMANAC_klaeger/model_predictions/breast/MDAMB231_top_combo.png'), height = 5, width = 15)
 
-ggsave(here('figures/synergy_preds/MDAMB231_top_synergy_zeros.png'), height = 5, width = 15)
+get_synergy_heatmaps(combo_index = 324, all_prediction_summary_dataset = processed_predictions)
 
-get_synergy_heatmaps(combo_index = 5456, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
-
-ggsave(here('figures/synergy_preds/SKBR3_top_synergy.png'), height = 5, width = 15)
+ggsave(here('figures/ALMANAC_klaeger/model_predictions/breast/MDAMB468_top_combo.png'), height = 5, width = 15)
 
 get_synergy_heatmaps(combo_index = 74226, synergy_summary_dataset = All_TNBC_synergy_scores_summary)
 
