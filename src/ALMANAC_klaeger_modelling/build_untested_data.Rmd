@@ -31,8 +31,23 @@ klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_com
 
 CCLE_data = read_rds(here('data/full_CCLE_expression_set_for_ML.rds'))
 
+sample_info = read_csv(here('data/CCLE_data/sample_info.csv'))
+
 model_dataset = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model_dataset.rds.gz'))
 ```
+
+```{r}
+#get all breast cancer cell line info in CCLE
+CCLE_processed = CCLE_data %>% 
+  left_join(sample_info %>% 
+              select(DepMap_ID, stripped_cell_line_name))
+
+breast_depmap_ids = sample_info %>% 
+  filter(primary_disease == "Breast Cancer") %>% 
+  select(DepMap_ID, stripped_cell_line_name) %>% 
+  unique()
+```
+
 
 ```{r}
 possible_drug_CCLE_combos = crossing(
@@ -40,7 +55,7 @@ possible_drug_CCLE_combos = crossing(
 	drug2 = unique(klaeger_combinations$drug_2),
 	CONC1 = unique(klaeger_combinations$concentration_M_d1),
 	CONC2 = unique(klaeger_combinations$concentration_M_d2),
-	DepMap_ID = unique(model_dataset$DepMap_ID)
+	DepMap_ID = unique(breast_depmap_ids$DepMap_ID)
 )
 
 already_tested_combos = model_dataset %>%
@@ -59,8 +74,8 @@ not_tested_data = non_tested_combos %>%
 																								        'CONC1' = 'concentration_M_d1',
 																								        'CONC2' = 'concentration_M_d2'
 																								        )) %>% 
-	left_join(CCLE_data %>% 
-							select(DepMap_ID,
+	left_join(CCLE_processed %>% 
+							select(DepMap_ID, stripped_cell_line_name,
 										 any_of(names(model_dataset)))) %>% 
   drop_na() %>% 
 	write_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/not_tested_data.rds.gz'), compress = "gz")

@@ -34,14 +34,9 @@ model_predictions = augment(final_model, not_tested_data %>%
                               mutate(PANEL = NA, CELLNAME = NA, nearest_klaeger_dose_1 = NA, nearest_klaeger_dose_2 = NA)) %>% 
 	select(-starts_with("act_"), -starts_with("exp_"))
 
-cell_line_info = ALMANAC_klaeger_CCLE_data %>% 
-  select(DepMap_ID, CELLNAME, PANEL) %>% 
-  unique()
-
 model_predictions_tidy = model_predictions %>%
   select(-PANEL, -CELLNAME) %>% 
 	mutate(predicted_viability = signif(.pred,3)) %>%
-	left_join(cell_line_info) %>% 
 	write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model_predictions.csv'))
 ```
 

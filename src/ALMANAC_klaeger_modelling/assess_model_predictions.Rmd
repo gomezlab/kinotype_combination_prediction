@@ -25,6 +25,7 @@ conflict_prefer("if_else", "dplyr")
 ```{r}
 #read in data
 All_preds = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model_predictions.csv'))
+sample_info = read_csv(here('data/CCLE_data/sample_info.csv'))
 ```
 
 ```{r}
@@ -32,14 +33,14 @@ All_preds = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/f
 
 single_predictions_drug_1 = All_preds %>%
   filter(CONC1 != 0 & CONC2 == 0) %>% 
-  select(drug1, CONC1, DepMap_ID, CELLNAME, predicted_viability) %>% 
-  group_by(drug1, CONC1, DepMap_ID, CELLNAME) %>% 
+  select(drug1, CONC1, DepMap_ID, stripped_cell_line_name, predicted_viability) %>% 
+  group_by(drug1, CONC1, DepMap_ID, stripped_cell_line_name) %>% 
   summarise(mean_predicted_viability = mean(predicted_viability)) %>% 
   ungroup() %>% 
   #impute zeros
   bind_rows(
   All_preds %>% 
-	select(drug1, DepMap_ID, CELLNAME) %>% 
+	select(drug1, DepMap_ID, stripped_cell_line_name) %>% 
 	unique() %>% 
 	mutate(CONC1 = 0) %>% 
 	mutate(mean_predicted_viability = 1)
@@ -47,14 +48,14 @@ single_predictions_drug_1 = All_preds %>%
 
 single_predictions_drug_2 = All_preds %>%
   filter(CONC2 != 0 & CONC1 == 0) %>% 
-  select(drug2, CONC2, DepMap_ID, CELLNAME, predicted_viability) %>% 
-  group_by(drug2, CONC2, DepMap_ID, CELLNAME) %>% 
+  select(drug2, CONC2, DepMap_ID, stripped_cell_line_name, predicted_viability) %>% 
+  group_by(drug2, CONC2, DepMap_ID, stripped_cell_line_name) %>% 
   summarise(mean_predicted_viability = mean(predicted_viability)) %>% 
   ungroup() %>% 
   #impute zeros
   bind_rows(
   All_preds %>% 
-	select(drug2, DepMap_ID, CELLNAME) %>% 
+	select(drug2, DepMap_ID, stripped_cell_line_name) %>% 
 	unique() %>% 
 	mutate(CONC2 = 0) %>% 
 	mutate(mean_predicted_viability = 1)
@@ -63,7 +64,7 @@ single_predictions_drug_2 = All_preds %>%
 #join single drug data with combo predictions
 
 full_predictions = All_preds %>% 
-  select(-.pred, -nearest_klaeger_dose_1, -nearest_klaeger_dose_2, -PANEL) %>% 
+  select(-.pred, -nearest_klaeger_dose_1, -nearest_klaeger_dose_2) %>% 
     #join in single predictions
 	inner_join(rename(single_predictions_drug_1, 'single_1_pred_via' = mean_predicted_viability)) %>% 
 	inner_join(rename(single_predictions_drug_2, 'single_2_pred_via' = mean_predicted_viability))
@@ -88,44 +89,23 @@ full_predictions_summary = full_predictions %>%
     single_1_pred_via*single_2_pred_via
   )) %>% 
   select(-least_value) %>% 
-  mutate(ALMANAC_score = ALMANAC_Expected_Growth - predicted_viability) %>% 
+  mutate(ALMANAC_score = ALMANAC_Expected_Growth - predicted_viability)
+
+#add combo indicies 
+
+combo_indicies = full_predictions_summary %>% 
+  select(drug1, drug2, stripped_cell_line_name) %>% 
+  unique() %>% 
+  mutate(combo_index = 1:n())
+
+processed_predictions = full_predictions_summary %>% 
+  left_join(combo_indicies) %>% 
   write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/processed_model_predictions.csv'))
 
 ```
 
 ```{r}
-#read in processed predictions
-full_predictions_summary = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/processed_model_predictions.csv'))
-
-#add combo indicies 
-
-combo_indicies = full_predictions_summary %>% 
-  select(drug1, drug2, CELLNAME) %>% 
-  unique() %>% 
-  mutate(combo_index = 1:n())
-
-processed_predictions = full_predictions_summary %>% 
-  left_join(combo_indicies)
-```
-
-```{r}
 #plotting
-
-# query_combo_index = 112059
-# all_synergy_summary_dataset = All_TNBC_synergy_scores_summary
-# 
-# get_dose_response_plots_for_query_drugs = function(query_combo_index, all_synergy_summary_dataset) {
-# 
-# 	this_summary = all_synergy_summary_dataset %>%
-# 		filter(combo_index == query_combo_index) %>% 
-# 		mutate(concentration_M_d1 = log10(concentration_M_d1),
-# 					 concentration_M_d2 = log10(concentration_M_d2))
-# 	
-# 	this_summary %>% 
-# 	ggplot() +
-# 		geom_line(aes(concentration_M_d1, pred_via, colour = as.factor(concentration_M_d2))) +   scale_color_viridis_d() 
-# 	labs(x = paste0('[M] ',this_summary$drug_1[1]), y = paste0('[M] ',this_summary$drug_2[1]), title = paste0(this_summary$drug_1[1],"+",this_summary$drug_2[1],' ALMANAC Score Heatmap'))
-# }
 
 #make functions for plotting combination viability with ALMANAC combo scores
 get_score_heatmap = function(query_combo_index, prediction_summary_dataset) {
@@ -186,18 +166,18 @@ ggsave(here('figures/synergy_preds/SUM159_top_synergy.png'), height = 5, width =
 ```
 
 ```{r}
-get_top_4_synergy_heatmaps = function(depmap_id_to_search, synergy_scores_dataset) {
+get_top_5_synergy_heatmaps = function(depmap_id_to_search, synergy_scores_dataset) {
 
 this_synergy_scores = synergy_scores_dataset %>% 
-	filter(depmap_id == depmap_id_to_search) %>% 
+	filter(DepMap_ID == depmap_id_to_search) %>% 
 	arrange(desc(ALMANAC_score)) %>% 
-	slice(1:4)
+	slice(1:5)
 
 for (i in 1:dim(this_synergy_scores)[1]) {
-	dir.create(here('figures/synergy_preds', paste0(this_synergy_scores$stripped_cell_line_name[i])), showWarnings = F)
+	dir.create(here('figures/ALMANAC_klaeger/model_predictions/breast', paste0(this_synergy_scores$stripped_cell_line_name[i])), showWarnings = F)
 	get_synergy_heatmaps(combo_index = this_synergy_scores$combo_index[i], 
-											 synergy_summary_dataset = All_TNBC_synergy_scores_summary)
-	ggsave(here('figures/synergy_preds/',paste0(this_synergy_scores$stripped_cell_line_name[i],"/"), paste0('top_',i,'_',this_synergy_scores$stripped_cell_line_name[i],'_synergy.png')), height = 5, width = 15)
+											 all_prediction_summary_dataset = processed_predictions)
+	ggsave(here('figures/ALMANAC_klaeger/model_predictions/breast',paste0(this_synergy_scores$stripped_cell_line_name[i]), paste0('top_',i,'_',this_synergy_scores$stripped_cell_line_name[i],'_combo_score.png')), height = 5, width = 15)
 }
 }
 
@@ -208,8 +188,8 @@ avail_lines = sample_info %>%
 															 "SUM-229PE"))
 
 for (i in 1:dim(avail_lines)[1]) {
-get_top_4_synergy_heatmaps(depmap_id_to_search = avail_lines$DepMap_ID[i], 
-													 synergy_scores_dataset = All_TNBC_synergy_scores_summary)
+get_top_5_synergy_heatmaps(depmap_id_to_search = avail_lines$DepMap_ID[i], 
+													 synergy_scores_dataset = processed_predictions)
 }
 ```
 
