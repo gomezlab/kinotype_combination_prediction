@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="151mm"
+   viewBox="0 0 210 151"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
+   sodipodi:docname="figure_1_draft.svg"
+   inkscape:export-filename="/home/cujoisa/Documents/GitHub/kinotype_combination_prediction/figures/figure_1_draft.png"
+   inkscape:export-xdpi="600"
+   inkscape:export-ydpi="600"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#cccccc"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="false"
+     inkscape:guide-bbox="true"
+     height="150mm"
+     inkscape:zoom="1.5004828"
+     inkscape:cx="314.89864"
+     inkscape:cy="251.25246"
+     inkscape:window-width="2192"
+     inkscape:window-height="1113"
+     inkscape:window-x="2192"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:7.98212px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.199553"
+       x="1.0625459"
+       y="5.2802582"
+       id="text3437"><tspan
+         sodipodi:role="line"
+         id="tspan3435"
+         style="stroke-width:0.199553"
+         x="1.0625459"
+         y="5.2802582">a</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="4.9795637"
+       y="92.408936"
+       id="text31343"><tspan
+         sodipodi:role="line"
+         id="tspan31341"
+         style="stroke-width:0.264583"
+         x="4.9795637"
+         y="92.408936" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.98213px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="62.079529"
+       y="6.0900812"
+       id="text2239"><tspan
+         sodipodi:role="line"
+         id="tspan2237"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.98213px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="62.079529"
+         y="6.0900812">b</tspan></text>
+    <image
+       width="149.94466"
+       height="149.94466"
+       preserveAspectRatio="none"
+       xlink:href="ALMANAC_klaeger/cell_viability_EDA.png"
+       id="image1145"
+       x="60.065304"
+       y="0.32566801" />
+    <image
+       width="60.198002"
+       height="150.32565"
+       preserveAspectRatio="none"
+       xlink:href="../../../../Downloads/Combination%20paper%20schematic%20(5).png"
+       id="image102"
+       x="-0.13269806"
+       y="0.32566801" />
+  </g>
+</svg>

@@ -28,7 +28,9 @@ knitr::opts_knit$set(root.dir = here())
 ```{r}
 #read in data
 lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/lasso_selected_features_truncated.csv')) %>% 
-  mutate(feature_type = if_else(feature_type == "Baseline Gene Expression", "Expression", feature_type))
+  mutate(feature_type = if_else(feature_type == "Expression", "Baseline Gene Expression", feature_type)) %>% 
+  mutate(feature_type = if_else(feature_type == "Inhibition", "Kinome Inhibition State", feature_type)) %>% 
+  drop_na()
 
 gene_classifications = read_csv(here('data/klaeger_manual_gene_labels.csv')) %>%
 	bind_rows(all_kinases %>% select(symbol,class) %>% rename(gene_name = symbol)) %>% 
@@ -55,7 +57,8 @@ exp_interactor_type = read_rds(here('data/expression_feature_interactors.rds')) 
 lasso_selected_features_medians = lasso_selected_features %>% 
 	group_by(feature_type) %>% 
 	summarise(median = median(Importance, na.rm = TRUE)) %>% 
-	arrange(desc(median))
+	arrange(desc(median)) %>% 
+  drop_na()
 
 lasso_selected_features_summary = lasso_selected_features %>% 
 	mutate(feature_type = as.factor(feature_type)) %>%  
@@ -69,7 +72,7 @@ lasso_selected_features_summary = lasso_selected_features %>%
 
 ```{r}
 lasso_selected_features_summary %>% 
-  slice(1:150) %>% 
+  slice(1:100) %>% 
 	ggplot(aes(x = Importance, y = feature_type, fill = factor(stat(quantile)))) +
 	 stat_density_ridges(
     geom = "density_ridges_gradient", calc_ecdf = TRUE,
@@ -106,12 +109,12 @@ importance_inhibition = importance_values_processed %>%
 	arrange(desc(mean_importance_value)) 
 	
 importance_inhibition %>%
-  slice(1:25) %>%
+  slice(1:10) %>%
 	arrange(mean_importance_value) %>% 
 	mutate(gene = fct_inorder(gene)) %>% 
 	ggplot(aes(x = mean_importance_value, y = gene, fill = class)) +
 	geom_col() +
-	labs(y='',fill='',x='Inhibition State Importance') +
+	labs(y='',fill='',x='Inhibition State Coefficient') +
 	theme(
 		legend.title = element_blank(),
 		legend.position = "bottom",
@@ -122,6 +125,6 @@ importance_inhibition %>%
     panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "transparent",colour = NA)
       )
-ggsave(here('figures/ALMANAC_klaeger/lasso_selected_features_barplot.png'), height = 10.5, width = 10.5, units = "cm")
+ggsave(here('figures/ALMANAC_klaeger/lasso_selected_features_barplot.png'), height = 6, width = 21, units = "cm")
 ```
 
