@@ -7,6 +7,7 @@ output: html_document
 library(tidyverse)
 library(here)
 library(purrr)
+library(ggridges)
 ```
 
 ```{r}
@@ -198,6 +199,66 @@ lung_cell_lines = lung_cancer_data %>%
 
 breast_cell_lines = breast_cancer_data %>% 
   group_by(CELLNAME) %>% 
-  summarise(n = n())
+  summarise(n = n()) %>% 
+  mutate(subtype = case_when(
+    CELLNAME == "BT-549" ~ "TNBC B",
+    CELLNAME == "MDA-MB-231/ATCC" ~ "TNBC B",
+    CELLNAME == "MDA-MB-468" ~ "TNBC A",
+    CELLNAME == "HS 578T" ~ "TNBC B",
+    CELLNAME == "MCF7" ~ "Luminal A",
+    CELLNAME == "T-47D" ~ "Luminal A",
+    TRUE ~ CELLNAME
+  ))
 ```
 
+```{r}
+#cell sensitivity eda for breast cancer
+visualization_data = breast_cancer_data %>% 
+  select(-starts_with(c("act_", "exp_"))) %>% 
+  left_join(breast_cell_lines %>% 
+              select(CELLNAME, subtype)) %>%
+  group_by(subtype, drug1, drug2, CONC1, CONC2) %>% 
+  summarise(viability = mean(viability)) %>% 
+  mutate(combo = paste0(drug1, " + ", drug2, " in ", subtype)) %>% 
+  drop_na()
+
+visualization_data_summary = visualization_data %>% 
+  group_by(subtype, combo) %>% 
+  summarise(mean_viability = mean(viability)) %>% 
+  arrange(subtype, mean_viability)
+
+visualization_data_processed = visualization_data %>% 
+  ungroup() %>% 
+  mutate(combo = fct_relevel(combo, visualization_data_summary %>% pull(combo)))
+
+visualization_data_processed %>% 
+	ggplot(aes(x = viability, y = combo, fill = subtype)) +
+	 stat_density_ridges(
+    geom = "density_ridges_gradient", calc_ecdf = TRUE
+  ) +
+  scale_fill_viridis_d() +
+	theme_ridges(center_axis_labels = TRUE) + 
+	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", fill = "Breast Cancer Subtype") +
+	coord_cartesian(clip = "off") +
+  theme(
+    axis.text.y = element_blank(),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    text = element_text(size = 11)
+  ) 
+ggsave(here('figures/ALMANAC_klaeger/cell_viability_EDA.png'), height = 15, width = 15, units = "cm")
+  
+
+visualization_data_processed %>% 
+	ggplot(aes(x = viability, y = combo, colour = subtype)) +
+  geom_jitter() +
+	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", colour = "Breast Cancer Subtype") +
+	coord_cartesian(clip = "off") +
+  #facet_wrap(~subtype) +
+  theme(
+    axis.text.y = element_blank(),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    text = element_text(size = 11)
+  ) 
+```

@@ -9,6 +9,9 @@
    id="svg5"
    inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
    sodipodi:docname="figure_1_draft.svg"
+   inkscape:export-filename="/home/cujoisa/Documents/GitHub/kinomescan_viability_prediction/figures/figure_1_draft.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -28,12 +31,12 @@
      inkscape:guide-bbox="true"
      height="200mm"
      inkscape:zoom="1.5004828"
-     inkscape:cx="523.49815"
-     inkscape:cy="468.51585"
-     inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:cx="315.23187"
+     inkscape:cy="197.26984"
+     inkscape:window-width="2192"
+     inkscape:window-height="1113"
+     inkscape:window-x="2192"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -42,14 +45,6 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <image
-       width="204.78743"
-       height="81.91497"
-       preserveAspectRatio="none"
-       xlink:href="Klaeger+KINOMEscan%20data%20overview.png"
-       id="image109"
-       x="2.5800071"
-       y="1.7803446" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:7.98212px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.199553"
@@ -62,50 +57,23 @@
          x="2.1044865"
          y="6.5105448">a</tspan></text>
     <image
-       width="69.934669"
-       height="59.944"
+       width="69.426971"
+       height="63.788788"
        preserveAspectRatio="none"
-       xlink:href="PRISM_IC50_histogram.png"
-       id="image9777"
-       x="2.8256373"
-       y="141.55064" />
-    <image
-       width="69.934669"
-       height="59.944"
-       preserveAspectRatio="none"
-       xlink:href="PRISM_AUC_histogram.png"
-       id="image9881"
-       x="72.760307"
-       y="141.55064" />
-    <image
-       width="64.939331"
-       height="59.944"
-       preserveAspectRatio="none"
-       xlink:href="PRISM_IC50_AUC_correlation.png"
+       xlink:href="../../kinomescan_viability_prediction/figures/PRISM_IC50_AUC_correlation.png"
        id="image10077"
-       x="143.23752"
-       y="139.99484" />
+       x="138.74988"
+       y="136.15005" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:7.98212px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.199553"
-       x="2.7368894"
-       y="91.712677"
-       id="text3437-3"><tspan
-         sodipodi:role="line"
-         id="tspan3435-6"
-         style="stroke-width:0.199553"
-         x="2.7368894"
-         y="91.712677">b</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:7.98212px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.199553"
-       x="2.852483"
+       x="2.1003163"
        y="146.58435"
        id="text3437-3-3"><tspan
          sodipodi:role="line"
          id="tspan3435-6-56"
          style="stroke-width:0.199553"
-         x="2.852483"
+         x="2.1003163"
          y="146.58435">c</tspan></text>
     <text
        xml:space="preserve"
@@ -117,7 +85,7 @@
          id="tspan3435-6-9"
          style="stroke-width:0.199553"
          x="65.6698"
-         y="146.51369">d</tspan></text>
+         y="146.51369">e</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:7.98212px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.199553"
@@ -128,26 +96,7 @@
          id="tspan3435-6-2"
          style="stroke-width:0.199553"
          x="139.11252"
-         y="146.22122">e</tspan></text>
-    <image
-       width="204.978"
-       height="54.948666"
-       preserveAspectRatio="none"
-       xlink:href="klaeger_LINCS_heatmap.png"
-       id="image23346"
-       x="2.5800071"
-       y="83.695312" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:7.98212px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.199553"
-       x="2.6155727"
-       y="92.467834"
-       id="text3437-7"><tspan
-         sodipodi:role="line"
-         id="tspan3435-0"
-         style="stroke-width:0.199553"
-         x="2.6155727"
-         y="92.467834">b</tspan></text>
+         y="146.22122">d</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -158,6 +107,41 @@
          id="tspan31341"
          style="stroke-width:0.264583"
          x="4.9795637"
-         y="92.408936"></tspan></text>
+         y="92.408936" /></text>
+    <image
+       width="201.328"
+       height="80.531204"
+       preserveAspectRatio="none"
+       xlink:href="../../kinomescan_viability_prediction/figures/Klaeger+KINOMEscan%20data%20overview.png"
+       id="image409"
+       x="6.8488503"
+       y="3.0408554" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.98213px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="2.0364401"
+       y="92.382668"
+       id="text2239"><tspan
+         sodipodi:role="line"
+         id="tspan2237"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.98213px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="2.0364401"
+         y="92.382668">b</tspan></text>
+    <image
+       width="201.168"
+       height="52.577999"
+       preserveAspectRatio="none"
+       xlink:href="../../kinomescan_viability_prediction/figures/clustering/klaeger_kinomescan_UMAP_matched_kinases_only.png"
+       id="image288"
+       x="6.9241791"
+       y="83.57206" />
+    <image
+       width="131.74133"
+       height="63.923336"
+       preserveAspectRatio="none"
+       xlink:href="../../../../Downloads/IC50%20AUC%20Target%20Variable%20Overview%20(2).png"
+       id="image9433"
+       x="7.0085449"
+       y="136.0155" />
   </g>
 </svg>
