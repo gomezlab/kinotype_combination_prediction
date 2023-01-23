@@ -3,13 +3,13 @@
 
 <svg
    width="210mm"
-   height="151mm"
-   viewBox="0 0 210 151"
+   height="120mm"
+   viewBox="0 0 210 120"
    version="1.1"
    id="svg5"
    inkscape:version="1.1.2 (1:1.1+202202050950+0a00cf5339)"
-   sodipodi:docname="figure_1_draft.svg"
-   inkscape:export-filename="/home/cujoisa/Documents/GitHub/kinotype_combination_prediction/figures/figure_1_draft.png"
+   sodipodi:docname="figure_2_draft.svg"
+   inkscape:export-filename="/home/cujoisa/Documents/GitHub/kinotype_combination_prediction/figures/figure_2_draft.png"
    inkscape:export-xdpi="600"
    inkscape:export-ydpi="600"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -29,7 +29,7 @@
      showgrid="false"
      showguides="false"
      inkscape:guide-bbox="true"
-     height="150mm"
+     height="120mm"
      inkscape:zoom="1.5004828"
      inkscape:cx="315.23187"
      inkscape:cy="304.90186"
@@ -48,14 +48,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:7.98212px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.199553"
-       x="1.0625459"
-       y="5.2802582"
+       x="2.1044865"
+       y="6.5105448"
        id="text3437"><tspan
          sodipodi:role="line"
          id="tspan3435"
          style="stroke-width:0.199553"
-         x="1.0625459"
-         y="5.2802582">a</tspan></text>
+         x="2.1044865"
+         y="6.5105448">a</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
@@ -70,29 +70,29 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.98213px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="62.079529"
-       y="6.0900812"
+       x="0.054344125"
+       y="81.151871"
        id="text2239"><tspan
          sodipodi:role="line"
          id="tspan2237"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.98213px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
-         x="62.079529"
-         y="6.0900812">b</tspan></text>
+         x="0.054344125"
+         y="81.151871">b</tspan></text>
     <image
-       width="149.94466"
-       height="149.94466"
+       width="209.97333"
+       height="59.944"
        preserveAspectRatio="none"
-       xlink:href="ALMANAC_klaeger/cell_viability_EDA.png"
-       id="image1145"
-       x="60.065304"
-       y="0.32566801" />
+       xlink:href="ALMANAC_klaeger/lasso_selected_features_ridgeplot.png"
+       id="image366"
+       x="-0.1219101"
+       y="0.26816994" />
     <image
-       width="60.198002"
-       height="150.32565"
+       width="209.97333"
+       height="59.943996"
        preserveAspectRatio="none"
-       xlink:href="../../../../Downloads/Combination%20paper%20schematic%20(5).png"
-       id="image102"
-       x="-0.13269806"
-       y="0.32566801" />
+       xlink:href="ALMANAC_klaeger/lasso_selected_features_barplot.png"
+       id="image470"
+       x="-0.1219101"
+       y="60.21217" />
   </g>
 </svg>

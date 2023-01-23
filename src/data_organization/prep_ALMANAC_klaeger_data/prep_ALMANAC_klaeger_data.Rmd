@@ -213,13 +213,25 @@ breast_cell_lines = breast_cancer_data %>%
 
 ```{r}
 #cell sensitivity eda for breast cancer
+set.seed(2222)
+
+#randomly select x% of all combos for visualization 
+
+all_combos = breast_cancer_data %>% 
+  select(drug1, drug2) %>% 
+  unique() %>% 
+  mutate(combo = paste0(drug1, " + ", drug2)) %>% 
+  slice_sample(prop = 0.5)
+
 visualization_data = breast_cancer_data %>% 
   select(-starts_with(c("act_", "exp_"))) %>% 
   left_join(breast_cell_lines %>% 
               select(CELLNAME, subtype)) %>%
-  group_by(subtype, drug1, drug2, CONC1, CONC2) %>% 
+  mutate(combo = paste0(drug1, " + ", drug2)) %>%
+  filter(combo %in% all_combos$combo) %>% 
+  group_by(subtype, combo, CONC1, CONC2) %>% 
   summarise(viability = mean(viability)) %>% 
-  mutate(combo = paste0(drug1, " + ", drug2, " in ", subtype)) %>% 
+  #mutate(combo = paste0(drug1, " + ", drug2, " in ", subtype)) %>% 
   drop_na()
 
 visualization_data_summary = visualization_data %>% 
@@ -229,24 +241,37 @@ visualization_data_summary = visualization_data %>%
 
 visualization_data_processed = visualization_data %>% 
   ungroup() %>% 
-  mutate(combo = fct_relevel(combo, visualization_data_summary %>% pull(combo)))
+  mutate(combo = fct_relevel(combo,  c("Sorafenib + Pazopanib", "Gefitinib + Axitinib", "Vemurafenib + Gefitinib", "Lapatinib + Gefitinib", "Lapatinib + Crizotinib", "Imatinib + Axitinib", "Dasatinib + Axitinib", "Vandetanib + Pazopanib", "Lapatinib + Axitinib", "Erlotinib + Crizotinib", "Ruxolitinib + Crizotinib", "Vemurafenib + Vandetanib", "Crizotinib + Axitinib", "Ruxolitinib + Axitinib", "Vemurafenib + Crizotinib","Sunitinib + Ruxolitinib", "Sunitinib + Axitinib", "Lapatinib + Imatinib", "Sunitinib + Pazopanib", "Ruxolitinib + Pazopanib", "Nilotinib + Axitinib",  "Sunitinib + Dasatinib", "Sunitinib + Nilotinib", "Sorafenib + Nilotinib", "Nilotinib + Imatinib", "Sorafenib + Imatinib"))) 
+
+summary_combos = visualization_data_summary %>% 
+  ungroup() %>% 
+  select(combo) %>% 
+  unique() %>% 
+  anti_join(visualization_data %>% ungroup %>% select(combo) %>% unique())
+
 
 visualization_data_processed %>% 
+  #slice_sample(prop = 0.25) %>% 
+  #filter(subtype == "TNBC A") %>% 
+  #mutate(combo = paste0(drug1, " + ", drug2)) %>%
 	ggplot(aes(x = viability, y = combo, fill = subtype)) +
 	 stat_density_ridges(
     geom = "density_ridges_gradient", calc_ecdf = TRUE
   ) +
   scale_fill_viridis_d() +
 	theme_ridges(center_axis_labels = TRUE) + 
-	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", fill = "Breast Cancer Subtype") +
+	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", fill = "Subtype") +
 	coord_cartesian(clip = "off") +
   theme(
-    axis.text.y = element_blank(),
+    #axis.text.y = element_blank(),
+    #axis.text.y = element_text(angle = 45, vjust = 1, hjust = 1),
     legend.position = "bottom",
     legend.direction = "horizontal",
+    #legend.position = "blank",
     text = element_text(size = 11)
   ) 
 ggsave(here('figures/ALMANAC_klaeger/cell_viability_EDA.png'), height = 15, width = 15, units = "cm")
+
   
 
 visualization_data_processed %>% 
@@ -254,11 +279,12 @@ visualization_data_processed %>%
   geom_jitter() +
 	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", colour = "Breast Cancer Subtype") +
 	coord_cartesian(clip = "off") +
-  #facet_wrap(~subtype) +
+  facet_wrap(~subtype) +
   theme(
     axis.text.y = element_blank(),
     legend.position = "bottom",
     legend.direction = "horizontal",
     text = element_text(size = 11)
   ) 
+ggsave(here('figures/ALMANAC_klaeger/cell_viability_EDA_alternate.png'), height = 15, width = 15, units = "cm")
 ```
