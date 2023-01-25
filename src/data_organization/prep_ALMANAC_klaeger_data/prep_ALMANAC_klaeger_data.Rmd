@@ -189,6 +189,34 @@ lung_cancer_data = this_dataset %>%
 breast_cancer_data = this_dataset %>% 
   filter(PANEL == "Breast Cancer") %>% 
   write_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'), compress = "gz")
+
+melanoma_cancer_data = this_dataset %>% 
+  filter(PANEL == "Melanoma") %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/melanoma_cancer_models/ALMANAC_klaeger_data_for_ml_melanoma.rds.gz'), compress = "gz")
+
+ovarian_cancer_data = this_dataset %>% 
+  filter(PANEL == "Ovarian Cancer") %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/ovarian_cancer_models/ALMANAC_klaeger_data_for_ml_ovarian.rds.gz'), compress = "gz")
+
+cns_cancer_data = this_dataset %>% 
+  filter(PANEL == "CNS Cancer") %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/cns_cancer_models/ALMANAC_klaeger_data_for_ml_cns.rds.gz'), compress = "gz")
+
+colon_cancer_data = this_dataset %>% 
+  filter(PANEL == "Colon Cancer") %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/colon_cancer_models/ALMANAC_klaeger_data_for_ml_colon.rds.gz'), compress = "gz")
+
+renal_cancer_data = this_dataset %>% 
+  filter(PANEL == "Renal Cancer") %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/renal_cancer_models/ALMANAC_klaeger_data_for_ml_renal.rds.gz'), compress = "gz")
+
+leukemia_cancer_data = this_dataset %>% 
+  filter(PANEL == "Leukemia") %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/leukemia_cancer_models/ALMANAC_klaeger_data_for_ml_leukemia.rds.gz'), compress = "gz")
+
+prostate_cancer_data = this_dataset %>% 
+  filter(PANEL == "Prostate Cancer") %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/prostate_cancer_models/ALMANAC_klaeger_data_for_ml_leukemia.rds.gz'), compress = "gz")
 ```
 
 ```{r}

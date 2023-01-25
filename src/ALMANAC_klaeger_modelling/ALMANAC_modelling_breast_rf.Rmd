@@ -25,7 +25,7 @@ knitr::opts_knit$set(root.dir = here())
 
 ```{r}
 #read in data 
-ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_data_for_ml_lung.rds.gz'))
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
 
 ALMANAC_klaeger_CCLE_data %>% 
   count(drug1, drug2)
@@ -34,79 +34,6 @@ ALMANAC_klaeger_CCLE_data %>%
 
 ```{r}
 #tuning lasso feature selection within xgboost
-
-xgb_grid = read_rds(here('results/hyperparameter_grids/xgb_grid.rds'))
-
-set.seed(2222)
-folds = vfold_cv(ALMANAC_klaeger_CCLE_data, v = 5)
-
-tic()	
-
-this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
-  update_role(-starts_with("act_"),
-              -starts_with("exp_"),
-              -starts_with("viability"),
-              new_role = "id variable") %>%
-	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
-	update_role(viability, new_role = "outcome") %>%
-	step_normalize(all_predictors()) %>%  
-  step_zv(all_predictors()) %>% 
-	step_select_linear(all_predictors(), outcome = "viability", engine = "glmnet", penalty = tune(), mixture = tune(), top_p = tune())
-
-xgb_spec <- boost_tree(
-  trees = tune(), 
-  tree_depth = tune()
-) %>% 
-  set_engine("xgboost", tree_method = "gpu_hist") %>% 
-  set_mode("regression")
-
-this_wflow <-
-  workflow() %>%
-  add_model(xgb_spec) %>%
-  add_recipe(this_recipe)
-
-race_ctrl = control_grid(
-  save_pred = TRUE, 
-  parallel_over = "everything",
-  verbose = TRUE
-)
-
-set.seed(2222)
-recipe_grid = grid_max_entropy(
-	extract_parameter_set_dials(this_recipe) %>% 
-		update(top_p = top_p(c(5,2000))), 
-	size = 10
-)
-
-full_grid = merge(xgb_grid, recipe_grid)
-
-results <- tune_grid(
-  this_wflow,
-  resamples = folds,
-  grid = full_grid,
-  control = race_ctrl
-) %>% 
-  collect_metrics()
-  
-toc()
-
-
-write_csv(results, here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
-```
-
-## Random Forest models
-
-```{r}
-#read in data 
-ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_data_for_ml_lung.rds.gz'))
-
-ALMANAC_klaeger_CCLE_data %>% 
-  count(drug1, drug2)
-```
-
-
-```{r}
-#tuning lasso feature selection within random forest 
 
 rf_grid = read_rds(here('results/hyperparameter_grids/rf_grid.rds'))
 
@@ -163,13 +90,13 @@ results <- tune_grid(
 toc()
 
 
-write_csv(results, here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_rf.csv'))
+write_csv(results, here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_rf.csv'))
 ```
 
 ```{r}
-#fit model on whole data to get importances
+#fit model on whole data to get lasso feature coefficients 
 
-results = read_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_rf.csv'))
 
 best_model = results %>% 
 	filter(.metric == "rsq") %>% 
@@ -210,22 +137,22 @@ all_importance = vi(final_fit %>% extract_fit_parsnip()) %>%
     str_detect(feature, "^exp_") ~ "Baseline Gene Expression",
     T ~ feature
   )) %>% 
-write_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/lasso_selected_features.csv'))
+write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv'))
 ```
 
 ```{r}
 # fit best model with CV for figure
-lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/lasso_selected_features.csv')) %>% 
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv')) %>% 
   filter(Importance > 0)
 
-results = read_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_rf.csv'))
 
 best_model = results %>% 
 	filter(.metric == "rsq") %>% 
 	arrange(desc(mean)) %>% 
 	slice(1)
 
-ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_data_for_ml_lung.rds.gz'))
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
 
 id_vars = ALMANAC_klaeger_CCLE_data %>% 
   select(-starts_with("act_"),
@@ -317,5 +244,7 @@ final_predictions %>%
     panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "transparent",colour = NA)
       )
-ggsave(here('figures/ALMANAC_klaeger/lung_ALMANAC_klaeger_best_model_CV.png'))
+ggsave(here('figures/ALMANAC_klaeger/breast_ALMANAC_klaeger_best_model_CV_rf.png'))
 ```
+
+
