@@ -1,0 +1,151 @@
+
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(patchwork)
+library(ROCR)
+library(reticulate)
+library(vip)
+library(recipeselectors)
+library(conflicted)
+library(Metrics)
+
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rmse", "Metrics")
+conflict_prefer("vi", "vip")
+
+#read in data 
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/cns_cancer_models/ALMANAC_klaeger_data_for_ml_cns.rds.gz'))
+
+ALMANAC_klaeger_CCLE_data %>% 
+  count(drug1, drug2)
+
+#tuning lasso feature selection within xgboost
+
+xgb_grid = read_rds(here('results/hyperparameter_grids/xgb_grid.rds'))
+
+set.seed(2222)
+folds = vfold_cv(ALMANAC_klaeger_CCLE_data, v = 5)
+
+tic()	
+
+this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+  update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+  update_role(viability, new_role = "outcome") %>%
+  step_normalize(all_predictors()) %>%  
+  step_zv(all_predictors()) %>% 
+  step_select_linear(all_predictors(), outcome = "viability", engine = "glmnet", penalty = tune(), mixture = tune(), top_p = tune())
+
+xgb_spec <- boost_tree(
+  trees = tune(), 
+  tree_depth = tune()
+) %>% 
+  set_engine("xgboost", tree_method = "gpu_hist") %>% 
+  set_mode("regression")
+
+this_wflow <-
+  workflow() %>%
+  add_model(xgb_spec) %>%
+  add_recipe(this_recipe)
+
+race_ctrl = control_grid(
+  save_pred = TRUE, 
+  parallel_over = "everything",
+  verbose = TRUE
+)
+
+set.seed(2222)
+recipe_grid = grid_max_entropy(
+  extract_parameter_set_dials(this_recipe) %>% 
+    update(top_p = top_p(c(5,2000))), 
+  size = 10
+)
+
+full_grid = merge(xgb_grid, recipe_grid)
+
+results <- tune_grid(
+  this_wflow,
+  resamples = folds,
+  grid = full_grid,
+  control = race_ctrl
+) %>% 
+  collect_metrics()
+
+toc()
+
+
+write_csv(results, here('results/ALMANAC_klaeger_models/cns_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+
+## Random Forest models
+
+#read in data 
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/cns_cancer_models/ALMANAC_klaeger_data_for_ml_cns.rds.gz'))
+
+ALMANAC_klaeger_CCLE_data %>% 
+  count(drug1, drug2)
+
+#tuning lasso feature selection within random forest 
+
+rf_grid = read_rds(here('results/hyperparameter_grids/rf_grid.rds'))
+
+set.seed(2222)
+folds = vfold_cv(ALMANAC_klaeger_CCLE_data, v = 5)
+
+tic()	
+
+this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+  update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+  update_role(viability, new_role = "outcome") %>%
+  step_normalize(all_predictors()) %>%  
+  step_zv(all_predictors()) %>% 
+  step_select_linear(all_predictors(), outcome = "viability", engine = "glmnet", penalty = tune(), mixture = tune(), top_p = tune())
+
+rf_spec <- rand_forest(
+  trees = tune()
+) %>% 
+  set_engine("ranger", num.threads = 16) %>% 
+  set_mode("regression")
+
+this_wflow <-
+  workflow() %>%
+  add_model(rf_spec) %>%
+  add_recipe(this_recipe)
+
+race_ctrl = control_grid(
+  save_pred = TRUE, 
+  parallel_over = "everything",
+  verbose = TRUE
+)
+
+set.seed(2222)
+recipe_grid = grid_max_entropy(
+  extract_parameter_set_dials(this_recipe) %>% 
+    update(top_p = top_p(c(5,2000))), 
+  size = 10
+)
+
+full_grid = merge(rf_grid, recipe_grid)
+
+results <- tune_grid(
+  this_wflow,
+  resamples = folds,
+  grid = full_grid,
+  control = race_ctrl
+) %>% 
+  collect_metrics()
+
+toc()
+
+
+write_csv(results, here('results/ALMANAC_klaeger_models/cns_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_rf.csv'))
