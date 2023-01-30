@@ -1,0 +1,71 @@
+```{r}
+#setup
+library(tidyverse)
+library(patchwork)
+library(here)
+```
+
+```{r}
+#read in modelling results 
+
+cancer_type = c("breast",
+                 "lung",
+                 "ovarian",
+                 "melanoma",
+                 "colon",
+                 "cns",
+                 "renal",
+                 "prostate")
+
+model_type = c("xgboost", "random forest")
+
+data_paths = crossing(cancer_type, model_type) %>% 
+  as.data.frame() %>% 
+  mutate(data_path = 
+           if_else(model_type == "random forest",
+              here('results/ALMANAC_klaeger_models',
+                          paste0(cancer_type, '_cancer_models'),
+                          paste0('ALMANAC_klaeger_lasso_xgboost_all_tuning_results_rf.csv')),
+              here('results/ALMANAC_klaeger_models',
+                          paste0(cancer_type, '_cancer_models'),
+                          paste0('ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+           )
+  )
+
+plot_data = data.frame()
+for (i in 1:dim(data_paths)[1]) {
+  
+  this_data_path = data_paths$data_path[i]
+  this_cancer_type = data_paths$cancer_type[i]
+  this_model_type = data_paths$model_type[i]
+  
+  this_plot_data = read_csv(this_data_path) %>%
+    mutate(cancer_type = this_cancer_type,
+           model_type = this_model_type) %>% 
+    arrange(desc(mean)) %>% 
+    slice(1)
+  plot_data = bind_rows(plot_data, this_plot_data)
+}
+```
+
+```{r}
+#make plot
+
+plot_data %>% 
+  select(-tree_depth) %>% 
+  ggplot(aes(x = cancer_type, y = mean, colour = cancer_type, shape = model_type)) + 
+  geom_point() +
+  facet_wrap(vars(model_type)) +
+  labs(x = "Cancer Type", y = "R-squared", colour = "Cancer Type", shape = "Model Type") +
+		theme(
+		axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+		legend.text = element_text(size = 9),
+		legend.background = element_rect(fill = "transparent",colour = NA),
+		panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+      )
+ggsave(here('figures/ALMANAC_klaeger/all_model_comparisons.png'), width = 14, height = 8, units = "cm")
+```
+

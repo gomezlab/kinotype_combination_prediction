@@ -216,7 +216,7 @@ leukemia_cancer_data = this_dataset %>%
 
 prostate_cancer_data = this_dataset %>% 
   filter(PANEL == "Prostate Cancer") %>% 
-  write_rds(here('results/ALMANAC_klaeger_models/prostate_cancer_models/ALMANAC_klaeger_data_for_ml_leukemia.rds.gz'), compress = "gz")
+  write_rds(here('results/ALMANAC_klaeger_models/prostate_cancer_models/ALMANAC_klaeger_data_for_ml_prostate.rds.gz'), compress = "gz")
 ```
 
 ```{r}
