@@ -1,0 +1,20 @@
+```{r}
+library(tidyverse)
+library(here)
+```
+
+```{r}
+#read in data
+
+validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv'))
+
+
+
+```
+
+```{r}
+#preprocessing
+
+validation_data_processed 
+```
+

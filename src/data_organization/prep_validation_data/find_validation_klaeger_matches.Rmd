@@ -1,0 +1,80 @@
+---
+title: "Find ALMANAC-Klaeger Drug Matches"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+library(conflicted)
+conflict_prefer("filter", "dplyr")
+```
+
+```{r}
+#READING IN DATA
+klaeger_cids = read_csv(here('results/matching/klaeger_cids.csv')) %>% 
+	mutate(cid = as.character(cid))
+
+validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv'))
+```
+
+```{r}
+#DATA PROCESSING
+validation_matchlist = validation_data %>% 
+  filter(Class == "Kinase") %>% 
+	rename("validation_name" = Compound) %>% 
+  separate(validation_name, into = c('validation_name', "synonym"), sep = " \\(") %>% 
+  select(validation_name, synonym) %>% 
+  unique()
+```
+
+```{r}
+#CREATING MATCH SETS
+validation_cid = get_cid(unique(validation_matchlist$validation_name), from = "name", domain = "compound", match = "all", verbose = T) 
+
+validation_full_cids = validation_cid %>% 
+	rename(validation_name = query) %>% 
+	left_join(validation_matchlist) %>% 
+	filter(!is.na(cid)) %>% 
+  filter(!is.na(validation_name)) %>% 
+	write_csv(here('results/matching/validation_all_cids.csv'))
+	
+matches = klaeger_cids %>% 
+	left_join(validation_full_cids, by = 'cid') %>% 
+	filter(!is.na(validation_name))
+
+klaeger_no_matches = klaeger_cids %>%
+	filter(!cid %in% matches$cid)
+
+validation_no_matches = validation_full_cids %>%
+	filter(!cid %in% matches$cid)
+```
+
+```{r}
+#including manual matches
+manual_matches = data.frame(
+	klaeger_name = c("MK-2206", "Sunitinib", "Sorafenib", "LY-2584702", "Erlotinib", "Imatinib"),
+	validation_name = c("MK-2206 2HCl", "Sunitinib Malate", "Sorafenib Tosylate", "LY2584702 Tosylate", "Erlotinib HCl", "Imatinib Mesylate")
+) %>% 
+	left_join(klaeger_cids) %>% 
+	left_join(validation_matchlist)
+
+full_matches = manual_matches %>% 
+	bind_rows(matches)
+
+klaeger_no_matches = klaeger_cids %>%
+	filter(!cid %in% full_matches$cid)
+
+validation_no_matches = validation_full_cids %>%
+	filter(!cid %in% full_matches$cid)
+```
+
+
+```{r}
+#Write Output Files
+write_csv(full_matches, here('results/matching/validation_klaeger_matches.csv'))
+```
+
