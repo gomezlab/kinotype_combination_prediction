@@ -1,20 +1,75 @@
 ```{r}
 library(tidyverse)
 library(here)
+library(janitor)
 ```
 
 ```{r}
 #read in data
 
-validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv'))
+##Tim's data: Lapatinib synergy screen in SKBR3
+tim_validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv'))
 
+##Sam's data: Trametinib synergy screen in SUM149, MDAMB231, HCC1806, WHIM12
 
+#loop through all individual files
 
+sam_file_key = data.frame(
+  file_name = c("149plus_trametinib.csv", "231_trametinib.csv", "1806_trametinib.csv", "W12_trametinib.csv"),
+  cell_line = c("SUM149pos", "MDAMB231", "HCC1806", "WHIM12")) %>%
+  mutate(file_path = here('data/Synergy_data_collection/usable_data/sam_usable', file_name))
+  
+sam_validation_data = data.frame()
+
+for (i in 1:4) {
+
+this_cell_line_data = data.frame()
+this_column_data = data.frame()
+
+#data had 16 drugs each for 11 columns, each separated by 9
+  for (column_number in c(2, 11, 20, 29, 38, 47, 56, 65, 74, 83, 92)) {
+    
+    for (row_number in c(1, 10, 19, 28, 37, 46, 55, 64, 73, 82, 91, 100, 109, 118, 127, 136)) { 
+    
+    this_file_path = sam_file_key$file_path[i]
+    this_cell_line = sam_file_key$cell_line[i]
+    anchor_drug = "Trametinib"
+    
+    this_file = read_csv(this_file_path, col_names = FALSE)
+    
+    col_start = column_number
+    col_end = column_number+7
+    row_start = row_number
+    row_end = row_number+7
+    
+    this_drug_data_raw = this_file %>% 
+      select(col_start:col_end) %>% 
+      slice(row_start:row_end)
+    
+    this_drug_data = this_drug_data_raw %>%
+      row_to_names(row_number = 1) %>% 
+      mutate(drug1 = anchor_drug, drug2 = this_drug_data_raw %>% slice(1) %>% pull(1)) %>% 
+      rename(CONC1 = 1) %>% 
+      pivot_longer(`0`:`10000`, names_to = "CONC2", values_to = "viability_inverse") %>%
+      #viability values are represented as 0 = no cell death and 1 = full death. We need the inverse.
+      mutate(viability = 1-viability_inverse) %>% 
+      select(-viability_inverse) %>% 
+      mutate(cell_line = this_cell_line)
+    
+    this_column_data = bind_rows(this_column_data, this_drug_data)
+    } 
+  this_cell_line_data = bind_rows(this_cell_line_data, this_column_data)  
+  }
+sam_validation_data = bind_rows(sam_validation_data, this_cell_line_data)
+}
+
+write_csv(sam_validation_data, here('data/Synergy_data_collection/usable_data/sam_data_complied.csv'))
+
+## Denis Data: Trametinib synergy screen in SUM159
+
+denis_drugs = c("Dinaciclib", "Erlotinib", "MK2206")
 ```
 
 ```{r}
-#preprocessing
-
-validation_data_processed 
 ```
 
