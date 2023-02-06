@@ -18,17 +18,19 @@ conflict_prefer("filter", "dplyr")
 klaeger_cids = read_csv(here('results/matching/klaeger_cids.csv')) %>% 
 	mutate(cid = as.character(cid))
 
-validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv'))
+validation_data = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/all_validation_data.csv'))
 ```
 
 ```{r}
 #DATA PROCESSING
 validation_matchlist = validation_data %>% 
-  filter(Class == "Kinase") %>% 
-	rename("validation_name" = Compound) %>% 
-  separate(validation_name, into = c('validation_name', "synonym"), sep = " \\(") %>% 
-  select(validation_name, synonym) %>% 
-  unique()
+	rename("validation_name" = drug2) %>% 
+  select(validation_name) %>% 
+  unique() %>% 
+  bind_rows(validation_data %>% 
+	rename("validation_name" = drug1) %>% 
+  select(validation_name) %>% 
+  unique())
 ```
 
 ```{r}
@@ -56,8 +58,8 @@ validation_no_matches = validation_full_cids %>%
 ```{r}
 #including manual matches
 manual_matches = data.frame(
-	klaeger_name = c("MK-2206", "Sunitinib", "Sorafenib", "LY-2584702", "Erlotinib", "Imatinib"),
-	validation_name = c("MK-2206 2HCl", "Sunitinib Malate", "Sorafenib Tosylate", "LY2584702 Tosylate", "Erlotinib HCl", "Imatinib Mesylate")
+	klaeger_name = c("MK-2206", "MK-2206", "MK-2206", "Sunitinib","Sunitinib", "Sorafenib", "Sorafenib", "LY-2584702", "LY-2584702", "Erlotinib", "Imatinib", "Imatinib"),
+	validation_name = c("MK-2206 2HCl", "MK-2206-2HCl", "MK2206", "Sunitinib Malate", "Sunitinib-Malate", "Sorafenib Tosylate", "Sorafenib-Tosylate", "LY2584702 Tosylate","LY2584702-Tosylate", "Erlotinib HCl", "Imatinib Mesylate", "Imatinib-Mesylate")
 ) %>% 
 	left_join(klaeger_cids) %>% 
 	left_join(validation_matchlist)

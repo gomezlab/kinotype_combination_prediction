@@ -132,7 +132,15 @@ cell_info = read_csv(here('data/CCLE_data/sample_info.csv')) %>%
 
 #processing and summarising replicates
 
+#need lookup table for WHIM12 screen, well numbers used instead of compound names 
+sam_lookup_WHIM12 = readxl::read_xlsx(here('data/Synergy_data_collection/usable_data/sam_usable/SynergyFinder_lookup_table_2.xlsx')) %>% 
+  select(Well, `Library Compound`) %>% 
+  rename(drug2_WHIM12 = `Library Compound`)
+
 all_validation_data = sam_validation_data %>%
+  left_join(sam_lookup_WHIM12, by = c('drug2' = 'Well')) %>% 
+  mutate(drug2 = if_else(is.na(drug2_WHIM12), drug2, drug2_WHIM12)) %>% 
+  select(-drug2_WHIM12) %>% 
   drop_na() %>% 
   #changing all concentration units to M
   mutate(CONC1 = as.numeric(CONC1)*10^(-9),
@@ -152,8 +160,10 @@ all_validation_data = sam_validation_data %>%
                      viability = viability/100,
                      origin = "Denis")
             ) %>% 
+  filter(!drug1 == "DMSO") %>% 
   select(drug1, drug2, CONC1, CONC2, cell_line, viability) %>% 
   group_by(drug1, drug2, CONC1, CONC2, cell_line) %>% 
-  summarise(viability = mean(viability))
+  summarise(viability = mean(viability)) %>% 
+  write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/all_validation_data.csv'))
 ```
 
