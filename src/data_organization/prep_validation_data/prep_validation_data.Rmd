@@ -8,7 +8,24 @@ library(janitor)
 #read in data
 
 ##Tim's data: Lapatinib synergy screen in SKBR3
-tim_validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv'))
+tim_validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv')) %>% 
+  filter(Class == "Kinase") %>% 
+  separate(Compound, into = c('drug2', "synonym"), sep = " \\(") %>% 
+  select(-synonym, -Targets, -Class) %>% 
+  rename(CONC1 = lapatinib_conc) %>% 
+  pivot_longer(`10`:`10000`, names_to = "CONC2", values_to = "viability") %>% 
+  mutate(drug1 = "Lapatinib",
+         CONC1 = case_when(
+           CONC1 == "4.1nM" ~ 4.1*10^(-9),
+           CONC1 == "12.8nM" ~ 12.8*10^(-9),
+           CONC1 == "37nM" ~ 111*10^(-9),
+           CONC1 == "333nM" ~ 333*10^(-9),
+           CONC1 == "1uM" ~ 1*10^(-6),
+           TRUE ~ 0
+         ),
+         CONC2 = as.numeric(CONC2)*10^(-9),
+         cell_line = "SKBR3"
+         )
 
 ##Sam's data: Trametinib synergy screen in SUM149, MDAMB231, HCC1806, WHIM12
 
@@ -67,9 +84,76 @@ write_csv(sam_validation_data, here('data/Synergy_data_collection/usable_data/sa
 
 ## Denis Data: Trametinib synergy screen in SUM159
 
-denis_drugs = c("Dinaciclib", "Erlotinib", "MK2206")
+#loop through 4 drug files
+denis_drugs = c("Dinaciclib", "Erlotinib", "MK2206", "Palbociclib")
+
+denis_validation_data = data.frame()
+
+for (this_drug in denis_drugs) {
+
+this_drug_path = here('data/Synergy_data_collection/usable_data/trametinib_library_synergy_denis_SUM159', paste0(this_drug, '.txt'))  
+
+this_drug_data = read_tsv(this_drug_path) %>% 
+  rename(CONC2 = 1) %>% 
+  mutate(drug2 = this_drug) %>% 
+  pivot_longer(-c(drug2, CONC2), names_to = "drug_conc", values_to = "value") %>% 
+  mutate(
+    drug1 = case_when(
+      str_detect(drug_conc, regex("Tram", ignore_case = TRUE)) ~ "Trametinib",
+      TRUE ~ "DMSO"
+    )
+  ) %>% 
+  separate(drug_conc, into = c("CONC1", "other"), sep = " ") %>% 
+  mutate(CONC2 = 10^(CONC2),
+         CONC1 = case_when(
+      CONC1 == "1000nM" ~ 1000*10^(-9),
+      CONC1 == "300nM" ~ 300*10^(-9),
+      CONC1 == "100nM" ~ 100*10^(-9),
+      CONC1 == "30nM" ~ 30*10^(-9),
+      CONC1 == "10nM" ~ 10*10^(-9),
+      CONC1 == "1nM" ~ 1*10^(-9),
+      CONC1 == "100pM" ~ 0.1*10^(-9),
+      TRUE ~ 0)
+  ) %>% 
+  select(-other) %>% 
+  rename(viability = value)
+
+denis_validation_data = bind_rows(denis_validation_data, this_drug_data)
+
+}
+
 ```
 
 ```{r}
+#read in cell line info
+
+cell_info = read_csv(here('data/CCLE_data/sample_info.csv')) %>% 
+  select(DepMap_ID, stripped_cell_line_name, primary_disease, lineage_sub_subtype, lineage_molecular_subtype)
+
+#processing and summarising replicates
+
+all_validation_data = sam_validation_data %>%
+  drop_na() %>% 
+  #changing all concentration units to M
+  mutate(CONC1 = as.numeric(CONC1)*10^(-9),
+         CONC2 = as.numeric(CONC2)*10^(-9),
+         cell_line = if_else(
+           cell_line == "SUM149pos",
+           "SUM149PT",
+           cell_line
+         )) %>% 
+  mutate(origin = "Sam") %>% 
+  bind_rows(tim_validation_data %>% 
+              mutate(viability = viability/100,
+                     origin = "Tim")
+            ) %>% 
+  bind_rows(denis_validation_data %>% 
+              mutate(cell_line = "SUM159PT",
+                     viability = viability/100,
+                     origin = "Denis")
+            ) %>% 
+  select(drug1, drug2, CONC1, CONC2, cell_line, viability) %>% 
+  group_by(drug1, drug2, CONC1, CONC2, cell_line) %>% 
+  summarise(viability = mean(viability))
 ```
 
