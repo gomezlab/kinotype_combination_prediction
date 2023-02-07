@@ -140,7 +140,8 @@ sam_lookup_WHIM12 = readxl::read_xlsx(here('data/Synergy_data_collection/usable_
 all_validation_data = sam_validation_data %>%
   left_join(sam_lookup_WHIM12, by = c('drug2' = 'Well')) %>% 
   mutate(drug2 = if_else(is.na(drug2_WHIM12), drug2, drug2_WHIM12)) %>% 
-  select(-drug2_WHIM12) %>% 
+  select(-drug2_WHIM12) %>%
+  ungroup() %>% 
   drop_na() %>% 
   #changing all concentration units to M
   mutate(CONC1 = as.numeric(CONC1)*10^(-9),
@@ -165,5 +166,118 @@ all_validation_data = sam_validation_data %>%
   group_by(drug1, drug2, CONC1, CONC2, cell_line) %>% 
   summarise(viability = mean(viability)) %>% 
   write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/all_validation_data.csv'))
+```
+
+```{r}
+## Add in kinome inhibition states
+
+# Filter to combos that we have kinome inhibition data for
+
+validation_klaeger_drug_matches = read_csv(here('results/matching/validation_klaeger_matches.csv'))
+
+klaeger_combos_for_validation = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/klaeger_combos_for_validation_data.rds'))
+
+all_validation_data_filtered = all_validation_data %>% 
+  filter(drug1 %in% validation_klaeger_drug_matches$validation_name &
+           drug2 %in% validation_klaeger_drug_matches$validation_name)
+
+# Find nearest klaeger doses 
+
+validation_doses = all_validation_data_filtered %>% 
+	group_by(CONC1, CONC2) %>% 
+	summarise(n = n())
+
+validation_unique_doses_1 = validation_doses %>%
+	ungroup() %>% 
+	select(CONC1) %>%
+	rename(conc = CONC1) %>% 
+	unique()
+validation_unique_doses_2 = validation_doses %>%
+	ungroup() %>% 
+	select(CONC2) %>% 
+	rename(conc = CONC2) %>% 
+	unique()
+validation_unique_doses = bind_rows(
+	validation_unique_doses_1, validation_unique_doses_2
+) %>% 
+	unique()
+
+klaeger_unique_doses = klaeger_combos_for_validation %>% 
+	select(concentration_M_d1) %>% 
+	rename(conc = concentration_M_d1) %>% 
+	unique()
+
+matched_doses = validation_unique_doses %>% 
+	filter(conc %in% klaeger_unique_doses$conc) %>% 
+	mutate(klaeger_conc = conc)
+
+validation_unmatched_doses = validation_unique_doses %>% 
+	filter(!conc %in% matched_doses$conc)
+
+nearest_klaeger_concentration = function(concentration, all_klaeger_concentrations) {
+differences = all_klaeger_concentrations %>% 
+	filter(conc != 0) %>% 
+	mutate('difference' = abs(conc - concentration)) %>%  
+	arrange(difference) 
+min_difference = differences$conc[1]
+return(min_difference)
+}
+
+validation_nearest_klaeger_doses = validation_unmatched_doses %>% 
+	mutate(nearest_klaeger_dose = map(conc, ~nearest_klaeger_concentration(., klaeger_unique_doses))) %>% 
+	as.data.frame() %>% 
+	unnest(cols = c(nearest_klaeger_dose))
+
+# Use nearest klaeger doses to connect validation data to kinome inhibtion state data 
+
+validation_klaeger_data =  all_validation_data_filtered %>%
+	left_join(validation_nearest_klaeger_doses, by = c('CONC1' = 'conc')) %>% 
+	rename(nearest_klaeger_dose_1 = nearest_klaeger_dose) %>% 
+	left_join(matched_doses, by = c('CONC1' = 'conc')) %>% 
+	mutate(nearest_klaeger_dose_1 = if_else(
+		is.na(nearest_klaeger_dose_1), 
+		klaeger_conc, 
+		nearest_klaeger_dose_1
+	)) %>% 
+	select(-klaeger_conc) %>% 
+	left_join(validation_nearest_klaeger_doses, by = c('CONC2' = 'conc')) %>% 
+	rename(nearest_klaeger_dose_2 = nearest_klaeger_dose) %>% 
+	left_join(matched_doses, by = c('CONC2' = 'conc')) %>% 
+	mutate(nearest_klaeger_dose_2 = if_else(
+		is.na(nearest_klaeger_dose_2), 
+		klaeger_conc, 
+		nearest_klaeger_dose_2
+	)) %>% 
+	select(-klaeger_conc) %>%
+  ungroup() %>% 
+  group_by(drug1, drug2, cell_line, nearest_klaeger_dose_1, nearest_klaeger_dose_2) %>% 
+  summarise(viability = mean(viability)) %>% 
+	left_join(klaeger_combos_for_validation, 
+						by = c('drug1' = 'drug1',
+									 'drug2' = 'drug2',
+									 'nearest_klaeger_dose_1' = 'concentration_M_d1',
+									 'nearest_klaeger_dose_2' = 'concentration_M_d2')) %>% 
+	drop_na()
+```
+
+```{r}
+## Add in baseline expression data 
+
+# Combining gene expression data from CCLE and WHIM12
+WHIM12_exp_data = read_rds(here('data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_RNAseq_data_for_model.rds')) %>% 
+  rename(stripped_cell_line_name = cell_line) %>% 
+  mutate(DepMap_ID = "PDX_derived", 
+         primary_disease = "Breast Cancer")
+
+CCLE_data = read_rds(here('data/full_CCLE_expression_set_for_ML.rds')) %>% 
+  select(DepMap_ID, any_of(names(WHIM12_exp_data))) %>% 
+  left_join(cell_info)
+
+all_exp_data = bind_rows(CCLE_data, WHIM12_exp_data)
+
+#adding in combined gene expression data to validation + kinome inhibition data
+validation_klaeger_exp_data = validation_klaeger_data %>% 
+  left_join(all_exp_data, by = c('cell_line' = 'stripped_cell_line_name')) %>% 
+  write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/validation_klaeger_exp_data.csv'))
 ```
 
