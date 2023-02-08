@@ -1,0 +1,187 @@
+---
+title: "Build model predicitons on non-tested data"
+output: html_document
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(patchwork)
+library(ROCR)
+library(reticulate)
+library(vip)
+library(recipeselectors)
+library(wesanderson)
+library(conflicted)
+library(Metrics)
+
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rmse", "Metrics")
+conflict_prefer("vi", "vip")
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv')) %>% 
+  #filter out zero coefficient features
+  filter(Importance > 0)
+validation_data_for_model = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/validation_klaeger_exp_data.csv'))
+final_model = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model.rds.gz'))
+```
+
+```{r}
+already_tested_combos = ALMANAC_klaeger_CCLE_data %>% 
+  filter(CELLNAME == "MDA-MB-231/ATCC") %>% 
+  select(drug1, drug2, CELLNAME) %>% 
+  unique() %>% 
+  mutate(cell_line = "MDAMB231")
+
+already_tested_combos_reverse = already_tested_combos %>% 
+  mutate(drug1_new = drug1,
+         drug2_new = drug2) %>% 
+  mutate(drug1 = drug2_new,
+         drug2 = drug1_new)
+
+not_tested_data = validation_data_for_model %>%
+  #get validation combos
+  #filter out already tested combos
+  anti_join(already_tested_combos) %>% 
+  anti_join(already_tested_combos_reverse) %>% 
+  rename(CONC1 = nearest_klaeger_dose_1, CONC2 = nearest_klaeger_dose_2) %>% 
+  select(DepMap_ID, drug1, drug2, CONC1, CONC2, cell_line, viability, any_of(lasso_selected_features$feature)) %>% 
+  filter(viability < 1.05)
+  #no data in training set has been replicated in validation
+
+model_predictions = augment(final_model, not_tested_data%>% 
+                              mutate(PANEL = NA, CELLNAME = NA, nearest_klaeger_dose_1 = NA, nearest_klaeger_dose_2 = NA)) %>% 
+	select(-starts_with("act_"), -starts_with("exp_"))
+
+model_predictions_tidy = model_predictions %>%
+  select(-PANEL, -CELLNAME) %>% 
+	mutate(predicted_viability = signif(.pred,3)) %>%
+  select(-.pred) %>% 
+	write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/model_predictions_for_validation.csv'))
+```
+
+## Assessment of Validation
+
+```{r}
+# Assessing each combo in each cell line individually
+combos_validated = model_predictions_tidy %>% 
+  select(drug1, drug2, cell_line) %>% 
+  unique()
+
+all_individual_metrics = data.frame()
+for(i in 1:dim(combos_validated[1])) {
+
+this_drug1 = combos_validated$drug1[i]
+this_drug2 = combos_validated$drug2[i]
+this_cell_line = combos_validated$cell_line[i]
+  
+this_model_predictions = model_predictions_tidy %>% 
+  filter(drug1 == this_drug1 & drug2 == this_drug2 & cell_line == this_cell_line)
+
+this_rsq = cor(this_model_predictions$viability, this_model_predictions$predicted_viability)^2
+
+this_rmse = rmse(this_model_predictions$viability, this_model_predictions$predicted_viability)
+
+this_metrics = data.frame(this_rsq, this_rmse, this_drug1, this_drug2, this_cell_line)
+
+all_individual_metrics = bind_rows(all_individual_metrics, this_metrics)
+
+}
+
+label_facet <- function(original_var, custom_name1, custom_name2){
+  lev <- levels(as.factor(original_var))
+  lab <- paste0(lev, " + ", custom_name1, " in ", custom_name2)
+  names(lab) <- lev
+  return(lab)  
+}
+
+all_individual_metrics_for_plot = all_individual_metrics %>% 
+              rename(drug1 = this_drug1, drug2 = this_drug2, cell_line = this_cell_line) %>% 
+              arrange(desc(this_rsq)) %>% 
+              slice(1:25) %>% 
+  mutate(this_label = paste0(drug1," + ",drug2," in ",cell_line))
+
+model_predictions_with_metrics = model_predictions_tidy %>% 
+  left_join(all_individual_metrics_for_plot) %>% 
+  filter(!is.na(this_rsq)) %>% 
+  mutate(this_rsq = paste0("R\u00B2 = ", round(this_rsq, 2), " / RMSE = ", round(this_rmse, 2)),
+         this_label = paste0(drug1," + ",drug2," in ",cell_line)) %>% 
+  mutate(this_label = fct_relevel(this_label, all_individual_metrics_for_plot$this_label))
+  
+
+  model_predictions_with_metrics %>% 
+	ggplot(aes(x = predicted_viability, y = viability)) +
+	geom_point() +
+	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
+	labs(
+	  x = "Predicted Combination Viability",
+	  y = "Experimental Combination Viability") +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+		panel.grid.minor = element_blank(), 
+		panel.grid.major = element_blank(),
+		plot.background = element_rect(fill = "transparent",colour = NA)
+	) +
+  facet_wrap(~ this_label + this_rsq)
+
+ggsave(here('figures/ALMANAC_klaeger/breast_cancer_individual_combo_validation_assessment.png'), height = 20, width = 30, units = "cm")
+```
+
+```{r}
+#Assess predictions by cell lines
+
+cell_lines_validated = model_predictions_tidy %>% 
+  select(cell_line) %>% 
+  unique()
+
+all_cell_line_metrics = data.frame()
+for(i in 1:dim(cell_lines_validated)[1]) {
+
+this_cell_line = cell_lines_validated$cell_line[i]
+  
+this_model_predictions = model_predictions_tidy %>% 
+  filter(cell_line == this_cell_line)
+
+this_rsq = cor(this_model_predictions$viability, this_model_predictions$predicted_viability)^2
+
+this_rmse = rmse(this_model_predictions$viability, this_model_predictions$predicted_viability)
+
+this_metrics = data.frame(this_rsq, this_rmse, this_cell_line)
+
+all_cell_line_metrics = bind_rows(all_cell_line_metrics, this_metrics)
+
+}
+
+model_predictions_with_metrics = model_predictions_tidy %>% 
+  left_join(all_cell_line_metrics %>% 
+              rename(cell_line = this_cell_line)) %>% 
+  arrange(desc(this_rsq))
+
+  model_predictions_with_metrics %>% 
+  mutate(this_rsq = paste0("R\u00B2 = ", round(this_rsq, 2), " / RMSE = ", round(this_rmse, 2))) %>% 
+	ggplot(aes(x = predicted_viability, y = viability)) +
+	geom_point() +
+	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
+	labs(
+	  x = "Predicted Combination Viability",
+	  y = "Experimental Combination Viability") +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+		panel.grid.minor = element_blank(), 
+		panel.grid.major = element_blank(),
+		plot.background = element_rect(fill = "transparent",colour = NA)
+	) +
+  facet_wrap(~cell_line + this_rsq)
+
+ggsave(here('figures/ALMANAC_klaeger/breast_cancer_individual_cell_line_validation_assessment.png'), height = 10, width = 10, units = "cm")
+
+```
