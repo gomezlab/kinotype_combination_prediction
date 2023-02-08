@@ -26,19 +26,19 @@ knitr::opts_knit$set(root.dir = here())
 
 ```{r}
 ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
+
 lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv')) %>% 
   #filter out zero coefficient features
   filter(Importance > 0)
+
 validation_data_for_model = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/validation_klaeger_exp_data.csv'))
 final_model = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model.rds.gz'))
 ```
 
 ```{r}
 already_tested_combos = ALMANAC_klaeger_CCLE_data %>% 
-  filter(CELLNAME == "MDA-MB-231/ATCC") %>% 
   select(drug1, drug2, CELLNAME) %>% 
-  unique() %>% 
-  mutate(cell_line = "MDAMB231")
+  unique()
 
 already_tested_combos_reverse = already_tested_combos %>% 
   mutate(drug1_new = drug1,
@@ -46,7 +46,12 @@ already_tested_combos_reverse = already_tested_combos %>%
   mutate(drug1 = drug2_new,
          drug2 = drug1_new)
 
+already_tested_drugs = c(already_tested_combos$drug1, already_tested_combos$drug2) %>% 
+  unique()
+
 not_tested_data = validation_data_for_model %>%
+  #Remove drugs that are not seen at least once in training data
+  filter(drug1 %in% already_tested_drugs | drug2 %in% already_tested_drugs) %>% 
   #get validation combos
   #filter out already tested combos
   anti_join(already_tested_combos) %>% 

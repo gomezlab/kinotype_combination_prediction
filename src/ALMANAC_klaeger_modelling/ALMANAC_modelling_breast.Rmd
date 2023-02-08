@@ -26,9 +26,6 @@ knitr::opts_knit$set(root.dir = here())
 ```{r}
 #read in data 
 ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
-
-ALMANAC_klaeger_CCLE_data %>% 
-  count(drug1, drug2)
 ```
 
 
@@ -102,7 +99,7 @@ results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALM
 best_model = results %>% 
 	filter(.metric == "rsq") %>% 
 	arrange(desc(mean)) %>% 
-	slice(1)
+	slice(2)
 
 this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
   update_role(-starts_with("act_"),

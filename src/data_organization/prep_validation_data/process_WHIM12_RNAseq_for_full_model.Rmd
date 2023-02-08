@@ -1,0 +1,121 @@
+```{r}
+library(tidyverse)
+library(here)
+```
+
+```{r}
+#set up transcipt ID to HGNC conversion
+ensembl = biomaRt::useEnsembl("genes",dataset="hsapiens_gene_ensembl")
+		transcript_to_hgnc = biomaRt::getBM(attributes = c('ensembl_gene_id', 
+																											 'ensembl_transcript_id',
+																											 'ensembl_transcript_id_version',
+																											 'hgnc_symbol'), 
+																				mart = ensembl)
+```
+
+```{r}
+#read in data
+
+WHIM12_exp_raw_1 = read_tsv(here('data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_1_alignment/quant.sf'), 
+																col_types = cols(
+																	Name = col_character(),
+																	Length = col_double(),
+																	EffectiveLength = col_double(),
+																	TPM = col_double(),
+																	NumReads = col_double()
+																)) %>% 
+			separate(Name, into = c('Name', 'version')) %>%
+			select(-version)
+
+WHIM12_exp_raw_2 = read_tsv(here('data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_2_alignment/quant.sf'), 
+																col_types = cols(
+																	Name = col_character(),
+																	Length = col_double(),
+																	EffectiveLength = col_double(),
+																	TPM = col_double(),
+																	NumReads = col_double()
+																)) %>% 
+			separate(Name, into = c('Name', 'version')) %>%
+			select(-version)
+
+ALMANAC_klaeger_CCLE_data = read_csv(here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_data_for_ml_truncated.csv'))
+
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/lasso_selected_features_truncated.csv'))
+```
+
+```{r}
+#join both reps of DMSO measurement
+WHIM12_exp_1 = WHIM12_exp_raw_1 %>% 
+			left_join(transcript_to_hgnc %>% select(ensembl_transcript_id,hgnc_symbol), 
+								by = c('Name' = 'ensembl_transcript_id')) %>%
+			filter(hgnc_symbol != "") %>%
+			group_by(hgnc_symbol) %>%
+			summarise(TPM = sum(TPM))
+
+WHIM12_exp_2 = WHIM12_exp_raw_2 %>% 
+			left_join(transcript_to_hgnc %>% select(ensembl_transcript_id,hgnc_symbol), 
+								by = c('Name' = 'ensembl_transcript_id')) %>%
+			filter(hgnc_symbol != "") %>%
+			group_by(hgnc_symbol) %>%
+			summarise(TPM = sum(TPM))
+		
+WHIM12_exp = WHIM12_exp_1 %>% 
+  rename(DMSO_1 = TPM) %>% 
+  left_join(WHIM12_exp_2, by='hgnc_symbol') %>% 
+  rename(DMSO_2 = TPM) %>% 
+  pivot_longer(-hgnc_symbol, names_to = "rep", values_to = "TPM") %>% 
+  group_by(hgnc_symbol) %>% 
+  summarise(TPM = mean(TPM)) %>% 
+  drop_na() %>% 
+  #CCLE has log2(TPM)
+  mutate(TPM = log2(TPM+1))
+```
+
+```{r}
+#matching gene names
+
+exp_feature_names = lasso_selected_features %>% 
+  filter(feature_type == "Baseline Gene Expression") %>% 
+	separate(feature, into = c("prefix", "name1", "name2")) %>% 
+	mutate(gene_name = if_else(
+		!is.na(name2),
+		paste0(name1, "_", name2),
+		name1
+	)) %>% 
+	select(gene_name)
+
+WHIM12_exp_names = WHIM12_exp %>% 
+	select(hgnc_symbol) %>%
+  rename(gene_name = hgnc_symbol) %>% 
+	unique()
+
+model_genes_in_WHIM12_data = exp_feature_names %>% 
+	filter(gene_name %in% WHIM12_exp_names$gene_name)
+
+model_genes_not_in_WHIM12_data = exp_feature_names %>% 
+	filter(!gene_name %in% WHIM12_exp_names$gene_name)
+
+WHIM12_genes_not_in_model = WHIM12_exp_names %>% 
+	filter(!gene_name %in% model_genes_in_WHIM12_data$gene_name)
+
+
+```
+
+```{r}
+WHIM12_exp_data_for_model = WHIM12_exp %>% 
+  mutate(hgnc_symbol = case_when(
+    hgnc_symbol == "METTL13" ~ "EEF1AKNMT",
+    hgnc_symbol == "NME1-NME2" ~ "NME1_NME2",
+    hgnc_symbol == "LDAF1" ~ "TMEM159",
+    hgnc_symbol == "STEEP1" ~ "CXorf56",
+    hgnc_symbol == "CLXN" ~ "EFCAB1",
+    hgnc_symbol == "FHIP1B" ~ "FAM160A2",
+    TRUE ~ hgnc_symbol
+  )) %>% 
+  filter(hgnc_symbol %in% exp_feature_names$gene_name) %>% 
+	pivot_wider(names_from = hgnc_symbol, values_from = TPM) %>% 
+  mutate(cell_line = "WHIM12") %>% 
+	rename_with(~paste0("exp_",.), .cols = -cell_line) %>% 
+	write_rds(here('data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_RNAseq_data_for_pan_cancer_model.rds'))
+```
+
