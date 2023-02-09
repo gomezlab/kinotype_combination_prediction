@@ -94,19 +94,19 @@ write_csv(results, here('results/ALMANAC_klaeger_models/breast_cancer_models/ALM
 ```{r}
 #fit model on whole data to get lasso feature coefficients 
 
-results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_all_kinases_forced_in.csv'))
 
 best_model = results %>% 
 	filter(.metric == "rsq") %>% 
 	arrange(desc(mean)) %>% 
-	slice(2)
+	slice(1)
 
 this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
   update_role(-starts_with("act_"),
               -starts_with("exp_"),
               -starts_with("viability"),
               new_role = "id variable") %>%
-	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+	update_role(starts_with(c("exp_")), new_role = "predictor") %>% 
 	update_role(viability, new_role = "outcome") %>%
 	step_normalize(all_predictors()) %>%  
   step_zv(all_predictors())
@@ -135,15 +135,15 @@ all_importance = vi(final_fit %>% extract_fit_parsnip()) %>%
     str_detect(feature, "^exp_") ~ "Baseline Gene Expression",
     T ~ feature
   )) %>% 
-write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv'))
+write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features_all_kinases_forced_in.csv'))
 ```
 
 ```{r}
 # fit best model with CV for figure
-lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv')) %>% 
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features_all_kinases_forced_in.csv')) %>% 
   filter(Importance > 0)
 
-results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_all_kinases_forced_in.csv'))
 
 best_model = results %>% 
 	filter(.metric == "rsq") %>% 
@@ -250,7 +250,7 @@ ggsave(here('figures/ALMANAC_klaeger/breast_ALMANAC_klaeger_best_model_CV.png'),
 #fit model on whole data to get feature importance 
 ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
 
-results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_all_kinases_forced_in.csv'))
 
 best_model = results %>% 
 	filter(.metric == "rsq") %>% 
@@ -293,5 +293,59 @@ all_importance = vi(final_fit %>% extract_fit_parsnip()) %>%
     str_detect(feature, "^exp_") ~ "Baseline Gene Expression",
     T ~ feature
   )) %>% 
-write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/feature_importances.csv'))
+write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/feature_importances_all_kinases_forced_in.csv'))
+```
+
+```{r}
+#fit final model on full dataset 
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
+
+#Get best model from results
+results = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_all_kinases_forced_in.csv'))
+
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features_all_kinases_forced_in.csv'))
+
+best_model = results %>% 
+	filter(.metric == "rsq") %>% 
+	arrange(desc(mean)) %>% 
+	slice(1)
+
+id_vars = ALMANAC_klaeger_CCLE_data %>% 
+  select(-starts_with("act_"),
+         -starts_with("exp_"),
+         -starts_with("viability")) %>% 
+  names()
+
+model_dataset = ALMANAC_klaeger_CCLE_data %>% 
+  select(starts_with("act_"), any_of(c(id_vars, lasso_selected_features$feature, "viability")))
+
+tic()	
+
+this_recipe = recipe(model_dataset) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+	update_role(viability, new_role = "outcome")
+  
+  
+xgb_spec <- boost_tree(
+  trees = best_model$trees, 
+  tree_depth = best_model$tree_depth
+) %>% 
+  set_engine("xgboost", tree_method = "gpu_hist") %>% 
+  set_mode("regression")
+
+final_wflow <-
+  workflow() %>%
+  add_model(xgb_spec) %>%
+  add_recipe(this_recipe)
+
+set.seed(2222)
+final_fit = 
+	final_wflow %>% 
+	fit(model_dataset) %>% 
+  write_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/final_model_all_kinases_forced_in.rds.gz'), compress = "gz")
+
 ```

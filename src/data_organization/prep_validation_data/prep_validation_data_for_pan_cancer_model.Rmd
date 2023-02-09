@@ -1,0 +1,285 @@
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+```{r}
+#read in data
+
+##Tim's data: Lapatinib synergy screen in SKBR3
+tim_validation_data = read_csv(here('data/Synergy_data_collection/usable_data/lapatinib_synergy_screen_readable_SKBR3.csv')) %>% 
+  filter(Class == "Kinase") %>% 
+  separate(Compound, into = c('drug2', "synonym"), sep = " \\(") %>% 
+  select(-synonym, -Targets, -Class) %>% 
+  rename(CONC1 = lapatinib_conc) %>% 
+  pivot_longer(`10`:`10000`, names_to = "CONC2", values_to = "viability") %>% 
+  mutate(drug1 = "Lapatinib",
+         CONC1 = case_when(
+           CONC1 == "4.1nM" ~ 4.1*10^(-9),
+           CONC1 == "12.8nM" ~ 12.8*10^(-9),
+           CONC1 == "37nM" ~ 111*10^(-9),
+           CONC1 == "333nM" ~ 333*10^(-9),
+           CONC1 == "1uM" ~ 1*10^(-6),
+           TRUE ~ 0
+         ),
+         CONC2 = as.numeric(CONC2)*10^(-9),
+         cell_line = "SKBR3"
+         )
+
+##Sam's data: Trametinib synergy screen in SUM149, MDAMB231, HCC1806, WHIM12
+
+#loop through all individual files
+
+sam_file_key = data.frame(
+  file_name = c("149plus_trametinib.csv", "231_trametinib.csv", "1806_trametinib.csv", "W12_trametinib.csv"),
+  cell_line = c("SUM149pos", "MDAMB231", "HCC1806", "WHIM12")) %>%
+  mutate(file_path = here('data/Synergy_data_collection/usable_data/sam_usable', file_name))
+  
+sam_validation_data = data.frame()
+
+for (i in 1:4) {
+
+this_cell_line_data = data.frame()
+this_column_data = data.frame()
+
+#data had 16 drugs each for 11 columns, each separated by 9
+  for (column_number in c(2, 11, 20, 29, 38, 47, 56, 65, 74, 83, 92)) {
+    
+    for (row_number in c(1, 10, 19, 28, 37, 46, 55, 64, 73, 82, 91, 100, 109, 118, 127, 136)) { 
+    
+    this_file_path = sam_file_key$file_path[i]
+    this_cell_line = sam_file_key$cell_line[i]
+    anchor_drug = "Trametinib"
+    
+    this_file = read_csv(this_file_path, col_names = FALSE)
+    
+    col_start = column_number
+    col_end = column_number+7
+    row_start = row_number
+    row_end = row_number+7
+    
+    this_drug_data_raw = this_file %>% 
+      select(col_start:col_end) %>% 
+      slice(row_start:row_end)
+    
+    this_drug_data = this_drug_data_raw %>%
+      row_to_names(row_number = 1) %>% 
+      mutate(drug1 = anchor_drug, drug2 = this_drug_data_raw %>% slice(1) %>% pull(1)) %>% 
+      rename(CONC1 = 1) %>% 
+      pivot_longer(`0`:`10000`, names_to = "CONC2", values_to = "viability_inverse") %>%
+      #viability values are represented as 0 = no cell death and 1 = full death. We need the inverse.
+      mutate(viability = 1-viability_inverse) %>% 
+      select(-viability_inverse) %>% 
+      mutate(cell_line = this_cell_line)
+    
+    this_column_data = bind_rows(this_column_data, this_drug_data)
+    } 
+  this_cell_line_data = bind_rows(this_cell_line_data, this_column_data)  
+  }
+sam_validation_data = bind_rows(sam_validation_data, this_cell_line_data)
+}
+
+write_csv(sam_validation_data, here('data/Synergy_data_collection/usable_data/sam_data_complied.csv'))
+
+## Denis Data: Trametinib synergy screen in SUM159
+
+#loop through 4 drug files
+denis_drugs = c("Dinaciclib", "Erlotinib", "MK2206", "Palbociclib")
+
+denis_validation_data = data.frame()
+
+for (this_drug in denis_drugs) {
+
+this_drug_path = here('data/Synergy_data_collection/usable_data/trametinib_library_synergy_denis_SUM159', paste0(this_drug, '.txt'))  
+
+this_drug_data = read_tsv(this_drug_path) %>% 
+  rename(CONC2 = 1) %>% 
+  mutate(drug2 = this_drug) %>% 
+  pivot_longer(-c(drug2, CONC2), names_to = "drug_conc", values_to = "value") %>% 
+  mutate(
+    drug1 = case_when(
+      str_detect(drug_conc, regex("Tram", ignore_case = TRUE)) ~ "Trametinib",
+      TRUE ~ "DMSO"
+    )
+  ) %>% 
+  separate(drug_conc, into = c("CONC1", "other"), sep = " ") %>% 
+  mutate(CONC2 = 10^(CONC2),
+         CONC1 = case_when(
+      CONC1 == "1000nM" ~ 1000*10^(-9),
+      CONC1 == "300nM" ~ 300*10^(-9),
+      CONC1 == "100nM" ~ 100*10^(-9),
+      CONC1 == "30nM" ~ 30*10^(-9),
+      CONC1 == "10nM" ~ 10*10^(-9),
+      CONC1 == "1nM" ~ 1*10^(-9),
+      CONC1 == "100pM" ~ 0.1*10^(-9),
+      TRUE ~ 0)
+  ) %>% 
+  select(-other) %>% 
+  rename(viability = value)
+
+denis_validation_data = bind_rows(denis_validation_data, this_drug_data)
+
+}
+
+```
+
+```{r}
+#read in cell line info
+
+cell_info = read_csv(here('data/CCLE_data/sample_info.csv')) %>% 
+  select(DepMap_ID, stripped_cell_line_name, primary_disease, lineage_sub_subtype, lineage_molecular_subtype)
+
+#processing and summarising replicates
+
+#need lookup table for WHIM12 screen, well numbers used instead of compound names 
+sam_lookup_WHIM12 = readxl::read_xlsx(here('data/Synergy_data_collection/usable_data/sam_usable/SynergyFinder_lookup_table_2.xlsx')) %>% 
+  select(Well, `Library Compound`) %>% 
+  rename(drug2_WHIM12 = `Library Compound`)
+
+all_validation_data = sam_validation_data %>%
+  left_join(sam_lookup_WHIM12, by = c('drug2' = 'Well')) %>% 
+  mutate(drug2 = if_else(is.na(drug2_WHIM12), drug2, drug2_WHIM12)) %>% 
+  select(-drug2_WHIM12) %>%
+  ungroup() %>% 
+  drop_na() %>% 
+  #changing all concentration units to M
+  mutate(CONC1 = as.numeric(CONC1)*10^(-9),
+         CONC2 = as.numeric(CONC2)*10^(-9),
+         cell_line = if_else(
+           cell_line == "SUM149pos",
+           "SUM149PT",
+           cell_line
+         )) %>% 
+  mutate(origin = "Sam") %>% 
+  bind_rows(tim_validation_data %>% 
+              mutate(viability = viability/100,
+                     origin = "Tim")
+            ) %>% 
+  bind_rows(denis_validation_data %>% 
+              mutate(cell_line = "SUM159PT",
+                     viability = viability/100,
+                     origin = "Denis")
+            ) %>% 
+  filter(!drug1 == "DMSO") %>% 
+  select(drug1, drug2, CONC1, CONC2, cell_line, viability) %>% 
+  group_by(drug1, drug2, CONC1, CONC2, cell_line) %>% 
+  summarise(viability = mean(viability)) %>% 
+  write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/all_validation_data.csv'))
+```
+
+```{r}
+## Add in kinome inhibition states
+
+# Filter to combos that we have kinome inhibition data for
+
+validation_klaeger_drug_matches = read_csv(here('results/matching/validation_klaeger_matches.csv'))
+
+klaeger_combos_for_validation = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/klaeger_combos_for_validation_data.rds'))
+
+all_validation_data_filtered = all_validation_data %>% 
+  filter(drug1 %in% validation_klaeger_drug_matches$validation_name &
+           drug2 %in% validation_klaeger_drug_matches$validation_name)
+
+# Find nearest klaeger doses 
+
+validation_doses = all_validation_data_filtered %>% 
+	group_by(CONC1, CONC2) %>% 
+	summarise(n = n())
+
+validation_unique_doses_1 = validation_doses %>%
+	ungroup() %>% 
+	select(CONC1) %>%
+	rename(conc = CONC1) %>% 
+	unique()
+validation_unique_doses_2 = validation_doses %>%
+	ungroup() %>% 
+	select(CONC2) %>% 
+	rename(conc = CONC2) %>% 
+	unique()
+validation_unique_doses = bind_rows(
+	validation_unique_doses_1, validation_unique_doses_2
+) %>% 
+	unique()
+
+klaeger_unique_doses = klaeger_combos_for_validation %>% 
+	select(concentration_M_d1) %>% 
+	rename(conc = concentration_M_d1) %>% 
+	unique()
+
+matched_doses = validation_unique_doses %>% 
+	filter(conc %in% klaeger_unique_doses$conc) %>% 
+	mutate(klaeger_conc = conc)
+
+validation_unmatched_doses = validation_unique_doses %>% 
+	filter(!conc %in% matched_doses$conc)
+
+nearest_klaeger_concentration = function(concentration, all_klaeger_concentrations) {
+differences = all_klaeger_concentrations %>% 
+	filter(conc != 0) %>% 
+	mutate('difference' = abs(conc - concentration)) %>%  
+	arrange(difference) 
+min_difference = differences$conc[1]
+return(min_difference)
+}
+
+validation_nearest_klaeger_doses = validation_unmatched_doses %>% 
+	mutate(nearest_klaeger_dose = map(conc, ~nearest_klaeger_concentration(., klaeger_unique_doses))) %>% 
+	as.data.frame() %>% 
+	unnest(cols = c(nearest_klaeger_dose))
+
+# Use nearest klaeger doses to connect validation data to kinome inhibtion state data 
+
+validation_klaeger_data =  all_validation_data_filtered %>%
+	left_join(validation_nearest_klaeger_doses, by = c('CONC1' = 'conc')) %>% 
+	rename(nearest_klaeger_dose_1 = nearest_klaeger_dose) %>% 
+	left_join(matched_doses, by = c('CONC1' = 'conc')) %>% 
+	mutate(nearest_klaeger_dose_1 = if_else(
+		is.na(nearest_klaeger_dose_1), 
+		klaeger_conc, 
+		nearest_klaeger_dose_1
+	)) %>% 
+	select(-klaeger_conc) %>% 
+	left_join(validation_nearest_klaeger_doses, by = c('CONC2' = 'conc')) %>% 
+	rename(nearest_klaeger_dose_2 = nearest_klaeger_dose) %>% 
+	left_join(matched_doses, by = c('CONC2' = 'conc')) %>% 
+	mutate(nearest_klaeger_dose_2 = if_else(
+		is.na(nearest_klaeger_dose_2), 
+		klaeger_conc, 
+		nearest_klaeger_dose_2
+	)) %>% 
+	select(-klaeger_conc) %>%
+  ungroup() %>% 
+  group_by(drug1, drug2, cell_line, nearest_klaeger_dose_1, nearest_klaeger_dose_2) %>% 
+  summarise(viability = mean(viability)) %>% 
+	left_join(klaeger_combos_for_validation, 
+						by = c('drug1' = 'drug1',
+									 'drug2' = 'drug2',
+									 'nearest_klaeger_dose_1' = 'concentration_M_d1',
+									 'nearest_klaeger_dose_2' = 'concentration_M_d2')) %>% 
+	drop_na()
+```
+
+```{r}
+## Add in baseline expression data 
+
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/lasso_selected_features_truncated.csv'))
+
+# Combining gene expression data from CCLE and WHIM12
+WHIM12_exp_data = read_rds(here('data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_RNAseq_data_for_pan_cancer_model.rds')) %>% 
+  rename(stripped_cell_line_name = cell_line) %>% 
+  mutate(DepMap_ID = "PDX_derived", 
+         primary_disease = "Breast Cancer")
+
+CCLE_data = read_rds(here('data/full_CCLE_expression_set_for_ML.rds')) %>% 
+  select(DepMap_ID, any_of(lasso_selected_features$feature)) %>% 
+  left_join(cell_info)
+
+all_exp_data = bind_rows(CCLE_data, WHIM12_exp_data)
+
+#adding in combined gene expression data to validation + kinome inhibition data
+validation_klaeger_exp_data = validation_klaeger_data %>% 
+  left_join(all_exp_data, by = c('cell_line' = 'stripped_cell_line_name')) %>% 
+  write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/validation_klaeger_exp_data_for_pan_cancer_model.csv'))
+```
+

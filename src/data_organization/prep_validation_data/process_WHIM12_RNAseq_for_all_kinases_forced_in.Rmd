@@ -38,9 +38,9 @@ WHIM12_exp_raw_2 = read_tsv(here('data/Synergy_data_collection/usable_data/sam_u
 			separate(Name, into = c('Name', 'version')) %>%
 			select(-version)
 
-ALMANAC_klaeger_CCLE_data = read_csv(here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_data_for_ml_truncated.csv'))
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/breast_cancer_models/ALMANAC_klaeger_data_for_ml_breast.rds.gz'))
 
-lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/lasso_selected_features_truncated.csv'))
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features_all_kinases_forced_in.csv'))
 ```
 
 ```{r}
@@ -103,22 +103,10 @@ WHIM12_genes_not_in_model = WHIM12_exp_names %>%
 
 ```{r}
 WHIM12_exp_data_for_model = WHIM12_exp %>% 
-  mutate(hgnc_symbol = case_when(
-    hgnc_symbol == "METTL13" ~ "EEF1AKNMT",
-    hgnc_symbol == "NME1-NME2" ~ "NME1_NME2",
-    hgnc_symbol == "LDAF1" ~ "TMEM159",
-    hgnc_symbol == "STEEP1" ~ "CXorf56",
-    hgnc_symbol == "CLXN" ~ "EFCAB1",
-    hgnc_symbol == "FHIP1B" ~ "FAM160A2",
-    TRUE ~ hgnc_symbol
-  )) %>% 
   filter(hgnc_symbol %in% exp_feature_names$gene_name) %>% 
 	pivot_wider(names_from = hgnc_symbol, values_from = TPM) %>% 
-  mutate(exp_MT_ND4L = 0,
-         exp_AC013470_2 = 0,
-         exp_ALX4 = 0,
-         cell_line = "WHIM12") %>% 
+  mutate(cell_line = "WHIM12") %>% 
 	rename_with(~paste0("exp_",.), .cols = -cell_line) %>% 
-	write_rds(here('data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_RNAseq_data_for_pan_cancer_model.rds'))
+	write_rds(here('data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_RNAseq_data_for_all_kinases_forced_in.rds'))
 ```
 
