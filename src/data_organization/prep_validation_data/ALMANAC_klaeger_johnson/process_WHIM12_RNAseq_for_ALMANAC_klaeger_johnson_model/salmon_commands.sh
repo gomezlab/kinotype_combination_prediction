@@ -1,0 +1,4 @@
+#!/bin/bash
+
+salmon quant --validateMappings -i indexes -l A -r /home/cujoisa/Documents/GitHub/kinotype_combination_prediction/data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_1.fastq.gz -o /home/cujoisa/Documents/GitHub/kinotype_combination_prediction/data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_1_alignment
+salmon quant --validateMappings -i indexes -l A -r /home/cujoisa/Documents/GitHub/kinotype_combination_prediction/data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_2.fastq.gz -o /home/cujoisa/Documents/GitHub/kinotype_combination_prediction/data/Synergy_data_collection/usable_data/sam_usable/RNAseq/WHIM12_2_alignment

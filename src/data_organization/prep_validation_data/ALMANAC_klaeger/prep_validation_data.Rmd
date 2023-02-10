@@ -250,14 +250,15 @@ validation_klaeger_data =  all_validation_data_filtered %>%
 	)) %>% 
 	select(-klaeger_conc) %>%
   ungroup() %>% 
-  group_by(drug1, drug2, cell_line, nearest_klaeger_dose_1, nearest_klaeger_dose_2) %>% 
+  group_by(drug1, drug2, cell_line, CONC1, CONC2, nearest_klaeger_dose_1, nearest_klaeger_dose_2) %>% 
   summarise(viability = mean(viability)) %>% 
 	left_join(klaeger_combos_for_validation, 
 						by = c('drug1' = 'drug1',
 									 'drug2' = 'drug2',
 									 'nearest_klaeger_dose_1' = 'concentration_M_d1',
 									 'nearest_klaeger_dose_2' = 'concentration_M_d2')) %>% 
-	drop_na()
+	drop_na() %>% 
+  write_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/validation/johnson_klaeger_data.csv'))
 ```
 
 ```{r}
