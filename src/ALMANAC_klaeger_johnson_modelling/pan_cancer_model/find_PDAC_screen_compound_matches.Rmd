@@ -1,0 +1,74 @@
+---
+title: "Find PDAC Screen Klager-Kinomescan Drug Matches"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(webchem)
+```
+
+```{r}
+#READING IN DATA
+matched_ALMANAC_drugs = read_csv(here('src/data_organization/find_ALMANAC_klaeger_matches/ALMANAC_klaeger_matchlist.csv'))
+klaeger_cids = read_csv(here('results/matching/klaeger_cids.csv'))
+screen_data = read_rds(here("data/PDAC_data/screen_combined.rds"))
+```
+
+
+```{r}
+#get pubchem cid's for screen drugs
+
+#all_L1000_cids = read_csv(here('results/matching/all_L1000_cids.csv'))
+screen_drugs = screen_data %>% 
+	select(compound) %>% 
+	unique() %>% 
+	separate(compound, into = c("name1", "name2"), sep = " \\(", remove = FALSE) %>% 
+	mutate(name2 = str_replace(name2, "[()]", "")) %>% 
+	separate(name2, into = c("name2", "name3"), sep = ", ") %>% 
+	pivot_longer(-compound, names_to = "name_no", values_to = "synonyms") %>% 
+	select(-name_no) %>% 
+	drop_na() %>% 
+	rename(PDAC_compound_name = compound)
+
+anchor_drugs = screen_data %>% 
+	select(anchor) %>% 
+	unique()
+
+screen_cids = get_cid(unique(screen_drugs$synonyms), from = "name", domain = "compound", match = "all", verbose = T)
+anchor_cids = get_cid(unique(anchor_drugs$anchor), from = "name", domain = "compound", match = "all", verbose = T)
+
+all_screen_cids = screen_cids %>%
+	mutate(cid = case_when(
+	query == "CP-690550,Tasocitinib" ~ "9926791",
+	query == "MC1568" ~ "71311876", 
+	T ~ cid
+)) %>% 
+	rename(synonyms = query) %>% 
+	left_join(screen_drugs) %>%
+	bind_rows(anchor_cids %>% 
+							rename(PDAC_compound_name = query)) %>%
+	filter(!is.na(cid)) %>% 
+  write_csv(here('results/matching/all_PDAC_screen_cids.csv'))
+```
+
+```{r}
+#CREATING MATCH SETS
+
+
+klaeger_PDAC_matches = matched_ALMANAC_drugs %>%  
+  left_join(klaeger_cids) %>%
+	mutate(cid = as.character(cid)) %>% 
+  left_join(all_screen_cids, by = 'cid') %>%
+	filter(!is.na(PDAC_compound_name)) %>% 
+	select(-synonyms) %>% 
+	unique()
+```
+
+```{r}
+#Write Output Files
+write_csv(klaeger_PDAC_matches, here('results/matching/PDAC_ALMANAC_klaeger_drug_matches.csv'))
+```
