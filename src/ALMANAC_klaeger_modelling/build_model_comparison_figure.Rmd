@@ -32,12 +32,23 @@ data_paths = crossing(cancer_type, model_type) %>%
            )
   )
 
-plot_data = data.frame()
-for (i in 1:dim(data_paths)[1]) {
+#add pan cancer model and ALMANAC klaeger Johnson breast cancer results
+data_paths_combined = data_paths %>%
+  filter(cancer_type != "breast") %>% 
+  bind_rows(tribble(
+    ~cancer_type, ~model_type, ~data_path,
+                    "breast", "xgboost", here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in.csv'),
+                    "pan-cancer", "xgboost", here('results/ALMANAC_klaeger_johnson_models/pan_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_truncated.csv')
+    )
+  )
   
-  this_data_path = data_paths$data_path[i]
-  this_cancer_type = data_paths$cancer_type[i]
-  this_model_type = data_paths$model_type[i]
+
+plot_data = data.frame()
+for (i in 1:dim(data_paths_combined)[1]) {
+  
+  this_data_path = data_paths_combined$data_path[i]
+  this_cancer_type = data_paths_combined$cancer_type[i]
+  this_model_type = data_paths_combined$model_type[i]
   
   this_plot_data = read_csv(this_data_path) %>%
     mutate(cancer_type = this_cancer_type,
@@ -46,6 +57,7 @@ for (i in 1:dim(data_paths)[1]) {
     slice(1)
   plot_data = bind_rows(plot_data, this_plot_data)
 }
+
 ```
 
 ```{r}
@@ -53,6 +65,8 @@ for (i in 1:dim(data_paths)[1]) {
 
 plot_data %>% 
   select(-tree_depth) %>% 
+  arrange(desc(mean)) %>% 
+  mutate(cancer_type = fct_inorder(cancer_type)) %>% 
   ggplot(aes(x = cancer_type, y = mean, colour = cancer_type, shape = model_type)) + 
   geom_point() +
   facet_wrap(vars(model_type)) +
