@@ -37,8 +37,14 @@ data_paths_combined = data_paths %>%
   filter(cancer_type != "breast") %>% 
   bind_rows(tribble(
     ~cancer_type, ~model_type, ~data_path,
-                    "breast", "xgboost", here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in.csv'),
-                    "pan-cancer", "xgboost", here('results/ALMANAC_klaeger_johnson_models/pan_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_truncated.csv')
+                    "breast", "xgboost",
+    here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in.csv'),
+                    "pan-cancer", "xgboost",
+    here('results/ALMANAC_klaeger_johnson_models/pan_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_truncated.csv'),
+    "breast", "random forest",
+    here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in_rf.csv'),
+    "pan-cancer", "random forest",
+    here('results/ALMANAC_klaeger_johnson_models/pan_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_truncated_rf.csv')
     )
   )
   
@@ -73,6 +79,7 @@ plot_data %>%
   labs(x = "Cancer Type", y = "R-squared", colour = "Cancer Type", shape = "Model Type") +
 		theme(
 		axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+		legend.position = "none",
 		legend.text = element_text(size = 9),
 		legend.background = element_rect(fill = "transparent",colour = NA),
 		panel.background = element_rect(fill = "transparent",colour = NA),
