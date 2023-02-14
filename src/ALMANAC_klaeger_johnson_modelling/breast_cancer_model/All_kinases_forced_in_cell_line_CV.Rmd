@@ -92,8 +92,10 @@ write_rds(results, here('results/ALMANAC_klaeger_johnson_models/breast_cancer_mo
 ```
 
 ```{r}
+results = read_rds(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in_cell_line_CV.rds.gz'))
+
 #collect results and predictions per each fold 
-CV_metrics = collect_metrics(results, summarise = FALSE) %>% 
+CV_metrics = collect_metrics(results, summarize = FALSE) %>% 
   write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in_cell_line_CV_metrics.csv'))
   
 CV_predictions = collect_predictions(results, summarise = FALSE) %>% 
