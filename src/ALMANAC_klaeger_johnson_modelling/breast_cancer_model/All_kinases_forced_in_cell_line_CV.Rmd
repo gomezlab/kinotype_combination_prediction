@@ -15,6 +15,7 @@ library(vip)
 library(recipeselectors)
 library(conflicted)
 library(Metrics)
+library(rsample)
 
 conflict_prefer("slice", "dplyr")
 conflict_prefer("filter", "dplyr")
@@ -45,6 +46,25 @@ xgb_grid = read_rds(here('results/hyperparameter_grids/xgb_grid.rds'))
 
 set.seed(2222)
 folds = group_vfold_cv(ALMANAC_klaeger_johnson_CCLE_data, group = CELLNAME, v = 10)
+
+resample_id_keys = data.frame()
+i = 1
+# View the group identity in each fold
+for(i in 1:10) {
+  
+this_resample_id = folds$splits[[i]]$id$id  
+this_hold_out_cell_line = folds$splits[[i]] %>% assessment %>% pull(CELLNAME) %>% unique() 
+
+this_key = tribble(
+  ~id, ~key,
+  this_resample_id, this_hold_out_cell_line
+)
+
+resample_id_keys = bind_rows(resample_id_keys, this_key)
+  
+}
+
+folds$splits[[1]] %>% assessment %>% select(CELLNAME) %>% view()
 
 tic()	
 
@@ -101,6 +121,24 @@ CV_metrics = collect_metrics(results, summarize = FALSE) %>%
 CV_predictions = collect_predictions(results, summarise = FALSE) %>% 
   write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in_cell_line_CV_predictions.csv'))
 ```
+
+```{r}
+#plot CV metrics and predictions per cell line
+
+CV_metrics = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in_cell_line_CV_metrics.csv'))
+  
+CV_predictions = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in_cell_line_CV_predictions.csv'))
+
+#get best model per resample
+
+resample_ids = CV_metrics %>% 
+  pull(id) %>% 
+  unique()
+
+CV_metrics_processed = CV_metrics %>% 
+  group_by()
+```
+
 
 ```{r}
 #fit model on whole data to get lasso feature coefficients 
