@@ -48,7 +48,6 @@ set.seed(2222)
 folds = group_vfold_cv(ALMANAC_klaeger_johnson_CCLE_data, group = CELLNAME, v = 10)
 
 resample_id_keys = data.frame()
-i = 1
 # View the group identity in each fold
 for(i in 1:10) {
   
@@ -63,8 +62,6 @@ this_key = tribble(
 resample_id_keys = bind_rows(resample_id_keys, this_key)
   
 }
-
-folds$splits[[1]] %>% assessment %>% select(CELLNAME) %>% view()
 
 tic()	
 
@@ -130,13 +127,58 @@ CV_metrics = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer
 CV_predictions = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_all_kinases_forced_in_cell_line_CV_predictions.csv'))
 
 #get best model per resample
+best_models = CV_metrics %>% 
+  pivot_wider(names_from = .metric, values_from = .estimate) %>% 
+  group_by(id) %>% 
+  slice_max(rsq) %>% 
+  left_join(resample_id_keys) %>% 
+  rename(hold_out_cell_line = key) %>% 
+  select(id, .config, rsq, rmse, hold_out_cell_line) %>% 
+  arrange(desc(rsq)) %>% 
+  filter(.config != "Preprocessor1_Model23") %>% 
+  mutate(hold_out_cell_line = fct_inorder(hold_out_cell_line))
 
-resample_ids = CV_metrics %>% 
-  pull(id) %>% 
-  unique()
+#add metrics into predictions data for plot
 
-CV_metrics_processed = CV_metrics %>% 
-  group_by()
+predictions_for_plot = CV_predictions %>% 
+  left_join(best_models) %>% 
+  drop_na() %>% 
+  rename(predicted_viability = .pred) %>% 
+    mutate(
+      title = 
+			 	paste0('R\u00B2 = ',
+			 				 round(
+			 				 	rsq,
+			 				 	2),
+			 				 '/ RMSE = ',
+			 				 round(
+			 				 	rmse,
+			 				 	2)
+			 	),
+      hold_out_cell_line = paste0(hold_out_cell_line, " Held Out")) %>%
+      mutate(hold_out_cell_line = fct_relevel(hold_out_cell_line, c("SUM159PT Held Out", "SUM149PT Held Out", "T-47D Held Out", "BT-549 Held Out", "MDA-MB-468 Held Out", "HS 578T Held Out", "MDAMB231 Held Out", "MCF7 Held Out", "HCC1806 Held Out", "SKBR3 Held Out")),
+			) 
+  
+
+#make plot per cell line
+
+predictions_for_plot %>%
+	ggplot(aes(y = predicted_viability, x = viability)) +
+	geom_point() +
+	labs(x = "Predicted Sensitivity",
+			 y = "Actual Sensitivity") +
+	geom_abline(intercept = 0, slope = 1, size = 0.3, colour = 'black', linetype = 3) +
+	geom_smooth(colour = "red") +
+	#coord_cartesian(xlim = c(0.2,1), ylim= c(0,1)) +
+	theme(
+	  legend.position = "bottom",
+		panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+      ) + 
+  facet_wrap(~hold_out_cell_line + title)
+ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cell_line_CV_all_kinases_forced_in.png'), width = 21, height = 15, units = "cm")
 ```
 
 
