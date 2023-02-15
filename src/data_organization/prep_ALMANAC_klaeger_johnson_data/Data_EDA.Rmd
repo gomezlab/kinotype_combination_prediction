@@ -1,0 +1,48 @@
+```{r}
+library(tidyverse)
+library(here)
+library()
+```
+
+```{r}
+ALMANAC_klaeger_johnson_CCLE_data = read_rds(here('results/ALMANAC_klaeger_johnson_data_for_ml.rds.gz')) %>% 
+  select(-starts_with(c("act_", "exp_"))) %>% 
+  mutate(CELLNAME = if_else(CELLNAME == "MDA-MB-231/ATCC", "MDAMB231", CELLNAME))
+
+disease_counts = ALMANAC_klaeger_johnson_CCLE_data %>% 
+  select(PANEL, CELLNAME) %>% 
+  unique() %>% 
+  count(PANEL) %>% 
+  ungroup()
+```
+
+```{r}
+#cell lines per disease
+disease_counts %>%
+  ggplot(aes(x = PANEL, y = n, fill = PANEL)) +
+  geom_col()
+
+
+#data abundance per cell line
+
+plot_data = ALMANAC_klaeger_johnson_CCLE_data %>% 
+  select(CELLNAME, drug1, drug2) %>% 
+  unique() %>% 
+  count(CELLNAME)
+
+plot_data %>% 
+  ungroup() %>% 
+  ggplot(aes(x = CELLNAME, y = n, fill = CELLNAME)) +
+  geom_col() + 
+  labs(x)
+  theme(
+    legend.position = "none", 
+        axis.text.x = element_blank(), 
+        axis.ticks.x = element_blank(),
+        panel.background = element_rect(fill = "transparent",colour = NA),
+        panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent",colour = NA)
+  )
+```
+

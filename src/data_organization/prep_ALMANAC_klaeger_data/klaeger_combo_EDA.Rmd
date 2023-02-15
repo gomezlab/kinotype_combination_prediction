@@ -1,0 +1,53 @@
+```{r}
+library(tidyverse)
+library(here)
+```
+
+```{r}
+klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/klaeger_combos_for_validation_data.rds'))
+```
+
+```{r}
+#pick out combo of trametinib and dabrafenib at 1uM for plotting
+
+tram_dab_data = klaeger_combinations %>% 
+  filter(drug1 == "Trametinib" & drug2 == "Dabrafenib") %>% 
+  filter((concentration_M_d1 == 1*10^(-6) | concentration_M_d1 == 0) & (concentration_M_d2 == 1*10^(-6) | concentration_M_d2 == 0)) %>% 
+  pivot_longer(starts_with("act_"), names_to = "Kinase", values_to = "Inhibition")
+
+kinases_to_keep = tram_dab_data %>% 
+  group_by(Kinase) %>% 
+  summarise(mean = mean(Inhibition)) %>% 
+  filter(mean < 1)
+
+tram_dab_data_for_plot = tram_dab_data %>% 
+  filter(Kinase %in% kinases_to_keep$Kinase) %>% 
+  filter(!(concentration_M_d1 == 0 & concentration_M_d2 == 0)) %>% 
+  mutate(treatment = paste0(as.character(concentration_M_d1), " ", drug1, " + ", as.character(concentration_M_d2), " ", drug2)) %>% 
+  mutate(treatment = case_when(
+    treatment == "1e-06 Trametinib + 1e-06 Dabrafenib" ~ "Trametinib + Dabrafenib",
+    treatment == "0 Trametinib + 1e-06 Dabrafenib" ~ "Dabrafenib",
+    treatment == "1e-06 Trametinib + 0 Dabrafenib" ~ "Trametinib",
+    TRUE ~ treatment
+  )) %>% 
+  mutate(treatment = fct_relevel(treatment, c( "Trametinib + Dabrafenib", "Dabrafenib","Trametinib")))
+  
+```
+
+```{r}
+tram_dab_data_for_plot %>% 
+  ggplot(aes(Kinase, treatment, fill = Inhibition)) +
+  geom_tile() +
+  scale_fill_viridis_c() +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal", 
+        axis.text.x = element_blank(), 
+        axis.ticks.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.background = element_rect(fill = "transparent",colour = NA),
+        panel.grid.minor = element_blank(), 
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent",colour = NA))
+ggsave(here('figures/combined_inhibition_state_visual.png'), width = 15, height = 5, units = "cm")
+```
+
