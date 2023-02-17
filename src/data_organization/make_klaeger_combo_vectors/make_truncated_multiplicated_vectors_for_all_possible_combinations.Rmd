@@ -1,0 +1,68 @@
+---
+title: "Make Combination Kinome Inhibition States for All Possible Combos"
+author: "Chinmaya Joisa"
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(tictoc)
+
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+klaeger = read_rds(here('results/klaeger_full_tidy.rds'))
+```
+
+```{r}
+klaeger_wide = klaeger %>%
+	mutate(act_gene_name = paste0("act_",gene_name)) %>%
+	select(-gene_name) %>% 
+	pivot_wider(names_from = act_gene_name, values_from = relative_intensity)
+
+
+calc_klaeger_combo_truncated <- function(input_drug_1, input_drug_2, input_conc_1, input_conc_2) {
+	
+	klaeger_combo = bind_rows(
+		klaeger_wide %>% 
+			filter(drug == input_drug_1, concentration_M == input_conc_1),
+		klaeger_wide %>% 
+			filter(drug == input_drug_2, concentration_M == input_conc_2)
+	) %>% 
+		pivot_longer(starts_with('act_'), names_to = 'kinase', values_to = 'value') %>% 
+		select(-concentration_M) %>%
+		pivot_wider(names_from = drug, values_from = value) %>% 
+		rename('X1' = input_drug_1, 'X2' = input_drug_2) %>% 
+		mutate(lowest_value = if_else(
+			X1 > X2,
+			X2,
+			X1
+		),
+		combo_value = if_else(
+			X1 >= 1 & X2 >= 1, 
+			lowest_value,
+			X1*X2
+		)) %>% 
+		select(-lowest_value, -X1, -X2) %>% 
+		pivot_wider(names_from = kinase, values_from = combo_value)
+	
+	return(klaeger_combo)
+}
+
+possible_klaeger_combos = crossing(
+    drug1 = unique(klaeger_wide$drug),
+    drug2 = unique(klaeger_wide$drug),
+	concentration_M_d1 = unique(klaeger_wide$concentration_M),
+	concentration_M_d2 = unique(klaeger_wide$concentration_M)
+) %>% 
+  #remove duplicates
+  filter(drug1 > drug2)
+
+klaeger_combo_sets = possible_klaeger_combos %>% 
+	mutate(klaeger_combo = pmap(list(drug1,drug2,concentration_M_d1,concentration_M_d2), ~calc_klaeger_combo_truncated(..1, ..2, ..3, ..4))) %>%
+	unnest(klaeger_combo) %>%
+	write_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/all_klaeger_combos.rds.gz'), compress = 'gz')
+```
