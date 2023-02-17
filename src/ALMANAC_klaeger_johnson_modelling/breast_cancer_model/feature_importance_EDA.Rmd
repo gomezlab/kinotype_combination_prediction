@@ -1,0 +1,109 @@
+---
+title: "ALMANAC_modelling"
+output: html_document
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(patchwork)
+library(ROCR)
+library(reticulate)
+library(vip)
+library(recipeselectors)
+library(conflicted)
+library(Metrics)
+library(ggridges)
+library(DarkKinaseTools)
+
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rmse", "Metrics")
+conflict_prefer("vi", "vip")
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+# read in data
+importance_values <- read_csv(here("results/ALMANAC_klaeger_johnson_models/breast_cancer_models/feature_importances_all_kinases_forced_in.csv")) %>%
+    drop_na()
+
+gene_classifications <- read_csv(here("data/klaeger_manual_gene_labels.csv")) %>%
+    bind_rows(all_kinases %>% select(symbol, class) %>% rename(gene_name = symbol)) %>%
+    # adding extra label for abbreviated activation name
+    bind_rows(data.frame(gene_name = "CSNK2A(1/3)", class = "Light")) %>%
+    distinct() %>%
+    mutate(gene_name = str_replace(gene_name, "[-;]", "_")) %>%
+    mutate(gene_name = if_else(
+        gene_name == "HIST2H2BE_HIST1H2BB;HIST1H2BO;HIST1H2BJ;HIST3H2BB;HIST1H2BA",
+        "HIST2H2BE_HIST1H2BB_HIST1H2BO_HIST1H2BJ_HIST3H2BB_HIST1H2BA",
+        gene_name
+    ))
+
+exp_interactor_type <- read_rds(here("results/ALMANAC_klaeger_johnson_models/expression_feature_interactors.rds")) %>%
+    mutate(Variable = paste0(type, "_", hgnc)) %>%
+    mutate(interaction = case_when(
+        direct_count >= 1 ~ "Inhibition\nInteractor",
+        T ~ "Noninteractor"
+    ))
+```
+
+
+```{r}
+
+importance_inhibition <- importance_values %>%
+    filter(feature_type == "Combined Kinase Inhibition") %>%
+    mutate(feature = ifelse(feature == "act_CSNK2A1_CSNK2A3", "act_CSNK2A(1/3)", feature)) %>%
+    extract(feature, c(NA, "gene"), "(.*)_(.*)", remove = F) %>%
+    left_join(gene_classifications, by = c("gene" = "gene_name")) %>%
+    mutate(class = ifelse(is.na(class), "Non-kinase", class)) %>%
+    arrange(desc(Importance))
+
+importance_inhibition %>%
+    slice(1:15) %>%
+    arrange(Importance) %>%
+    mutate(gene = fct_inorder(gene)) %>%
+    ggplot(aes(x = Importance, y = gene, fill = class)) +
+    geom_col() +
+    labs(y = "", fill = "", x = "Predictive Value") +
+    theme(
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.margin = margin(t = 0, b = 0, l = 0, r = 0, unit = "cm"),
+        panel.background = element_rect(fill = "transparent", colour = NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent", colour = NA)
+    )
+ggsave(here("figures/ALMANAC_klaeger_johnson/inhibition_importance_figure.png"), height = 6, width = 10.5, units = "cm")
+
+importance_expression <- importance_values %>%
+    filter(feature_type == "Baseline Gene Expression") %>%
+    extract(feature, c(NA, "gene"), "(.*)_(.*)", remove = F) %>%
+    left_join(exp_interactor_type %>% select(Variable, interaction) %>% rename(feature = Variable)) %>%
+    arrange(desc(Importance))
+
+importance_expression %>%
+    slice(1:15) %>%
+    arrange(Importance) %>%
+    mutate(gene = fct_inorder(gene)) %>%
+    ggplot(aes(x = Importance, y = gene, fill = interaction)) +
+    geom_col() +
+    labs(y = "", fill = "", x = "Predictive Value") +
+    theme(
+        legend.title = element_blank(),
+        legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.margin = margin(t = 0, b = 0, l = 0, r = 0, unit = "cm"),
+        panel.background = element_rect(fill = "transparent", colour = NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent", colour = NA)
+    )
+ggsave(here("figures/ALMANAC_klaeger_johnson/expression_importance_figure.png"), height = 6, width = 10.5, units = "cm")
+
+ 
+```
