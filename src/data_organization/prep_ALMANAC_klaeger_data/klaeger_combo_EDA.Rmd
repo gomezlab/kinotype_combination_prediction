@@ -4,6 +4,8 @@ library(here)
 ```
 
 ```{r}
+#read in data
+klaeger_tidy = read_rds(here('results/klaeger_full_tidy.rds'))
 klaeger_combinations = read_rds(here('results/ALMANAC_klaeger_models/klaeger_combos/klaeger_combos_for_validation_data.rds'))
 ```
 
@@ -51,3 +53,66 @@ tram_dab_data_for_plot %>%
 ggsave(here('figures/combined_inhibition_state_visual.png'), width = 15, height = 5, units = "cm")
 ```
 
+```{r}
+ #prep klaeger_combo data for UMAP, filtering to only include 1uM
+klaeger_combinations_for_umap = klaeger_combinations %>% 
+  filter(concentration_M_d1 == 1*10^(-6) & concentration_M_d2 == 1*10^(-6)) %>% 
+  mutate(treatment = paste0(drug1, " + ", drug2))  %>% 
+  select(-concentration_M_d1, -concentration_M_d2, -drug1, -drug2)
+  
+ #prep klaeger monotherapy data for UMAP, filtering to only include 1uM 
+klaeger_monotherapy_for_umap = klaeger_tidy %>% 
+  filter(concentration_M == 1*10^(-6)) %>% 
+  rename(treatment = drug)  %>%
+  mutate(gene_name = paste0("act_", gene_name))  %>%  
+  #pivot to wide
+  pivot_wider(names_from = gene_name, values_from = relative_intensity)  %>% 
+  select(-concentration_M)
+```
+
+```{r}
+set.seed(2222)
+umap_fit <- kinomescan_klaeger %>%
+  select(id, starts_with("act_")) %>%
+  column_to_rownames("id") %>% 
+	select(-any_of(zv_kinases$kinase)) %>% 
+	scale() %>% 
+	as.data.frame() %>% 
+	drop_na() %>% 
+	as.matrix() %>% 
+	umap()
+
+umap_df <- umap_fit$layout %>%
+  as.data.frame()%>%
+  rename(UMAP1="V1",
+         UMAP2="V2") %>%
+  mutate(id=row_number())%>%
+  inner_join(kinomescan_klaeger_meta, by="id")
+
+umap_df %>%
+	# mutate(origin = if_else(
+	# 	origin == "overlap",
+	# 	"KINOMEscan",
+	# 	origin)) %>%
+  ggplot(aes(x = UMAP1, 
+             y = UMAP2, 
+             colour = origin)) +
+	geom_point() +
+	scale_colour_brewer(type = "qual") +
+	#facet_wrap(vars(origin), scales = "free") +
+  labs(x = "UMAP1",
+       y = "UMAP2",
+  		 colour = "Kinome Profiling\nData Origin",
+      title = "Kinobeads + KINOMEscan Target Space UMAP") +
+			theme(
+		legend.position = "left",
+		legend.text = element_text(size = 9),
+		legend.background = element_rect(fill = "transparent",colour = NA),
+		panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+      )
+
+	ggsave(here("figures/clustering/klaeger_kinomescan_UMAP_matched_kinases_only.png"), width = 20.125, height = 5.258, units = "cm")
+```
