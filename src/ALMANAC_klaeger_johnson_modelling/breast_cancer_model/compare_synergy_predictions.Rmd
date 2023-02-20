@@ -1,0 +1,145 @@
+```{r}
+library(tidyverse)
+library(here)
+library(synergyfinder)
+```
+
+## Load data
+
+```{r}
+prediction_data <- read_csv(here("results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/model_predictions_all_kinases_forced_in.csv"))
+validation_data <- read_csv(here("results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/validation_klaeger_exp_data_for_all_kinases_forced_in.csv"))
+```
+
+## Reshape both datasets
+
+```{r}
+# Reshape prediction_data
+prediction_pair_indicies <- prediction_data %>%
+    select(drug1, drug2, cell_line) %>%
+    unique() %>%
+    mutate(pair_index = 1:n())
+
+prediction_processed <- prediction_data %>%
+    left_join(prediction_pair_indicies, by = c("drug1", "drug2", "cell_line")) %>%
+    mutate(conc_unit = "M") %>%
+    rename(conc1 = nearest_klaeger_dose_1, conc2 = nearest_klaeger_dose_2, response = viability) %>%
+    select(pair_index, drug1, drug2, conc1, conc2, conc_unit, response)  %>% 
+    mutate(response = response*100)
+
+prediction_reshaped <- ReshapeData(
+    data = prediction_processed,
+    data_type = "viability",
+    impute = TRUE,
+    impute_method = NULL,
+    noise = TRUE,
+    seed = 1
+)
+```
+
+```{r}
+# Reshape validation_data
+validation_pair_indicies <- validation_data %>%
+    select(drug1, drug2, cell_line) %>%
+    unique() %>%
+    mutate(pair_index = 1:n())
+
+validation_processed <- validation_data %>%
+    left_join(validation_pair_indicies, by = c("drug1", "drug2", "cell_line")) %>%
+    mutate(conc_unit = "M") %>%
+    rename(conc1 = nearest_klaeger_dose_1, conc2 = nearest_klaeger_dose_2, response = viability) %>%
+    select(pair_index, drug1, drug2, conc1, conc2, conc_unit, response)  %>% 
+    mutate(response = response*100)
+
+validation_reshaped <- ReshapeData(
+    data = validation_processed,
+    data_type = "viability",
+    impute = TRUE,
+    impute_method = NULL,
+    noise = TRUE,
+    seed = 1
+)
+```
+
+## Calculate synergy and sensitivity scores
+
+```{r}
+# Calculate synergy and sensitivity scores for prediction_data
+prediction_synergy_scores <- CalculateSynergy(
+    data = prediction_reshaped,
+    method = c("ZIP", "HSA", "Bliss", "Loewe"),
+    Emin = NA,
+    Emax = NA,
+    correct_baseline = "non"
+) 
+
+prediction_sensitivity_scores = prediction_synergy_scores %>%
+    CalculateSensitivity(correct_baseline = "non")
+
+# Calculate synergy and sensitivity scores for validation_data
+validation_synergy_scores <- CalculateSynergy(
+    data = validation_reshaped,
+    method = c("ZIP", "HSA", "Bliss", "Loewe"),
+    Emin = NA,
+    Emax = NA,
+    correct_baseline = "non"
+) 
+
+validation_sensitivity_scores = validation_synergy_scores %>%
+    CalculateSensitivity(correct_baseline = "non")
+```
+
+```{r}
+# Visualize Synergy-Sensitivity Scores
+PlotSensitivitySynergy(
+    data = prediction_synergy_scores,
+    plot_synergy = "ZIP",
+    show_labels = TRUE,
+    dynamic = FALSE
+)
+
+PlotSensitivitySynergy(
+    data = validation_synergy_scores,
+    plot_synergy = "ZIP",
+    show_labels = TRUE,
+    dynamic = FALSE
+)
+
+PlotBarometer(
+    data = validation_synergy_scores,
+    plot_block = 28,
+    plot_concs = c(9.7656, 50),
+    needle_text_offset = 2.5 # Move the texts below the needle
+)
+```
+
+```{r}
+# Plot Trametinib Omipalisib synergy
+
+Plot2DrugHeatmap(
+    data = validation_synergy_scores,
+    plot_block = 28,
+    drugs = c(1, 2),
+    plot_value = "response",
+    dynamic = FALSE,
+    summary_statistic = c("mean",  "median")
+  )
+
+Plot2DrugHeatmap(
+    data = validation_synergy_scores,
+    plot_block = 28,
+    drugs = c(1, 2),
+    plot_value = "ZIP_synergy",
+    dynamic = FALSE,
+    summary_statistic = c( "quantile_25", "quantile_75")
+  )
+
+PlotSynergy(
+  data = validation_synergy_scores,
+  type = "2D",
+  method = "ZIP",
+  block_ids = 28,
+  drugs = c(1,2)
+)
+
+```

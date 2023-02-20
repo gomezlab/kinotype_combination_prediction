@@ -55,8 +55,8 @@ calc_klaeger_combo_truncated <- function(input_drug_1, input_drug_2, input_conc_
 possible_klaeger_combos = crossing(
     drug1 = unique(klaeger_wide$drug),
     drug2 = unique(klaeger_wide$drug),
-	concentration_M_d1 = unique(klaeger_wide$concentration_M),
-	concentration_M_d2 = unique(klaeger_wide$concentration_M)
+	concentration_M_d1 = 1*10^(-6),
+	concentration_M_d2 = 1*10^(-6)
 ) %>% 
   #remove duplicates
   filter(drug1 > drug2)
