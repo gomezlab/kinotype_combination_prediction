@@ -91,6 +91,41 @@ zv_kinases <- klaeger_for_umap %>%
 ```
 
 ```{r}
+#Make similar visual for klaeger monotherapy data
+dabrafenib_data <- klaeger_tidy %>%
+  filter(drug == "Dabrafenib") %>%
+  filter(concentration_M == 1 * 10^(-6))
+
+kinases_to_keep_dabrafenib <- dabrafenib_data %>%
+  group_by(gene_name) %>%
+  summarise(mean = mean(relative_intensity)) %>%
+  filter(mean < 1)
+
+dabrafenib_data_for_plot <- dabrafenib_data %>% 
+  filter(gene_name %in% kinases_to_keep_dabrafenib$gene_name) %>%
+  rename(treatment = drug, Kinase = gene_name, Inhibition = relative_intensity)
+
+ #Make plot with all font sizes and colors consistent
+dabrafenib_data_for_plot  %>% 
+  ggplot(aes(treatment, Kinase, fill = Inhibition)) +
+  geom_tile() +
+  scale_fill_viridis_c() +
+  theme(
+    legend.position = "right",
+    legend.direction = "vertical",
+    axis.text.x = element_text(size = 11),
+    axis.ticks.x = element_blank(),
+    axis.title.y = element_blank(),
+    axis.text.y = element_text(size = 10),
+    panel.background = element_rect(fill = "transparent", colour = NA),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent", colour = NA)
+  )
+ggsave(here("figures/monotherapy_inhibition_state_visual.png"), width = 5, height = 15, units = "cm")
+```
+
+```{r}
 # Perform UMAP on klaeger monotherapy data
 
 klaeger_for_umap_meta <- klaeger_for_umap %>%
