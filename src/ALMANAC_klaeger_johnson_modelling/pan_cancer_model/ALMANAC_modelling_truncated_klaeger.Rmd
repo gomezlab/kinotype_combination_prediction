@@ -93,7 +93,7 @@ write_csv(results, here('results/ALMANAC_klaeger_johnson_models/pan_cancer_model
 
 ```{r}
 #fit model on whole data to get importances
-ALMANAC_klaeger_johnson_data = read_csv(here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_data_for_ml_truncated.csv'))
+ALMANAC_klaeger_johnson_data = read_csv(here('results/ALMANAC_klaeger_johnson_data_for_ml.rds.gz'))
 
 results = read_csv(here('results/ALMANAC_klaeger_johnson_models/pan_cancer_models/ALMANAC_klaeger_johnson_lasso_xgboost_all_tuning_results_truncated.csv'))
 

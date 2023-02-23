@@ -92,24 +92,17 @@ validation_sensitivity_scores = validation_synergy_scores %>%
 ```{r}
 # Visualize Synergy-Sensitivity Scores
 PlotSensitivitySynergy(
-    data = prediction_synergy_scores,
+    data = prediction_sensitivity_scores,
     plot_synergy = "ZIP",
     show_labels = TRUE,
     dynamic = FALSE
 )
 
 PlotSensitivitySynergy(
-    data = validation_synergy_scores,
+    data = validation_sensitivity_scores,
     plot_synergy = "ZIP",
     show_labels = TRUE,
     dynamic = FALSE
-)
-
-PlotBarometer(
-    data = validation_synergy_scores,
-    plot_block = 28,
-    plot_concs = c(9.7656, 50),
-    needle_text_offset = 2.5 # Move the texts below the needle
 )
 ```
 
@@ -120,26 +113,18 @@ Plot2DrugHeatmap(
     data = validation_synergy_scores,
     plot_block = 28,
     drugs = c(1, 2),
-    plot_value = "response",
+    plot_value = "ZIP_synergy",
     dynamic = FALSE,
-    summary_statistic = c("mean",  "median")
+    summary_statistic = c( "quantile_25", "quantile_75")
   )
 
 Plot2DrugHeatmap(
-    data = validation_synergy_scores,
+    data = prediction_synergy_scores,
     plot_block = 28,
     drugs = c(1, 2),
     plot_value = "ZIP_synergy",
     dynamic = FALSE,
     summary_statistic = c( "quantile_25", "quantile_75")
   )
-
-PlotSynergy(
-  data = validation_synergy_scores,
-  type = "2D",
-  method = "ZIP",
-  block_ids = 28,
-  drugs = c(1,2)
-)
 
 ```

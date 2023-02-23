@@ -4,35 +4,82 @@ library(here)
 ```
 
 ```{r}
-breast_ALMANAC_klaeger_johnson_CCLE_data = read_rds(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_data_for_ml_breast.rds.gz')) %>% 
+ALMANAC_klaeger_johnson_CCLE_data <- read_rds(here("results/ALMANAC_klaeger_johnson_data_for_ml.rds.gz")) %>%
+  mutate(CELLNAME = if_else(CELLNAME == "MDA-MB-231/ATCC", "MDAMB231", CELLNAME))
+
+breast_ALMANAC_klaeger_johnson_CCLE_data <- read_rds(here("results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_data_for_ml_breast.rds.gz")) %>%
   mutate(CELLNAME = if_else(CELLNAME == "MDA-MB-231/ATCC", "MDAMB231", CELLNAME))
 ```
 
 ```{r}
-#data abundance per cell line
+# data abundance per cell line
 
-plot_data = breast_ALMANAC_klaeger_johnson_CCLE_data %>% 
-  select(-starts_with(c("act_", "exp_"))) %>% 
-  select(CELLNAME, drug1, drug2) %>% 
-  unique() %>% 
+plot_data <- breast_ALMANAC_klaeger_johnson_CCLE_data %>%
+  select(-starts_with(c("act_", "exp_"))) %>%
+  select(CELLNAME, drug1, drug2) %>%
+  unique() %>%
   count(CELLNAME)
 
-plot_data %>% 
-  ungroup() %>% 
+plot_data %>%
+  ungroup() %>%
   ggplot(aes(x = CELLNAME, y = n, fill = CELLNAME)) +
-  geom_col() + 
-  labs(x = "Cell Line",
-       y = "Number of Combinations Tested") +
+  geom_col() +
+  labs(
+    x = "Cell Line",
+    y = "Number of Combinations Tested"
+  ) +
   theme(
-    legend.position = "none", 
-        axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
-        #axis.ticks.x = element_blank(),
-        panel.background = element_rect(fill = "transparent",colour = NA),
-        panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(),
-        plot.background = element_rect(fill = "transparent",colour = NA)
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+    # axis.ticks.x = element_blank(),
+    panel.background = element_rect(fill = "transparent", colour = NA),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent", colour = NA)
   )
-ggsave(here('figures/ALMANAC_klaeger_johnson/combinations_tested_per_cell_line.png'), width = 8, height = 10, units = "cm")
+ggsave(here("figures/ALMANAC_klaeger_johnson/combinations_tested_per_cell_line.png"), width = 8, height = 10, units = "cm")
 ```
 
+```{r}
+#plot number of "cell_line" per "PANEL"
 
+plot_data <- ALMANAC_klaeger_johnson_CCLE_data %>%
+  select(-starts_with(c("act_", "exp_"))) %>%
+  select(PANEL, CELLNAME)  %>% 
+  unique() %>%
+  count(PANEL)  %>% 
+  arrange(desc(n))  %>% 
+  mutate(PANEL = fct_inorder(PANEL))
+
+plot_data  %>% 
+  ggplot() +
+  geom_col(aes(x = plot_data$PANEL, y = n, fill = plot_data$PANEL)) +
+  labs(y = "Data Abundance") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+    axis.title.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    panel.background = element_rect(fill = "transparent", colour = NA),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent", colour = NA)
+   )
+ggsave(here("figures/ALMANAC_klaeger_johnson/number_of_cell_lines_per_panel.png"), width = 3, height = 3, units = "in")
+ ```
+
+ ```{r} 
+  labs(
+    x = "PANEL",
+    y = "Number of Cell Lines"
+  ) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
+    # axis.ticks.x = element_blank(),
+    panel.background = element_rect(fill = "transparent", colour = NA),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent", colour = NA)
+  )
+```

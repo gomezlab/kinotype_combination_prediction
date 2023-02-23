@@ -90,3 +90,28 @@ plot_data %>%
 ggsave(here('figures/ALMANAC_klaeger/all_model_comparisons.png'), width = 14, height = 8, units = "cm")
 ```
 
+```{r}
+#make plot for poster with only xgboost
+
+plot_data %>% 
+  filter(model_type == "xgboost")  %>% 
+  mutate(model_type = "Cell Sensitivity Prediction") %>%
+  select(-tree_depth) %>% 
+  arrange(desc(mean)) %>% 
+  mutate(cancer_type = fct_inorder(cancer_type)) %>% 
+  ggplot(aes(x = cancer_type, y = mean, colour = cancer_type)) + 
+  geom_point() +
+  facet_wrap(vars(model_type)) +
+  labs(x = "Cancer Type", y = "R-squared", colour = "Cancer Type") +
+		theme(
+		axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 10),
+    axis.text.y = element_text(size = 10),
+		legend.position = "none",
+		legend.background = element_rect(fill = "transparent",colour = NA),
+		panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+      )
+ggsave(here('figures/ALMANAC_klaeger/all_model_comparisons_for_poster.png'), width = 2.5, height = 3, units = "in")
+```

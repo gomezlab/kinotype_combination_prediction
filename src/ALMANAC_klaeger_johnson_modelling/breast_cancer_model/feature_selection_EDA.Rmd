@@ -27,9 +27,9 @@ knitr::opts_knit$set(root.dir = here())
 
 ```{r}
 #read in data
-lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_johnson_models/pan_cancer_models/lasso_selected_features_truncated.csv')) %>% 
-  mutate(feature_type = if_else(feature_type == "Baseline Gene Expression", "Expression", feature_type)) %>% 
-  #mutate(feature_type = if_else(feature_type == "Inhibition", "Kinome Inhibition State", feature_type)) %>% 
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/lasso_selected_features_all_kinases_forced_in.csv')) %>% 
+  mutate(feature_type = if_else(feature_type == "Expression", "Baseline Gene Expression", feature_type)) %>% 
+  mutate(feature_type = if_else(feature_type == "Inhibition", "Kinome Inhibition State", feature_type)) %>% 
   drop_na()
 
 gene_classifications = read_csv(here('data/klaeger_manual_gene_labels.csv')) %>%
@@ -44,7 +44,7 @@ gene_classifications = read_csv(here('data/klaeger_manual_gene_labels.csv')) %>%
 		gene_name
 	))
 
-exp_interactor_type = read_rds(here('results/ALMANAC_klaeger_johnson_models/expression_feature_interactors.rds')) %>%
+exp_interactor_type = read_rds(here("results/ALMANAC_klaeger_johnson_models/expression_feature_interactors.rds")) %>%
 	mutate(Variable = paste0(type,"_",hgnc)) %>%
 	mutate(interaction = case_when(
 		direct_count >= 1 ~ "Inhibition\nInteractor",
@@ -65,12 +65,14 @@ lasso_selected_features_summary = lasso_selected_features %>%
 	mutate(feature_type = 
 				 	fct_relevel(feature_type, 
 				 							lasso_selected_features_medians$feature_type[1], 
-				 							lasso_selected_features_medians$feature_type[2] ))
+				 							lasso_selected_features_medians$feature_type[2], 
+				 							lasso_selected_features_medians$feature_type[3], 
+				 							lasso_selected_features_medians$feature_type[4] ))
 ```
 
 ```{r}
 lasso_selected_features_summary %>% 
-  slice(1:180) %>% 
+  slice(1:100) %>% 
 	ggplot(aes(x = Importance, y = feature_type, fill = factor(stat(quantile)))) +
 	 stat_density_ridges(
     geom = "density_ridges_gradient", calc_ecdf = TRUE,
@@ -79,12 +81,9 @@ lasso_selected_features_summary %>%
   scale_fill_viridis_d(name = "Quartiles") +
 	theme_ridges(center_axis_labels = TRUE) + 
 	labs(title = " ",x = "LASSO Coefficient value", y = "Data Type") +
-	coord_cartesian(clip = "off") +
-	theme(legend.position = "bottom", 
-	legend.direction = "horizontal")
+	coord_cartesian(clip = "off")
 	
-#ggsave(here('figures/ALMANAC_klaeger/lasso_selected_features_ridgeplot.png'), height = 6, width = 21, units = "cm")
-ggsave(here('figures/ALMANAC_klaeger_johnson/lasso_selected_features_ridgeplot_for_poster.png'), height = 4, width = 4, units = "in")
+ggsave(here('figures/ALMANAC_klaeger/lasso_selected_features_ridgeplot.png'), height = 6, width = 21, units = "cm")
 ```
 
 ```{r}

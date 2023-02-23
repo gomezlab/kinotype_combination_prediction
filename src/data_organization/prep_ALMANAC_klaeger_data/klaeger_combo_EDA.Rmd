@@ -43,17 +43,19 @@ tram_dab_data_for_plot %>%
   geom_tile() +
   scale_fill_viridis_c() +
   theme(
-    legend.position = "bottom",
-    legend.direction = "horizontal",
+    legend.position = "right",
+    legend.direction = "vertical",
     axis.text.x = element_blank(),
+    axis.text.y = element_text(size = 12),
     axis.ticks.x = element_blank(),
+    axis.title.x = element_text(size = 12),
     axis.title.y = element_blank(),
     panel.background = element_rect(fill = "transparent", colour = NA),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "transparent", colour = NA)
   )
-ggsave(here("figures/combined_inhibition_state_visual.png"), width = 15, height = 5, units = "cm")
+ggsave(here("figures/combined_inhibition_state_visual.png"), width = 13, height = 2, units = "in")
 ```
 
 ```{r}

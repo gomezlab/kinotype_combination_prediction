@@ -73,6 +73,8 @@ model_predictions_tidy = model_predictions %>%
 ## Assessment of Validation
 
 ```{r}
+model_predictions_tidy = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/model_predictions_all_kinases_forced_in.csv'))
+
 # Assessing each combo in each cell line individually
 combos_validated = model_predictions_tidy %>% 
   select(drug1, drug2, cell_line) %>% 
@@ -139,6 +141,44 @@ ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_combo_vali
 ```
 
 ```{r}
+#make poster plot
+all_individual_metrics_for_plot = all_individual_metrics %>% 
+              rename(drug1 = this_drug1, drug2 = this_drug2, cell_line = this_cell_line) %>% 
+              arrange(desc(this_rsq)) %>% 
+              slice(1:9) %>% 
+  mutate(this_label = paste0(drug1," + ",drug2," in ",cell_line))
+
+model_predictions_with_metrics = model_predictions_tidy %>% 
+  left_join(all_individual_metrics_for_plot) %>% 
+  filter(!is.na(this_rsq)) %>% 
+  mutate(drug1 = if_else(drug1 == "Trametinib", "Tram", drug1))  %>% 
+  mutate(this_rsq = paste0("R\u00B2 = ", round(this_rsq, 2)),
+         this_label = paste0(drug1," + ",drug2)) %>% 
+  mutate(this_label = fct_relevel(this_label, all_individual_metrics_for_plot$this_label))
+  
+
+  model_predictions_with_metrics %>% 
+	ggplot(aes(x = predicted_viability, y = viability)) +
+	geom_point() +
+	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
+	labs(
+	  x = "Predicted Combination Viability",
+	  y = "Experimental Combination Viability") +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+		panel.grid.minor = element_blank(), 
+		panel.grid.major = element_blank(),
+		plot.background = element_rect(fill = "transparent",colour = NA)
+	) +
+  facet_wrap(~ this_label + this_rsq, nrow = 3, ncol = 3)
+
+ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_combo_validation_assessment_all_kinases_forced_in_for_poster.png'), height = 4, width = 4, units = "in")
+```
+
+```{r}
+model_predictions_tidy = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/model_predictions_all_kinases_forced_in.csv'))
+
 #Assess predictions by cell lines
 
 cell_lines_validated = model_predictions_tidy %>% 
@@ -186,5 +226,6 @@ model_predictions_with_metrics = model_predictions_tidy %>%
   facet_wrap(~cell_line + this_rsq)
 
 ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_cell_line_validation_assessment_all_kinases_forced_in.png'), height = 10, width = 10, units = "cm")
+ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_cell_line_validation_assessment_all_kinases_forced_in_for_poster.png'), height = 4, width = 3, units = "in")
 
 ```
