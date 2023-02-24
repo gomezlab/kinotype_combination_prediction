@@ -2,6 +2,7 @@
 library(tidyverse)
 library(here)
 library(synergyfinder)
+library(patchwork)
 ```
 
 ## Load data
@@ -24,8 +25,8 @@ prediction_processed <- prediction_data %>%
     left_join(prediction_pair_indicies, by = c("drug1", "drug2", "cell_line")) %>%
     mutate(conc_unit = "M") %>%
     rename(conc1 = nearest_klaeger_dose_1, conc2 = nearest_klaeger_dose_2, response = viability) %>%
-    select(pair_index, drug1, drug2, conc1, conc2, conc_unit, response)  %>% 
-    mutate(response = response*100)
+    select(pair_index, drug1, drug2, conc1, conc2, conc_unit, response) %>%
+    mutate(response = response * 100)
 
 prediction_reshaped <- ReshapeData(
     data = prediction_processed,
@@ -48,8 +49,8 @@ validation_processed <- validation_data %>%
     left_join(validation_pair_indicies, by = c("drug1", "drug2", "cell_line")) %>%
     mutate(conc_unit = "M") %>%
     rename(conc1 = nearest_klaeger_dose_1, conc2 = nearest_klaeger_dose_2, response = viability) %>%
-    select(pair_index, drug1, drug2, conc1, conc2, conc_unit, response)  %>% 
-    mutate(response = response*100)
+    select(pair_index, drug1, drug2, conc1, conc2, conc_unit, response) %>%
+    mutate(response = response * 100)
 
 validation_reshaped <- ReshapeData(
     data = validation_processed,
@@ -71,9 +72,9 @@ prediction_synergy_scores <- CalculateSynergy(
     Emin = NA,
     Emax = NA,
     correct_baseline = "non"
-) 
+)
 
-prediction_sensitivity_scores = prediction_synergy_scores %>%
+prediction_sensitivity_scores <- prediction_synergy_scores %>%
     CalculateSensitivity(correct_baseline = "non")
 
 # Calculate synergy and sensitivity scores for validation_data
@@ -83,9 +84,9 @@ validation_synergy_scores <- CalculateSynergy(
     Emin = NA,
     Emax = NA,
     correct_baseline = "non"
-) 
+)
 
-validation_sensitivity_scores = validation_synergy_scores %>%
+validation_sensitivity_scores <- validation_synergy_scores %>%
     CalculateSensitivity(correct_baseline = "non")
 ```
 
@@ -115,8 +116,8 @@ Plot2DrugHeatmap(
     drugs = c(1, 2),
     plot_value = "ZIP_synergy",
     dynamic = FALSE,
-    summary_statistic = c( "quantile_25", "quantile_75")
-  )
+    summary_statistic = c("quantile_25", "quantile_75")
+)
 
 Plot2DrugHeatmap(
     data = prediction_synergy_scores,
@@ -124,7 +125,148 @@ Plot2DrugHeatmap(
     drugs = c(1, 2),
     plot_value = "ZIP_synergy",
     dynamic = FALSE,
-    summary_statistic = c( "quantile_25", "quantile_75")
-  )
+    summary_statistic = c("quantile_25", "quantile_75")
+)
+```
 
+```{r}
+# extract synergy scores for trametinib and omipalisib
+
+prediction_tram_omi_synergy <- prediction_sensitivity_scores$synergy_scores %>%
+    filter(block_id == 28)
+
+validation_tram_omi_synergy <- validation_sensitivity_scores$synergy_scores %>%
+    filter(block_id == 28)
+
+prediction_tram_omi_sensitivity <- prediction_sensitivity_scores$response %>%
+    filter(block_id == 28)
+
+validation_tram_omi_sensitivity <- validation_sensitivity_scores$response %>%
+    filter(block_id == 28)
+```
+
+```{r}
+#Similarly extract synergy scores and sensitivites for all "block_id" present in prediction and validation data
+
+prediction_synergy_scores_all <- prediction_sensitivity_scores$synergy_scores %>%
+    write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_synergy_scores_all.csv'))
+
+prediction_sesnitivity_scores_all <- prediction_sensitivity_scores$response %>%
+    write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_sensitivity_scores_all.csv'))
+
+validation_synergy_scores_all <- validation_sensitivity_scores$synergy_scores %>%
+    write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation_synergy_scores_all.csv'))
+
+validation_sensitivity_scores_all <- validation_sensitivity_scores$response %>% 
+    write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation_sensitivity_scores_all.csv'))
+```
+
+```{r}    
+# Make surface plots
+prediction_synergy_plot <- prediction_tram_omi_synergy %>%
+    mutate(type = "Predicted Synergy") %>%
+    ggplot(aes(factor(conc1), factor(conc2), fill = ZIP_synergy)) +
+    geom_tile() +
+    scale_fill_viridis_c() +
+    labs(
+        x = "Trametinib (M)",
+        y = "Omipalisib (M)",
+        fill = "Synergy\n(ZIP)"
+    ) +
+    theme(
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "right",
+        legend.direction = "vertical",
+        legend.margin = margin(t = 0, b = 0, l = 0, r = 0, unit = "cm"),
+        panel.background = element_rect(fill = "transparent", colour = NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent", colour = NA)
+    ) +
+    facet_wrap(~type)
+
+prediction_sensitivity_plot <- prediction_tram_omi_sensitivity %>%
+    mutate(type = "Predicted Sensitivity") %>%
+    ggplot(aes(factor(conc1), factor(conc2), fill = response_origin)) +
+    geom_tile() +
+    scale_fill_viridis_c() +
+    labs(
+        x = "Trametinib (M)",
+        y = "Omipalisib (M)",
+        fill = "Sensitivity\n(Viability)"
+    ) +
+    theme(
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "right",
+        legend.direction = "vertical",
+        legend.margin = margin(t = 0, b = 0, l = 0, r = 0, unit = "cm"),
+        panel.background = element_rect(fill = "transparent", colour = NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent", colour = NA)
+    ) +
+    facet_wrap(~type)
+
+prediction_plot <- prediction_synergy_plot / prediction_sensitivity_plot + plot_annotation(title = "Predicted Trametinib + Omipalisib Synergy and Sensitivity")
+
+validation_synergy_plot <- validation_tram_omi_synergy %>%
+    mutate(type = "Actual Synergy") %>%
+    ggplot(aes(factor(conc1), factor(conc2), fill = ZIP_synergy)) +
+    geom_tile() +
+    scale_fill_viridis_c() +
+    labs(
+        x = "Trametinib (M)",
+        y = "Omipalisib (M)",
+        fill = "Synergy\n(ZIP)"
+    ) +
+    theme(
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "right",
+        legend.direction = "vertical",
+        legend.margin = margin(t = 0, b = 0, l = 0, r = 0, unit = "cm"),
+        panel.background = element_rect(fill = "transparent", colour = NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent", colour = NA)
+    ) +
+    facet_wrap(~type)
+
+validation_sensitivity_plot <- validation_tram_omi_sensitivity %>%
+    mutate(type = "Actual Sensitivity") %>%
+    ggplot(aes(factor(conc1), factor(conc2), fill = response_origin)) +
+    geom_tile() +
+    scale_fill_viridis_c() +
+    labs(
+        x = "Trametinib (M)",
+        y = "Omipalisib (M)",
+        fill = "Sensitivity\n(Viability)"
+    ) +
+    theme(
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.position = "right",
+        legend.direction = "vertical",
+        legend.margin = margin(t = 0, b = 0, l = 0, r = 0, unit = "cm"),
+        panel.background = element_rect(fill = "transparent", colour = NA),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
+        plot.background = element_rect(fill = "transparent", colour = NA)
+    ) +
+    facet_wrap(~type)
+
+validation_plot <- validation_synergy_plot / validation_sensitivity_plot + plot_annotation(title = "Actual Trametinib + Omipalisib Synergy and Sensitivity")
+
+full_plot <- prediction_plot | validation_plot
+ggsave(here("figures/ALMANAC_klaeger_johnson/tram_omi_predicted_synergy_sensitivity.png"), width = 6, height = 4, units = "in")
 ```
