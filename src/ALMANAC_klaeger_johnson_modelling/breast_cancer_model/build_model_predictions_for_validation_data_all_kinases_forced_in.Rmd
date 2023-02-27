@@ -127,8 +127,8 @@ model_predictions_with_metrics = model_predictions_tidy %>%
 	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
 	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
 	labs(
-	  x = "Predicted Combination Viability",
-	  y = "Experimental Combination Viability") +
+	  x = "Predicted Sensitivity",
+	  y = "Experimental Sensitivity") +
 	theme(
 		panel.background = element_rect(fill = "transparent",colour = NA),
 		panel.grid.minor = element_blank(), 
@@ -163,17 +163,19 @@ model_predictions_with_metrics = model_predictions_tidy %>%
 	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
 	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
 	labs(
-	  x = "Predicted Combination Viability",
-	  y = "Experimental Combination Viability") +
+	  x = "Predicted Sensitivity",
+	  y = "Experimental Sensitivity") +
 	theme(
 		panel.background = element_rect(fill = "transparent",colour = NA),
 		panel.grid.minor = element_blank(), 
 		panel.grid.major = element_blank(),
-		plot.background = element_rect(fill = "transparent",colour = NA)
+		plot.background = element_rect(fill = "transparent",colour = NA),
+    text = element_text(size = 8)
 	) +
   facet_wrap(~ this_label + this_rsq, nrow = 3, ncol = 3)
 
-ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_combo_validation_assessment_all_kinases_forced_in_for_poster.png'), height = 4, width = 4, units = "in")
+#ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_combo_validation_assessment_all_kinases_forced_in_for_poster.png'), height = 4.1, width = 4.5, units = "in")
+ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_combo_validation_assessment_all_kinases_forced_in_for_paper.png'), height = 6.7, width = 8.3, units = "cm")
 ```
 
 ```{r}
@@ -215,17 +217,17 @@ model_predictions_with_metrics = model_predictions_tidy %>%
 	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
 	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
 	labs(
-	  x = "Predicted Combination Viability",
-	  y = "Experimental Combination Viability") +
+	  x = "Predicted Sensitivity",
+	  y = "Experimental Sensitivity") +
 	theme(
 		panel.background = element_rect(fill = "transparent",colour = NA),
 		panel.grid.minor = element_blank(), 
 		panel.grid.major = element_blank(),
 		plot.background = element_rect(fill = "transparent",colour = NA)
 	) +
-  facet_wrap(~cell_line + this_rsq)
+  facet_wrap(~this_rsq)
 
-ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_cell_line_validation_assessment_all_kinases_forced_in.png'), height = 10, width = 10, units = "cm")
-ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_cell_line_validation_assessment_all_kinases_forced_in_for_poster.png'), height = 4, width = 3, units = "in")
+ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_cell_line_validation_assessment_all_kinases_forced_in.png'), height = 6.7, width = 5.7, units = "cm")
+#ggsave(here('figures/ALMANAC_klaeger_johnson/breast_cancer_individual_cell_line_validation_assessment_all_kinases_forced_in_for_poster.png'), height = 4, width = 3, units = "in")
 
 ```
