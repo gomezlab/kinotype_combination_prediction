@@ -277,3 +277,16 @@ validation_klaeger_exp_data = validation_klaeger_data %>%
   write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/validation_klaeger_exp_data_for_all_kinases_forced_in.csv'))
 ```
 
+```{r}
+#Validation data EDA
+validation_klaeger_data = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/validation_klaeger_exp_data_for_all_kinases_forced_in.csv'))
+
+EDA_data = validation_klaeger_data  %>% 
+  select(starts_with("act_"))  %>% 
+  pivot_longer(everything(), names_to = "kinase", values_to = "activity")  %>% 
+  mutate(inhibition = (1 - activity)*100)  %>%
+  mutate(kinase = gsub("act_", "", kinase))  %>% 
+  group_by(kinase)  %>%
+  summarise(mean_inhibition = mean(inhibition))  %>% 
+  write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/validation_klaeger_EDA_for_CORAL.csv'))
+```

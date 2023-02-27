@@ -3,6 +3,8 @@ library(tidyverse)
 library(here)
 library(synergyfinder)
 library(patchwork)
+library(Metrics)
+library(wesanderson)
 ```
 
 ## Load data
@@ -130,28 +132,12 @@ Plot2DrugHeatmap(
 ```
 
 ```{r}
-# extract synergy scores for trametinib and omipalisib
-
-prediction_tram_omi_synergy <- prediction_sensitivity_scores$synergy_scores %>%
-    filter(block_id == 28)
-
-validation_tram_omi_synergy <- validation_sensitivity_scores$synergy_scores %>%
-    filter(block_id == 28)
-
-prediction_tram_omi_sensitivity <- prediction_sensitivity_scores$response %>%
-    filter(block_id == 28)
-
-validation_tram_omi_sensitivity <- validation_sensitivity_scores$response %>%
-    filter(block_id == 28)
-```
-
-```{r}
 #Similarly extract synergy scores and sensitivites for all "block_id" present in prediction and validation data
 
 prediction_synergy_scores_all <- prediction_sensitivity_scores$synergy_scores %>%
     write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_synergy_scores_all.csv'))
 
-prediction_sesnitivity_scores_all <- prediction_sensitivity_scores$response %>%
+prediction_sensitivity_scores_all <- prediction_sensitivity_scores$response %>%
     write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_sensitivity_scores_all.csv'))
 
 validation_synergy_scores_all <- validation_sensitivity_scores$synergy_scores %>%
@@ -161,8 +147,133 @@ validation_sensitivity_scores_all <- validation_sensitivity_scores$response %>%
     write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation_sensitivity_scores_all.csv'))
 ```
 
-```{r}    
-# Make surface plots
+```{r}
+#Read in synergy scores and metdata
+prediction_data <- read_csv(here("results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/model_predictions_all_kinases_forced_in.csv"))
+validation_data <- read_csv(here("results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation/validation_klaeger_exp_data_for_all_kinases_forced_in.csv"))
+
+prediction_block_ids <- prediction_data %>%
+    select(drug1, drug2, cell_line) %>%
+    unique() %>%
+    mutate(block_id = 1:n())
+
+validation_block_ids <- validation_data %>%
+    select(drug1, drug2, cell_line) %>%
+    unique() %>%
+    mutate(block_id = 1:n())    
+
+prediction_synergy_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_synergy_scores_all.csv'))
+
+prediction_sesnitivity_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_sensitivity_scores_all.csv'))
+
+validation_synergy_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation_synergy_scores_all.csv'))
+
+validation_sensitivity_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation_sensitivity_scores_all.csv'))
+```
+
+```{r}
+#Find accuracy metrics for all types of synergy metrics
+predicted_vs_validated_synergy_scores = prediction_synergy_scores_all  %>%
+    left_join(prediction_block_ids)  %>%
+    select(block_id, drug1, drug2, conc1, conc2, ZIP_synergy, HSA_synergy, Loewe_synergy, Bliss_synergy)  %>% 
+    rename(ZIP_synergy_predicted = ZIP_synergy,
+           HSA_synergy_predicted = HSA_synergy,
+           Loewe_synergy_predicted = Loewe_synergy, 
+           Bliss_synergy_predicted = Bliss_synergy)  %>% 
+    left_join(validation_synergy_scores_all %>%
+                  left_join(validation_block_ids)  %>%  
+                  select(block_id, drug1, drug2, conc1, conc2, ZIP_synergy, HSA_synergy, Loewe_synergy, Bliss_synergy)  %>% 
+                  rename(ZIP_synergy_validated = ZIP_synergy, 
+                         HSA_synergy_validated = HSA_synergy, 
+                         Loewe_synergy_validated = Loewe_synergy, 
+                         Bliss_synergy_validated = Bliss_synergy), 
+              by = c("drug1", "drug2", "conc1", "conc2"))  %>% 
+    pivot_longer(
+        any_of(c("ZIP_synergy_predicted", 
+                 "HSA_synergy_predicted", 
+                 "Loewe_synergy_predicted", 
+                 "Bliss_synergy_predicted", 
+                 "ZIP_synergy_validated", 
+                 "HSA_synergy_validated", 
+                 "Loewe_synergy_validated", 
+                 "Bliss_synergy_validated")), 
+        names_to = "synergy_metric", 
+        values_to = "synergy_score")  %>%
+    mutate(metric_type = if_else(str_detect(synergy_metric, "predicted"), "predicted_score", "validated_score"))  %>%  
+    mutate(synergy_metric = str_replace(synergy_metric, "_predicted", ""), 
+           synergy_metric = str_replace(synergy_metric, "_validated", ""), 
+           synergy_metric = str_replace(synergy_metric, "synergy", ""), 
+           synergy_metric = str_replace(synergy_metric, "_", " "))  %>% 
+    mutate(synergy_metric = trimws(synergy_metric, which = c("both")))  %>% 
+    filter(conc1 != 0 & conc2 != 0)  %>% 
+    pivot_wider(names_from = metric_type, values_from = synergy_score)  %>% 
+    drop_na()
+
+#Get accuracy metrics via R-squared for each synergy metric
+metrics_compared = c("ZIP", "HSA", "Loewe", "Bliss")
+
+all_individual_metrics = data.frame()
+for(i in 1:length(metrics_compared)) {
+
+this_metric = metrics_compared[i]
+  
+this_metric_predictions = predicted_vs_validated_synergy_scores %>% 
+  filter(synergy_metric == this_metric)
+
+this_rsq = cor(this_metric_predictions$validated_score, this_metric_predictions$predicted_score)^2
+
+this_rmse = rmse(this_metric_predictions$validated_score, this_metric_predictions$predicted_score)
+
+this_metrics = data.frame(this_rsq, this_rmse, this_metric)
+
+all_individual_metrics = bind_rows(all_individual_metrics, this_metrics)
+
+}
+
+all_individual_metrics_arranged = all_individual_metrics %>%
+  arrange(desc(this_rsq))
+
+#join in individual metric accuracies
+predicted_vs_validated_synergy_scores_for_plot = predicted_vs_validated_synergy_scores %>%
+  mutate(synergy_metric = fct_relevel(synergy_metric, levels = c("HSA", "Loewe", "ZIP", "Bliss")))  %>% 
+  left_join(all_individual_metrics_arranged, by = c("synergy_metric" = "this_metric"))  %>% 
+  mutate(this_rsq = paste0("R\u00B2 = ", round(this_rsq, 2), " / RMSE = ", round(this_rmse, 2)),
+         this_label = paste0(synergy_metric, " Prediction Accuracy"))
+
+predicted_vs_validated_synergy_scores_for_plot  %>% 
+	ggplot(aes(x = predicted_score, y = validated_score)) +
+	geom_jitter() +
+	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
+	geom_abline(intercept = 0, slope = 1, size = 0.5, colour = 'black', linetype = 3) +
+	labs(
+	  x = "Predicted Synergy Score",
+	  y = "Experimental Synergy Score") +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+		panel.grid.minor = element_blank(), 
+		panel.grid.major = element_blank(),
+		plot.background = element_rect(fill = "transparent",colour = NA)
+	) +
+  facet_wrap(~ this_label + this_rsq)
+
+```
+
+```{r}
+# extract synergy scores for trametinib and omipalisib for comparison
+
+prediction_tram_omi_synergy <- prediction_synergy_scores_all %>%
+    filter(block_id == 28)
+
+validation_tram_omi_synergy <- validation_synergy_scores_all %>%
+    filter(block_id == 28)
+
+prediction_tram_omi_sensitivity <- prediction_sensitivity_scores_all %>%
+    filter(block_id == 28)
+
+validation_tram_omi_sensitivity <- validation_sensitivity_scores_all %>%
+    filter(block_id == 28)
+  
+# Make heatmap plots comparing synergy for trametinib and omipalisib in model predictions vs validation
 prediction_synergy_plot <- prediction_tram_omi_synergy %>%
     mutate(type = "Predicted Synergy") %>%
     ggplot(aes(factor(conc1), factor(conc2), fill = ZIP_synergy)) +
