@@ -18,15 +18,17 @@ plot_data <- breast_ALMANAC_klaeger_johnson_CCLE_data %>%
   select(-starts_with(c("act_", "exp_"))) %>%
   select(CELLNAME, drug1, drug2) %>%
   unique() %>%
-  count(CELLNAME)
+  count(CELLNAME)  %>% 
+  arrange(desc(n))  %>%
+  mutate(CELLNAME = fct_inorder(CELLNAME))
 
 plot_data %>%
   ungroup() %>%
   ggplot(aes(x = CELLNAME, y = n, fill = CELLNAME)) +
   geom_col() +
   labs(
-    x = "Cell Line",
-    y = "Number of Combinations Tested"
+    x = "Breast Cancer Cell Line",
+    y = "# of Combinations Tested"
   ) +
   theme(
     legend.position = "none",
@@ -37,7 +39,7 @@ plot_data %>%
     panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "transparent", colour = NA)
   )
-ggsave(here("figures/ALMANAC_klaeger_johnson/combinations_tested_per_cell_line.png"), width = 8, height = 10, units = "cm")
+ggsave(here("figures/ALMANAC_klaeger_johnson/combinations_tested_per_cell_line.png"), width = 7, height = 7, units = "cm")
 ```
 
 ```{r}
@@ -49,12 +51,13 @@ plot_data <- ALMANAC_klaeger_johnson_CCLE_data %>%
   unique() %>%
   count(PANEL)  %>% 
   arrange(desc(n))  %>% 
+  mutate(PANEL = if_else(PANEL == "Non-Small Cell Lung Cancer", "Lung Cancer", PANEL))  %>% 
   mutate(PANEL = fct_inorder(PANEL))
 
 plot_data  %>% 
   ggplot() +
   geom_col(aes(x = plot_data$PANEL, y = n, fill = plot_data$PANEL)) +
-  labs(y = "Data Abundance") +
+  labs(y = "# of Cell Lines Tested") +
   theme(
     legend.position = "none",
     axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
@@ -65,7 +68,7 @@ plot_data  %>%
     panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "transparent", colour = NA)
    )
-ggsave(here("figures/ALMANAC_klaeger_johnson/number_of_cell_lines_per_panel.png"), width = 3, height = 3, units = "in")
+ggsave(here("figures/ALMANAC_klaeger_johnson/number_of_cell_lines_per_panel.png"), width = 7, height = 7, units = "cm")
  ```
 
  ```{r} 
