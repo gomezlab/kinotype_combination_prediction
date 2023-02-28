@@ -42,9 +42,11 @@ tram_dab_data_for_plot %>%
   ggplot(aes(Kinase, treatment, fill = Inhibition)) +
   geom_tile() +
   scale_fill_viridis_c() +
+  labs(fill = "Activity") +
   theme(
-    legend.position = "right",
-    legend.direction = "vertical",
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    legend.margin = margin(0, 0, 0, 0, unit = "cm"),
     axis.text.x = element_blank(),
     axis.text.y = element_text(size = 12),
     axis.ticks.x = element_blank(),
@@ -55,7 +57,7 @@ tram_dab_data_for_plot %>%
     panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "transparent", colour = NA)
   )
-ggsave(here("figures/combined_inhibition_state_visual.png"), width = 21, height = 3, units = "cm")
+ggsave(here("figures/combined_inhibition_state_visual.png"), width = 21, height = 4, units = "cm")
 ```
 
 ```{r}
