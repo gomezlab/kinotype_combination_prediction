@@ -1,6 +1,8 @@
 ```{r}
 library(tidyverse)
 library(here)
+library(clipr)
+library(ggridges)
 ```
 
 ```{r}
@@ -71,18 +73,114 @@ plot_data  %>%
 ggsave(here("figures/ALMANAC_klaeger_johnson/number_of_cell_lines_per_panel.png"), width = 7, height = 7, units = "cm")
  ```
 
- ```{r} 
-  labs(
-    x = "PANEL",
-    y = "Number of Cell Lines"
-  ) +
-  theme(
-    legend.position = "none",
-    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
-    # axis.ticks.x = element_blank(),
-    panel.background = element_rect(fill = "transparent", colour = NA),
-    panel.grid.minor = element_blank(),
-    panel.grid.major = element_blank(),
-    plot.background = element_rect(fill = "transparent", colour = NA)
-  )
+```{r}
+#cell line eda
+
+breast_cell_lines = breast_ALMANAC_klaeger_johnson_CCLE_data %>% 
+  group_by(CELLNAME) %>% 
+  summarise(n = n()) %>% 
+  mutate(subtype = case_when(
+    CELLNAME == "BT-549" ~ "TNBC B",
+    CELLNAME == "MDAMB231" ~ "TNBC B",
+    CELLNAME == "MDA-MB-468" ~ "TNBC A",
+    CELLNAME == "HS 578T" ~ "TNBC B",
+    CELLNAME == "MCF7" ~ "Luminal A",
+    CELLNAME == "T-47D" ~ "Luminal A",
+    CELLNAME == "HCC1806" ~ "TNBC A",
+    CELLNAME == "SKBR3" ~ "HER2+",
+    CELLNAME == "SUM149PT" ~ "TNBC B",
+    CELLNAME == "SUM159PT" ~ "TNBC B",
+    TRUE ~ CELLNAME
+  ))
 ```
+
+```{r}
+#cell sensitivity eda for breast cancer
+set.seed(2222)
+
+#randomly select x% of all combos for visualization 
+
+all_combos_for_plot = breast_ALMANAC_klaeger_johnson_CCLE_data %>% 
+  select(drug1, drug2) %>% 
+  unique() %>% 
+  mutate(combo = paste0(drug1, " + ", drug2)) %>% 
+  slice_sample(prop = 0.2)
+
+visualization_data = breast_ALMANAC_klaeger_johnson_CCLE_data %>% 
+  select(-starts_with(c("act_", "exp_"))) %>% 
+  left_join(breast_cell_lines %>% 
+              select(CELLNAME, subtype)) %>%
+  mutate(combo = paste0(drug1, " + ", drug2)) %>%
+  filter(combo %in% all_combos$combo) %>% 
+  group_by(subtype, combo, CONC1, CONC2) %>% 
+  summarise(viability = mean(viability)) %>% 
+  #mutate(combo = paste0(drug1, " + ", drug2, " in ", subtype)) %>% 
+  drop_na()
+
+visualization_data_summary = visualization_data %>% 
+  ungroup() %>%
+  group_by(subtype, combo) %>% 
+  summarise(mean_viability = mean(viability)) %>% 
+  arrange(subtype, mean_viability)  %>% 
+  ungroup()  %>% 
+  filter(combo %in% visualization_data$combo)
+
+visualization_data_processed = visualization_data %>% 
+  ungroup() %>% 
+  filter(combo %in% visualization_data_summary$combo)  %>%
+  left_join(visualization_data_summary %>% 
+              select(combo, subtype, mean_viability)) %>%
+  mutate(combo = fct_reorder(combo, mean_viability))
+
+summary_combos = visualization_data_summary %>% 
+  ungroup() %>% 
+  select(combo) %>% 
+  unique() %>% 
+  anti_join(visualization_data %>% ungroup %>% select(combo) %>% unique())
+
+
+visualization_data_processed %>% 
+  #slice_sample(prop = 0.25) %>% 
+  #filter(subtype == "TNBC A") %>% 
+  #mutate(combo = paste0(drug1, " + ", drug2)) %>%
+	ggplot(aes(x = viability, y = combo, fill = subtype)) +
+	 stat_density_ridges(
+    geom = "density_ridges_gradient", calc_ecdf = TRUE
+  ) +
+  scale_fill_viridis_d() +
+	theme_ridges(center_axis_labels = TRUE) + 
+	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", fill = "Subtype") +
+	coord_cartesian(clip = "off") +
+  theme(
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size = 9),
+    axis.title.y = element_text(size = 9),
+    axis.title.x = element_text(size = 9),
+    #axis.text.y = element_text(angle = 45, vjust = 1, hjust = 1),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    #legend.position = "blank",
+    text = element_text(size = 8), 
+    legend.key.size = unit(0.1, 'cm'),
+    legend.spacing.x = unit(0.05, 'cm'),
+    legend.justification = c("left", "bottom"), 
+    legend.margin = margin(0, 0, 0, 0, "cm"),
+    legend.box.just = "left"
+  ) 
+ggsave(here('figures/ALMANAC_klaeger_johnson/cell_viability_EDA.png'), height = 7, width = 7, units = "cm")
+
+visualization_data_processed %>% 
+	ggplot(aes(x = viability, y = combo, colour = subtype)) +
+  geom_jitter() +
+	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", colour = "Breast Cancer Subtype") +
+	coord_cartesian(clip = "off") +
+  facet_wrap(~subtype) +
+  theme(
+    axis.text.y = element_blank(),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    text = element_text(size = 9)
+  ) 
+ggsave(here('figures/ALMANAC_klaeger_johnson/cell_viability_EDA_alternate.png'), height = 7, width = 7, units = "cm")
+```
+
