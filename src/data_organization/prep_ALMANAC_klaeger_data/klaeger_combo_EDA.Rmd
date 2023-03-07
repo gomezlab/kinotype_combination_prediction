@@ -179,3 +179,29 @@ klaeger_umap_df %>%
 
 	ggsave(here("figures/clustering/combo_vs_monotherapy_kinome_space_UMAP.png"), width = 21, height = 12, units = "cm")
 ```
+
+```{r}
+#Monotherapy vs combo EDA by CORAL
+
+monotherapy_EDA_data = klaeger_tidy  %>%
+  filter(concentration_M == 1 * 10^(-6))  %>% 
+  rename(activity = relative_intensity)  %>%
+  mutate(inhibition = (1 - activity)*100)  %>%
+  mutate(inhibition = if_else(inhibition < 0, 0, inhibition))  %>%
+  rename(kinase = gene_name)  %>% 
+  group_by(kinase)  %>%
+  summarise(mean_inhibition = mean(inhibition))  %>% 
+  mutate(hit = if_else(mean_inhibition > 0, "hit", "non-hit"))  %>%
+  write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/klaeger_mono_EDA_for_CORAL.csv'))
+
+combo_EDA_data = klaeger_combinations %>%
+  select(starts_with("act_"))  %>% 
+  pivot_longer(everything(), names_to = "kinase", values_to = "activity")  %>% 
+  mutate(inhibition = (1 - activity)*100)  %>%
+  mutate(kinase = gsub("act_", "", kinase))  %>% 
+  group_by(kinase)  %>%
+  summarise(mean_inhibition = mean(inhibition))  %>%
+  mutate(hit = if_else(mean_inhibition > 0, "hit", "non-hit"))  %>% 
+  write_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/klaeger_combo_EDA_for_CORAL.csv'))
+
+```

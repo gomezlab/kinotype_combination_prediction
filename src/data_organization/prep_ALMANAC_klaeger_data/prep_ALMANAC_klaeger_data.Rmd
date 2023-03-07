@@ -44,6 +44,7 @@ dose_matches = ALMANAC_doses %>%
 write_csv(dose_matches, here('results/ALMANAC_klaeger_models/ALMANAC_klaeger_dose_matches.csv'))
 ```
 
+
 ```{r}
 #find nearest concentrations for matching
 
@@ -178,6 +179,14 @@ disease_count = this_dataset %>%
   unique() %>% 
   group_by(PANEL) %>% 
   summarise(n = n())
+
+ combo_count = this_dataset %>% 
+  select(drug1, drug2) %>% 
+  unique()
+
+ cell_count = this_dataset %>% 
+  select(CELLNAME) %>% 
+  unique() 
 ```
 
 ```{r}

@@ -72,6 +72,7 @@ lasso_selected_features_summary = lasso_selected_features %>%
 
 ```{r}
 lasso_selected_features_summary %>% 
+mutate(feature_type = fct_relevel(feature_type, "Kinome Inhibition State", "Baseline Gene Expression")) %>%
   slice(1:100) %>% 
 	ggplot(aes(x = Importance, y = feature_type, fill = factor(stat(quantile)))) +
 	 stat_density_ridges(
@@ -80,7 +81,7 @@ lasso_selected_features_summary %>%
   ) +
   scale_fill_viridis_d(name = "Quartiles") +
 	theme_ridges(center_axis_labels = TRUE) + 
-	labs(title = " ",x = "LASSO Coefficient value", y = "Data Type") +
+	labs(title = " ",x = "Elastic-Net Coefficient value", y = "Data Type") +
 	coord_cartesian(clip = "off")
 	
 ggsave(here('figures/ALMANAC_klaeger/lasso_selected_features_ridgeplot.png'), height = 6, width = 21, units = "cm")

@@ -164,7 +164,7 @@ validation_block_ids <- validation_data %>%
 
 prediction_synergy_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_synergy_scores_all.csv'))
 
-prediction_sesnitivity_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_sensitivity_scores_all.csv'))
+prediction_sensitivity_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/prediction_sensitivity_scores_all.csv'))
 
 validation_synergy_scores_all = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/validation_synergy_scores_all.csv'))
 
@@ -235,10 +235,14 @@ all_individual_metrics_arranged = all_individual_metrics %>%
 
 #join in individual metric accuracies
 predicted_vs_validated_synergy_scores_for_plot = predicted_vs_validated_synergy_scores %>%
-  mutate(synergy_metric = fct_relevel(synergy_metric, levels = c("HSA", "Loewe", "ZIP", "Bliss")))  %>% 
   left_join(all_individual_metrics_arranged, by = c("synergy_metric" = "this_metric"))  %>% 
   mutate(this_rsq = paste0("R\u00B2 = ", round(this_rsq, 2), " / RMSE = ", round(this_rmse, 2)),
-         this_label = paste0(synergy_metric, " Prediction Accuracy"))
+         this_label = paste0(synergy_metric, " Prediction Accuracy"))  %>% 
+  mutate(this_label = fct_relevel(this_label, levels = c("HSA Prediction Accuracy",
+                                                         "Loewe Prediction Accuracy",
+                                                         "ZIP Prediction Accuracy", 
+                                                         "Bliss Prediction Accuracy")))
+
 
 predicted_vs_validated_synergy_scores_for_plot  %>% 
 	ggplot(aes(x = predicted_score, y = validated_score)) +
@@ -255,6 +259,8 @@ predicted_vs_validated_synergy_scores_for_plot  %>%
 		plot.background = element_rect(fill = "transparent",colour = NA)
 	) +
   facet_wrap(~ this_label + this_rsq)
+
+ggsave(here("figures/ALMANAC_klaeger_johnson/synergy_prediction_accuracy_by_metric_type.png"), width = 9, height = 8, units = "cm", dpi = 300)
 
 ```
 
@@ -372,12 +378,15 @@ validation_sensitivity_plot <- validation_tram_omi_sensitivity %>%
         panel.background = element_rect(fill = "transparent", colour = NA),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
-        plot.background = element_rect(fill = "transparent", colour = NA)
+        plot.background = element_rect(fill = "transparent", colour = NA), 
+        text = element_text(size = 10)
     ) +
     facet_wrap(~type)
 
 validation_plot <- validation_synergy_plot / validation_sensitivity_plot + plot_annotation(title = "Actual Trametinib + Omipalisib Synergy and Sensitivity")
 
 full_plot <- prediction_plot | validation_plot
-ggsave(here("figures/ALMANAC_klaeger_johnson/tram_omi_predicted_synergy_sensitivity.png"), width = 6, height = 4, units = "in")
+#ggsave(here("figures/ALMANAC_klaeger_johnson/tram_omi_predicted_synergy_sensitivity_for_poster.png"), width = 6, height = 4, units = "in")
+ggsave(here("figures/ALMANAC_klaeger_johnson/tram_omi_predicted_synergy_sensitivity.png"), width = 12, height = 8, units = "cm", dpi = 300)
+
 ```

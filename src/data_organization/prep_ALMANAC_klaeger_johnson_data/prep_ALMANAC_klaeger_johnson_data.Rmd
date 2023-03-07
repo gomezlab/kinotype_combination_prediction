@@ -163,6 +163,10 @@ johnson_data_for_ml = johnson_klaeger_data %>%
 ALMANAC_klaeger_johnson_data = ALMANAC_klaeger_data %>% 
   bind_rows(johnson_data_for_ml) %>% 
   drop_na()
+
+ johnson_data_for_ml_combos = johnson_data_for_ml %>% 
+  select(drug1, drug2) %>% 
+  unique()
 ```
 
 
@@ -203,6 +207,8 @@ disease_count = this_dataset %>%
 breast_cancer_data = this_dataset %>% 
   filter(PANEL == "Breast Cancer") %>% 
   write_rds(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_data_for_ml_breast.rds.gz'), compress = "gz")
+
+write_csv(breast_cancer_data, here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/ALMANAC_klaeger_johnson_data_for_ml_breast.csv'))
 ```
 
 ```{r}
