@@ -113,6 +113,7 @@ dabrafenib_data_for_plot  %>%
   ggplot(aes(Kinase, treatment, fill = Inhibition)) +
   geom_tile() +
   scale_fill_viridis_c() +
+  labs(fill = "% Inhibition") +
   theme(
     legend.position = "bottom",
     legend.direction = "horizontal",
