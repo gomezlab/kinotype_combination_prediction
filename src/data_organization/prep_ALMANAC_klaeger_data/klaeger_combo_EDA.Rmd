@@ -109,13 +109,13 @@ dabrafenib_data_for_plot <- dabrafenib_data %>%
 
  #Make plot with all font sizes and colors consistent
 dabrafenib_data_for_plot  %>% 
-  ggplot(aes(treatment, Kinase, fill = Inhibition)) +
+  ggplot(aes(Kinase, treatment, fill = Inhibition)) +
   geom_tile() +
   scale_fill_viridis_c() +
   theme(
-    legend.position = "right",
-    legend.direction = "vertical",
-    axis.text.x = element_text(size = 11),
+    legend.position = "bottom",
+    legend.direction = "horizontal",
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 9),
     axis.ticks.x = element_blank(),
     axis.title.y = element_blank(),
     axis.text.y = element_text(size = 10),
@@ -124,7 +124,7 @@ dabrafenib_data_for_plot  %>%
     panel.grid.major = element_blank(),
     plot.background = element_rect(fill = "transparent", colour = NA)
   )
-ggsave(here("figures/monotherapy_inhibition_state_visual.png"), width = 5, height = 15, units = "cm")
+ggsave(here("figures/monotherapy_inhibition_state_visual.png"), width = 21, height = 5, units = "cm")
 ```
 
 ```{r}
