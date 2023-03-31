@@ -108,7 +108,8 @@ dabrafenib_data_for_plot <- dabrafenib_data %>%
   rename(treatment = drug, Kinase = gene_name, Inhibition = relative_intensity)
 
  #Make plot with all font sizes and colors consistent
-dabrafenib_data_for_plot  %>% 
+dabrafenib_data_for_plot  %>%
+  mutate(Inhibition = (1 - Inhibition)*100) %>%
   ggplot(aes(Kinase, treatment, fill = Inhibition)) +
   geom_tile() +
   scale_fill_viridis_c() +
