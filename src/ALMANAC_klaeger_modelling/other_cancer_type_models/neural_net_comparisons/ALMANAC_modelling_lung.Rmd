@@ -1,0 +1,321 @@
+---
+title: "ALMANAC_modelling"
+output: html_document
+---
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(tidymodels)
+library(tictoc)
+library(doParallel)
+library(patchwork)
+library(ROCR)
+library(reticulate)
+library(vip)
+library(recipeselectors)
+library(conflicted)
+library(Metrics)
+
+conflict_prefer("slice", "dplyr")
+conflict_prefer("filter", "dplyr")
+conflict_prefer("rmse", "Metrics")
+conflict_prefer("vi", "vip")
+knitr::opts_knit$set(root.dir = here())
+```
+
+```{r}
+#read in data 
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_data_for_ml_lung.rds.gz'))
+
+ALMANAC_klaeger_CCLE_data %>% 
+  count(drug1, drug2)
+```
+
+
+```{r}
+#tuning lasso feature selection within xgboost
+
+xgb_grid = read_rds(here('results/hyperparameter_grids/xgb_grid.rds'))
+
+set.seed(2222)
+folds = vfold_cv(ALMANAC_klaeger_CCLE_data, v = 5)
+
+tic()	
+
+this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+	update_role(viability, new_role = "outcome") %>%
+	step_normalize(all_predictors()) %>%  
+  step_zv(all_predictors()) %>% 
+	step_select_linear(all_predictors(), outcome = "viability", engine = "glmnet", penalty = tune(), mixture = tune(), top_p = tune())
+
+xgb_spec <- boost_tree(
+  trees = tune(), 
+  tree_depth = tune()
+) %>% 
+  set_engine("xgboost", tree_method = "gpu_hist") %>% 
+  set_mode("regression")
+
+this_wflow <-
+  workflow() %>%
+  add_model(xgb_spec) %>%
+  add_recipe(this_recipe)
+
+race_ctrl = control_grid(
+  save_pred = TRUE, 
+  parallel_over = "everything",
+  verbose = TRUE
+)
+
+set.seed(2222)
+recipe_grid = grid_max_entropy(
+	extract_parameter_set_dials(this_recipe) %>% 
+		update(top_p = top_p(c(5,2000))), 
+	size = 10
+)
+
+full_grid = merge(xgb_grid, recipe_grid)
+
+results <- tune_grid(
+  this_wflow,
+  resamples = folds,
+  grid = full_grid,
+  control = race_ctrl
+) %>% 
+  collect_metrics()
+  
+toc()
+
+
+write_csv(results, here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+```
+
+## Random Forest models
+
+```{r}
+#read in data 
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_data_for_ml_lung.rds.gz'))
+
+ALMANAC_klaeger_CCLE_data %>% 
+  count(drug1, drug2)
+```
+
+
+```{r}
+#tuning lasso feature selection within random forest 
+
+rf_grid = read_rds(here('results/hyperparameter_grids/rf_grid.rds'))
+
+set.seed(2222)
+folds = vfold_cv(ALMANAC_klaeger_CCLE_data, v = 5)
+
+tic()	
+
+this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+	update_role(viability, new_role = "outcome") %>%
+	step_normalize(all_predictors()) %>%  
+  step_zv(all_predictors()) %>% 
+	step_select_linear(all_predictors(), outcome = "viability", engine = "glmnet", penalty = tune(), mixture = tune(), top_p = tune())
+
+rf_spec <- rand_forest(
+  trees = tune()
+) %>% 
+  set_engine("ranger", num.threads = 16) %>% 
+  set_mode("regression")
+
+this_wflow <-
+  workflow() %>%
+  add_model(rf_spec) %>%
+  add_recipe(this_recipe)
+
+race_ctrl = control_grid(
+  save_pred = TRUE, 
+  parallel_over = "everything",
+  verbose = TRUE
+)
+
+set.seed(2222)
+recipe_grid = grid_max_entropy(
+	extract_parameter_set_dials(this_recipe) %>% 
+		update(top_p = top_p(c(5,2000))), 
+	size = 10
+)
+
+full_grid = merge(rf_grid, recipe_grid)
+
+results <- tune_grid(
+  this_wflow,
+  resamples = folds,
+  grid = full_grid,
+  control = race_ctrl
+) %>% 
+  collect_metrics()
+  
+toc()
+
+
+write_csv(results, here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results_rf.csv'))
+```
+
+```{r}
+#fit model on whole data to get importances
+
+results = read_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+
+best_model = results %>% 
+	filter(.metric == "rsq") %>% 
+	arrange(desc(mean)) %>% 
+	slice(1)
+
+this_recipe = recipe(ALMANAC_klaeger_CCLE_data) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+	update_role(viability, new_role = "outcome") %>%
+	step_normalize(all_predictors()) %>%  
+  step_zv(all_predictors())
+
+lr_final_spec = linear_reg(penalty = best_model$penalty, mixture = best_model$mixture) %>%
+	set_engine("glmnet") %>% 
+	set_mode("regression")
+
+final_wflow <-
+	workflow() %>%
+	add_model(lr_final_spec) %>%
+	add_recipe(this_recipe)
+
+set.seed(2222)
+final_fit = 
+	final_wflow %>% 
+	fit(ALMANAC_klaeger_CCLE_data)
+
+all_importance = vi(final_fit %>% extract_fit_parsnip()) %>%
+	arrange(desc(Importance)) %>%
+	mutate(rank = 1:n()) %>%
+  filter(rank <= best_model$top_p) %>% 
+  rename(feature = Variable) %>% 
+  mutate(feature_type = case_when(
+    str_detect(feature, "^act_") ~ "Inhibition",
+    str_detect(feature, "^exp_") ~ "Baseline Gene Expression",
+    T ~ feature
+  )) %>% 
+write_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/lasso_selected_features.csv'))
+```
+
+```{r}
+# fit best model with CV for figure
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/lasso_selected_features.csv')) %>% 
+  filter(Importance > 0)
+
+results = read_csv(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_lasso_xgboost_all_tuning_results.csv'))
+
+best_model = results %>% 
+	filter(.metric == "rsq") %>% 
+	arrange(desc(mean)) %>% 
+	slice(1)
+
+ALMANAC_klaeger_CCLE_data = read_rds(here('results/ALMANAC_klaeger_models/lung_cancer_models/ALMANAC_klaeger_data_for_ml_lung.rds.gz'))
+
+id_vars = ALMANAC_klaeger_CCLE_data %>% 
+  select(-starts_with("act_"),
+         -starts_with("exp_"),
+         -starts_with("viability")) %>% 
+  names()
+
+model_dataset = ALMANAC_klaeger_CCLE_data %>% 
+  select(any_of(c(id_vars, lasso_selected_features$feature, "viability")))
+
+folds = vfold_cv(model_dataset, v = 5, seed = 2222)
+
+tic()	
+
+this_recipe = recipe(model_dataset) %>%
+  update_role(-starts_with("act_"),
+              -starts_with("exp_"),
+              -starts_with("viability"),
+              new_role = "id variable") %>%
+	update_role(starts_with(c("act_", "exp_")), new_role = "predictor") %>% 
+	update_role(viability, new_role = "outcome")
+  
+  
+xgb_spec <- boost_tree(
+  trees = best_model$trees, 
+  tree_depth = best_model$tree_depth
+) %>% 
+  set_engine("xgboost", tree_method = "gpu_hist") %>% 
+  set_mode("regression")
+
+this_wflow <-
+  workflow() %>%
+  add_model(xgb_spec) %>%
+  add_recipe(this_recipe)
+
+race_ctrl = control_resamples(
+  save_pred = TRUE, 
+  parallel_over = "everything",
+  verbose = TRUE
+)
+
+final_results <- fit_resamples(
+  this_wflow,
+  resamples = folds,
+  control = race_ctrl
+) 
+  
+toc()
+```
+
+```{r}
+final_predictions = collect_predictions(final_results) %>% 
+	rename(predicted_viability = .pred)
+
+rsq = cor(
+	final_predictions %>% 
+		pull(predicted_viability),
+		final_predictions %>% 
+		pull(viability)
+)^2
+
+rmse = rmse(final_predictions %>% 
+		pull(predicted_viability),
+		final_predictions %>% 
+		pull(viability))
+
+final_predictions %>%
+	ggplot(aes(y = predicted_viability, x = viability)) +
+	geom_hex() +
+	scale_fill_viridis_c() +
+	labs(title = 
+			 	paste0('R\u00B2 = ',
+			 				 round(
+			 				 	rsq,
+			 				 	2),
+			 				 '/ RMSE = ',
+			 				 round(
+			 				 	rmse,
+			 				 	2)
+			 	), 
+			 x = "Predicted Viability",
+			 y = "Actual Viability in ALMANAC") +
+	geom_abline(intercept = 0, slope = 1, size = 0.3, colour = 'black', linetype = 3) +
+	geom_smooth(colour = "red") +
+	#coord_cartesian(xlim = c(0.2,1), ylim= c(0,1)) +
+	theme(
+		panel.background = element_rect(fill = "transparent",colour = NA),
+    panel.grid.minor = element_blank(), 
+    panel.grid.major = element_blank(),
+    plot.background = element_rect(fill = "transparent",colour = NA)
+      )
+ggsave(here('figures/ALMANAC_klaeger/lung_ALMANAC_klaeger_best_model_CV.png'))
+```
