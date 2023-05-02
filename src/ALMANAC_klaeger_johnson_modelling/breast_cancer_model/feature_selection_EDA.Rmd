@@ -27,7 +27,7 @@ knitr::opts_knit$set(root.dir = here())
 
 ```{r}
 #read in data
-lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_johnson_models/breast_cancer_models/lasso_selected_features_all_kinases_forced_in.csv')) %>% 
+lasso_selected_features = read_csv(here('results/ALMANAC_klaeger_models/breast_cancer_models/lasso_selected_features.csv')) %>% 
   mutate(feature_type = if_else(feature_type == "Expression", "Baseline Gene Expression", feature_type)) %>% 
   mutate(feature_type = if_else(feature_type == "Inhibition", "Kinome Inhibition State", feature_type)) %>% 
   drop_na()
@@ -109,6 +109,7 @@ importance_inhibition = importance_values_processed %>%
 	arrange(desc(mean_importance_value)) 
 	
 importance_inhibition %>%
+  mutate(class = if_else(gene == "ACAD10", "Non-kinase", class)) %>%
   slice(1:10) %>%
 	arrange(mean_importance_value) %>% 
 	mutate(gene = fct_inorder(gene)) %>% 
