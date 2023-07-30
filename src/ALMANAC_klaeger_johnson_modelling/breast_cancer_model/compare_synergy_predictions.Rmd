@@ -245,6 +245,7 @@ predicted_vs_validated_synergy_scores_for_plot = predicted_vs_validated_synergy_
 
 
 predicted_vs_validated_synergy_scores_for_plot  %>% 
+    filter(synergy_metric %in% c("ZIP", "Bliss"))  %>%
 	ggplot(aes(x = predicted_score, y = validated_score)) +
 	geom_jitter() +
 	geom_smooth(method = "lm", color = wes_palettes$GrandBudapest1[2]) +
