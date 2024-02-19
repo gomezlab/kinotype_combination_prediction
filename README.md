@@ -1,6 +1,9 @@
 # Modeling Responses to Kinase Inhibitor Combinations using Kinome Inhibition States
 This repository contains code for processing kinobeads data for cell line response prediction to combination therapies, as outlined in the paper: [https://pubmed.ncbi.nlm.nih.gov/38160286/](https://pubmed.ncbi.nlm.nih.gov/38160286/) 
 
+## Prerequesites 
+This repository contains code written almost entirely in R, using Rstudio and 'Tidyverse' idioms. The file [`package_check.R`](package_check.R) describes all the R packages needed to run the code in a covenient "pacman" script. Running this script will install all the required packages in one go. 
+
 ## Repository Structure 
 This repository is divided into three main folders:
 * [`src`](src): source code for generating all results and figures
