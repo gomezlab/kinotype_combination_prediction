@@ -111,7 +111,7 @@ visualization_data = breast_ALMANAC_klaeger_johnson_CCLE_data %>%
   left_join(breast_cell_lines %>% 
               select(CELLNAME, subtype)) %>%
   mutate(combo = paste0(drug1, " + ", drug2)) %>%
-  filter(combo %in% all_combos$combo) %>% 
+  filter(combo %in% all_combos_for_plot$combo) %>% 
   group_by(subtype, combo, CONC1, CONC2) %>% 
   summarise(viability = mean(viability)) %>% 
   #mutate(combo = paste0(drug1, " + ", drug2, " in ", subtype)) %>% 
@@ -149,7 +149,7 @@ visualization_data_processed %>%
   ) +
   scale_fill_viridis_d() +
 	theme_ridges(center_axis_labels = TRUE) + 
-	labs(title = " ",x = "Cell Viability", y = "Kinase Inhibitor Combinations", fill = "Subtype") +
+	labs(title = " ",x = "Cell Sensitivity", y = "Kinase Inhibitor Combinations", fill = "Subtype") +
 	coord_cartesian(clip = "off") +
   theme(
     axis.text.y = element_blank(),

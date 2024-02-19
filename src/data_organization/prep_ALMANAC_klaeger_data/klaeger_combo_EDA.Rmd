@@ -25,6 +25,7 @@ kinases_to_keep <- tram_dab_data %>%
   filter(mean < 1)
 
 tram_dab_data_for_plot <- tram_dab_data %>%
+  mutate(Inhibition = (1 - Inhibition)*100) %>%
   filter(Kinase %in% kinases_to_keep$Kinase) %>%
   filter(!(concentration_M_d1 == 0 & concentration_M_d2 == 0)) %>%
   mutate(treatment = paste0(as.character(concentration_M_d1), " ", drug1, " + ", as.character(concentration_M_d2), " ", drug2)) %>%
@@ -42,7 +43,7 @@ tram_dab_data_for_plot %>%
   ggplot(aes(Kinase, treatment, fill = Inhibition)) +
   geom_tile() +
   scale_fill_viridis_c() +
-  labs(fill = "Activity") +
+  labs(fill = "% Inhibition") +
   theme(
     legend.position = "bottom",
     legend.direction = "horizontal",
